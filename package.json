@@ -1,0 +1,28 @@
+{
+  "name": "iclent-leaflet",
+  "version": "1.0.0",
+  "description": "this is iclent for leaflet",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "multer": "^1.3.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ParnDeedlit/iClient-Leaflet.git"
+  },
+  "keywords": [
+    "leaflet",
+    "iclent"
+  ],
+  "author": "panzhuoran parndeedlit",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ParnDeedlit/iClient-Leaflet/issues"
+  },
+  "homepage": "https://github.com/ParnDeedlit/iClient-Leaflet#readme"
+}
