@@ -1,0 +1,179 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Leaflet示例</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <!-- 强制360浏览器用WebKit内核 -->
+    <meta name="renderer" content="webkit" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
+    <link type="text/css" rel="stylesheet" href="css/base.css" />
+    <!-- 开源库jQuery -->
+    <script src="libs/jquery-1.11.2.min.js"></script>
+    <!-- 第三方插件库（复制功能插件） -->
+    <script src="libs/jqueryzclip/jquery.zclip.js" type="text/javascript"></script>    <!-- 源码编辑器样式文件与插件库 -->
+    <link type="text/css" rel="stylesheet" href="libs/codemirror/lib/codemirror.css" />
+    <script type="text/javascript" src="libs/codemirror/lib/codemirror.js"></script>
+    <script type="text/javascript" src="libs/codemirror/mode/xml/xml.js"></script>
+    <script type="text/javascript" src="libs/codemirror/mode/javascript/javascript.js"></script>
+    <script type="text/javascript" src="libs/codemirror/mode/css/css.js"></script>
+    <script type="text/javascript" src="libs/codemirror/mode/htmlmixed/htmlmixed.js"></script>
+    <script type="text/javascript" src="libs/codemirror/addon/edit/matchbrackets.js"></script>
+    <!-- 系统首页功能库 -->
+    <script type="text/javascript" src="js/init.js"></script>
+
+</head>
+<body>
+    <div id="header">
+        <a class="logo">
+            <img src="images/MapGIS-logo-white.png" />
+            <!--<img src="images/MapGIS logo边线样式.png" />-->
+            <span> Leaflet 示例集锦</span>
+        </a>
+    </div>
+    <div id="content">
+        <div class="leftsidebar_box">
+            <div class="line"></div>
+            <dl class="control">
+                <dt class="first_dt">地图控件<img src="images/left/select_xl01.png" /></dt>
+                <dd onclick="setCore('Navigation', 'MapControls', 'MapControls/E01Navigation_help.htm')">导航控件</dd>
+                <dd onclick="setCore('ZoomSlider', 'MapControls','MapControls/E02ZoomSlider_help.htm')">zoomslider</dd>
+                <dd onclick="setCore('MousePosition', 'MapControls', 'MapControls/E03MousePosition_help.htm')">鼠标位置</dd>
+                <dd onclick="setCore('ScaleLine', 'MapControls', 'MapControls/E04ScaleLine_help.htm')"> 比例尺</dd>
+                <dd onclick="setCore('OverviewMap', 'MapControls', 'MapControls/E05OverviewMap_help.htm')">鹰 眼</dd>
+                <dd onclick="setCore('LayerControl', 'MapControls', 'MapControls/E07LayerControl_help.htm')">图层选择</dd>
+            </dl>
+            <dl class="MapOperation">
+                <dt>地图操作<img src="images/left/select_xl01.png" /></dt>
+                <dd onclick="setCore('Operation', 'MapOperation', 'MapOperation/E01Operation_help.htm')">
+                    地图操作
+                </dd>
+                <dd onclick="setCore('setBackground', 'MapOperation', 'MapOperation/E02setBackground_help.htm')">
+                    设置地图背景
+                </dd>
+                <dd onclick="setCore('MapPositioning', 'MapOperation', 'MapOperation/E03MapPositioning_help.htm')">
+                    地图定位
+                </dd>
+                <dd onclick="setCore('setviewZoom', 'MapOperation', 'MapOperation/E04setviewZoom_help.htm')">
+                    显示级数
+                </dd>
+                <dd onclick="setCore('viewWindowPosition', 'MapOperation', 'MapOperation/E05viewWindowPosition_help.htm')">
+                    视窗逻辑坐标
+                </dd>
+                <dd onclick="setCore('Mapinformation', 'MapOperation', 'MapOperation/E06Mapinformation_help.htm')">
+                    地图域当前信息
+                </dd>
+                <dd onclick="setCore('coutpicture', 'MapOperation', 'MapOperation/E07coutpicture_help.htm')">
+                    导出成图片
+                </dd>
+                <dd onclick="setCore('coutPDF', 'MapOperation', 'MapOperation/E08coutPDF_help.htm')">
+                    导出成PDF
+                </dd>
+                <dd onclick="setCore('MapEvent', 'MapOperation', 'MapOperation/E09MapEvent_help.htm')">
+                    地图事件
+                </dd>
+                <dd onclick="setCore('LayerSearch', 'MapOperation', 'MapOperation/E10LayerSearch_help.htm')">
+                    图层探查
+                </dd>
+                <dd onclick="setCore('LayersControl', 'MapOperation', 'MapOperation/E11LayersControl_help.htm')">
+                    图层层级控制
+                </dd>
+                <dd onclick="setCore('LayerGroupControl', 'MapOperation', 'MapOperation/E12LayerGroupControl_help.htm')">
+                    图层组控制
+                </dd>
+
+            </dl>
+            <dl class="GraphicOperation">
+                <dt>图形操作<img src="images/left/select_xl01.png" /></dt>
+                <dd onclick="setCore('GraphicDrawByPoint', 'GraphicOperation', 'GraphicOperation/E01GraphicDrawByPoint_help.htm')">
+                    坐标添加点
+                </dd>
+                <dd onclick="setCore('GraphicDrawByLine', 'GraphicOperation', 'GraphicOperation/E02GraphicDrawByLine_help.htm')">
+                    坐标添加线
+                </dd>
+                <dd onclick="setCore('GraphicDrawByCircle', 'GraphicOperation', 'GraphicOperation/E03GraphicDrawByCircle_help.htm')">
+                    坐标添加圆
+                </dd>
+                <dd onclick="setCore('GraphicDrawBySquare', 'GraphicOperation', 'GraphicOperation/E04GraphicDrawBySquare_help.htm')">
+                    坐标添加正方形
+                </dd>
+                <dd onclick="setCore('GraphicDrawByRectangle', 'GraphicOperation', 'GraphicOperation/E05GraphicDrawByRectangle_help.htm')">
+                    坐标添加矩形
+                </dd>
+                <dd onclick="setCore('GraphicDrawByPolygon', 'GraphicOperation', 'GraphicOperation/E06GraphicDrawByPolygon_help.htm')">
+                    坐标添加多边形
+                </dd>
+                <dd onclick="setCore('DrawFeatures', 'GraphicOperation', 'GraphicOperation/E07DrawFeatures_help.htm')">
+                    绘制几何图形
+                </dd>
+                <dd onclick="setCore('FreehandDrawing', 'GraphicOperation', 'GraphicOperation/E08FreehandDrawing_help.htm')">
+                    绘制任意图形
+                </dd>
+                <dd onclick="setCore('FeaturesStyle', 'GraphicOperation', 'GraphicOperation/E09FeaturesStyle_help.htm')">
+                    图形样式编辑
+                </dd>
+                <dd onclick="setCore('ModifyFeatures', 'GraphicOperation', 'GraphicOperation/E10ModifyFeatures_help.htm')">
+                    图形交互编辑
+                </dd>
+                <dd onclick="setCore('GetGeometryInfo', 'GraphicOperation', 'GraphicOperation/E11GetGeometryInfo_help.htm')">
+                    获取几何信息
+                </dd>
+                <dd onclick="setCore('DrawLineArrows', 'GraphicOperation', 'GraphicOperation/E12DrawLineArrows_help.htm')">
+                    绘制箭头线
+                </dd>
+            </dl>
+            <dl class="MapMarker">
+                <dt>地图标注<img src="images/left/select_xl01.png" /></dt>
+                <dd onclick="setCore('AddPicture', 'MapMarker', 'MapMarker/E01AddPicture_help.htm')">
+                    图片标注
+                </dd>
+                <dd onclick="setCore('AddText', 'MapMarker', 'MapMarker/E02AddText_help.htm')">
+                    文字标注
+                </dd>
+                <dd onclick="setCore('AddTextandPic', 'MapMarker', 'MapMarker/E03AddTextandPic_help.htm')">
+                    图文标注
+                </dd>
+                <dd onclick="setCore('AddPopup', 'MapMarker', 'MapMarker/E04AddPopup_help.htm')">
+                    popup弹出框
+                </dd>
+                <dd onclick="setCore('AddClusterLabels', 'MapMarker', 'MapMarker/E05AddClusterLabels_help.htm')">
+                    聚合标注
+                </dd>
+            </dl>
+        </div>
+        <div id="code_wrapper">
+            <div id="code_arrow" class="go_back">
+                <span title="显示代码">›</span>
+                <p title="隐藏代码">‹</p>
+            </div>
+            <div id="code_core">
+                <div class="code_head">
+                    <!--<a id="code_copy" class="" href="javascript:void(0);">复制</a>
+                    源代码编辑器-->
+
+                    <span id="coreHeader" class="s1" onclick="showCore();">源代码编辑器</span>
+                    <span id="interfaceHeader" class="s2" onclick="showInstruction();">接口说明</span>
+                    <!--<a id="code_copy" rel="#codes">复制</a>-->
+                    <a id="code_restore" onclick="reStore();">还原</a>
+                    <a id="code_run" onclick="run();">运行</a>
+                </div>
+
+                <div class="code_body">
+                    <!--源码显示界面-->
+                    <div id="coreContent">
+                        <textarea id="codes" rows="10" cols="30" name="codes"> </textarea>
+                    </div>
+                    <!--接口说明显示界面-->
+                    <div id="interfaceContent">
+                        <iframe id="interface_iframe" name="interface_iframe"></iframe>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="iframe_wrapper">
+            <iframe id="container_iframe" name="container_iframe" scrolling="no"></iframe>
+        </div>
+    </div>
+</body>
+</html>
