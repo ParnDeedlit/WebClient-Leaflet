@@ -49,7 +49,7 @@
     }
 
     if(onInternetMode){
-      httpUrl = "http://www.smaryun.com";
+      httpUrl = "http://182.61.52.190:8899";//"http://www.smaryun.com";
     }else{
       httpUrl = "http://" + ip + ":" + socket + "";
     }
@@ -114,4 +114,3 @@
   window.isLocal = false;
   window.server = document.location.toString().match(/file:\/\//) ? "http://localhost:8888" : 'http://' + document.location.host;
 })();
-
