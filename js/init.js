@@ -20,16 +20,16 @@ $(function () {
         if ($(this).parent().find('dd').is(":hidden")) {
             //先隐藏所有的菜单（包括改变图标的状态）
             $(this).parent().parent().find("dd").slideUp();
-            $(this).parent().parent().find('img').attr("src", "images/left/select_xl01.png"); //当前焦点一级菜单项图标 
+            $(this).parent().parent().find('img').attr("src", "images/left/select_xl01.png"); //当前焦点一级菜单项图标
             $(this).parent().parent().find("dt").css("background-image", "url(images/left/AddSign.png)");
             //再打开当前的菜单
-            $(this).parent().find('dd').slideToggle(); //滑动方式展开子菜单           
-            $(this).parent().find('img').attr("src", "images/left/select_xl.png"); //当前焦点一级菜单项图标                  
+            $(this).parent().find('dd').slideToggle(); //滑动方式展开子菜单
+            $(this).parent().find('img').attr("src", "images/left/select_xl.png"); //当前焦点一级菜单项图标
             $(this).css("background-image", "url(images/left/MinusSign.png)");
         }
         else {
             $(this).parent().find('dd').slideUp(); //滑动方式隐藏子菜单
-            $(this).parent().find('img').attr("src", "images/left/select_xl01.png"); //非焦点一级菜单项图标            
+            $(this).parent().find('img').attr("src", "images/left/select_xl01.png"); //非焦点一级菜单项图标
             $(this).css("background-image", "url(images/left/AddSign.png)");
         }
     });
@@ -62,8 +62,9 @@ $(function () {
 
 /**系统初始默认页面源码显示 **/
 $(function () {
+  initMarkdown();
     //setCore("AutoPlay", "ViewControl", "E05TopAnalysistInter_help.htm"); //显示默认页面的源码
-    setCore("Navigation", "MapControls", 'MapControls/E01Navigation_help.htm'); //显示默认页面的源码
+  setCore("Navigation", "MapControls", 'MapControls/E01Navigation_help.md'); //显示默认页面的源码
 })
 
 /** 二级菜单项对应功能页面的源码显示 **/
@@ -87,13 +88,29 @@ function setCore(name, catalog, interFaceName) {
     });
     $('#codes').val(htmlString); //设置源码到源码容器的textarea控件中
     initEditor(); //源码高亮显示(源码样式显示)
-    $('#container_iframe').attr("src", htmlUrl); //设置右侧容器的页面地址   
-    //根据当前选择的菜单项，显示接口说明
-    var interFaceUrl = "demohelp/iframe/" + interFaceName; //接口说明页路径    
-    $('#interface_iframe').attr("src", interFaceUrl); //设置源码到源码容器的textarea控件中
+    $('#container_iframe').attr("src", htmlUrl); //设置右侧容器的页面地址
 
+
+    //根据当前选择的菜单项，显示接口说明
+    var interFaceUrl = "demohelp/markdown/" + interFaceName; //接口说明页路径
+    var mdString = ""; //接口页面的代码（字符串形式）
+    var mdContent;
+    jQuery.ajax({
+        async: false,
+        url: interFaceUrl,
+        success: function (result) {
+            mdString = result;
+        }
+    });
+
+    mdContent = marked(mdString);
+    //$('#interface_iframe').attr("srcdoc", mdContent); //设置源码到源码容器的textarea控件中
+     $('#interface_iframe').html(mdContent);
+     $('#interface_iframe pre code').each(function(i, block) {
+      Prism.highlightElement(block);
+    });
     initEditor(); //源码高亮显示(源码样式显示)
-    $('#container_iframe').attr("src", htmlUrl); //设置右侧容器的页面地址 
+    $('#container_iframe').attr("src", htmlUrl); //设置右侧容器的页面地址
 }
 
 
@@ -210,4 +227,18 @@ function reStore() {
     $("#codes").val(localStorage.code);
     initEditor();
     run();
+}
+
+function initMarkdown(){
+    var markedRender = new marked.Renderer();
+    marked.setOptions({
+      renderer: markedRender,
+      gfm: true,
+      tables: true,
+      breaks: true,  // '>' 换行，回车换成 <br>
+      pedantic: false,
+      sanitize: true,
+      smartLists: true,
+      smartypants: false
+    });
 }

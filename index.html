@@ -8,6 +8,8 @@
     <meta name="renderer" content="webkit" />
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
     <link type="text/css" rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/github-markdown.css">
+    <link rel="stylesheet" href="css/prism.css">
     <!-- 开源库jQuery -->
     <script src="libs/jquery-1.11.2.min.js"></script>
     <!-- 第三方插件库（复制功能插件） -->
@@ -19,6 +21,11 @@
     <script type="text/javascript" src="libs/codemirror/mode/css/css.js"></script>
     <script type="text/javascript" src="libs/codemirror/mode/htmlmixed/htmlmixed.js"></script>
     <script type="text/javascript" src="libs/codemirror/addon/edit/matchbrackets.js"></script>
+
+    <!-- markdown解释器 -->
+    <script type="text/javascript" src="libs/markdown/prism.js"></script>
+    <script type="text/javascript" src="libs/markdown/marked.min.js"></script>
+
     <!-- 系统首页功能库 -->
     <script type="text/javascript" src="js/init.js"></script>
 
@@ -36,8 +43,8 @@
             <div class="line"></div>
             <dl class="control">
                 <dt class="first_dt">地图控件<img src="images/left/select_xl01.png" /></dt>
-                <dd onclick="setCore('Navigation', 'MapControls', 'MapControls/E01Navigation_help.htm')">导航控件</dd>
-                <dd onclick="setCore('ZoomSlider', 'MapControls','MapControls/E02ZoomSlider_help.htm')">zoomslider</dd>
+                <dd onclick="setCore('Navigation', 'MapControls', 'MapControls/E01Navigation_help.md')">导航控件</dd>
+                <dd onclick="setCore('ZoomSlider', 'MapControls','MapControls/E02ZoomSlider_help.md')">zoomslider</dd>
                 <dd onclick="setCore('MousePosition', 'MapControls', 'MapControls/E03MousePosition_help.htm')">鼠标位置</dd>
                 <dd onclick="setCore('ScaleLine', 'MapControls', 'MapControls/E04ScaleLine_help.htm')"> 比例尺</dd>
                 <dd onclick="setCore('OverviewMap', 'MapControls', 'MapControls/E05OverviewMap_help.htm')">鹰 眼</dd>
@@ -164,8 +171,8 @@
                         <textarea id="codes" rows="10" cols="30" name="codes"> </textarea>
                     </div>
                     <!--接口说明显示界面-->
-                    <div id="interfaceContent">
-                        <iframe id="interface_iframe" name="interface_iframe"></iframe>
+                    <div id="interfaceContent" class = "interfaceContent">
+                        <div id="interface_iframe" class = "interface_iframe" name="interface_iframe"></div>
                     </div>
                 </div>
             </div>

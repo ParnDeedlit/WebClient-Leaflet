@@ -398,6 +398,17 @@ a.help span {
     top: 0px; /*left:-7px;*/
     bottom: 0px;
     background: #fff;
+    overflow: auto;
+    box-sizing: border-box;
+    font-size: 15px;
+    background: #FFFFFF;
+}
+
+.interfaceContent .interface_iframe-body ul > li {
+  list-style-type: disc;
+}
+.interfaceContent .interface_iframe-body ol > li {
+  list-style-type: lower-roman;
 }
 
 #interfaceContent {
