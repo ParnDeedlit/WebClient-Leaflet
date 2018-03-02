@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script includes="leaflet" src="../../libs/zondyclient/include-leaflet.js"></script>
+    <style>
+        #mapid{height: 100%;}
+    </style>
+</head>
+<body>
+<div id="mapid"></div>
+<script>
+    var mymap = L.map('mapid');
+    mymap.locate({setView: true, maxZoom: 16});
+    var position = [];
+    L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=\' +\n' +
+        '        \'sk.eyJ1IjoiY2hlbmdkYWRhIiwiYSI6ImNqZDFjaGo0ZjFzcnoyeG54enoxdnNuZHUifQ.hTWXXBUQ0wdGeuDF3GWeUw', {
+        maxZoom: 18,
+        id: 'mapbox.streets'
+    }).addTo(mymap);
+</script>
+</body>
+</html>
