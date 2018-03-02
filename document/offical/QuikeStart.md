@@ -183,3 +183,8 @@ var map = L.map('map', {
 |zoomend|[Event]()|任何动画之后，当地图发生变化时触发。|
 |moveend|[Event]()|地图中心停止改变时（例如，用户停止拖动地图）触发。|
 >>>>>>> 63ece7ab72db5f092e4fd701ba2e7b9056cd3ab5
+
+**Icon**
+------
+
+> 

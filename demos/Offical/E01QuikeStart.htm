@@ -5,17 +5,13 @@
     <title>leaflet显示</title>
     <script includes="leaflet" src="../../libs/zondyclient/include-leaflet.js"></script>
     <style>
-        *{margin:0;pandding:0}
         #mapid{height:600px}
     </style>
 </head>
 <body>
 <div id="mapid"></div>
 <script>
-    //设置地图初始视角以及缩放层数
     var mymap = L.map('mapid').setView([30.518762, 114.398902], 13);
-
-    //添加瓦片地图，设置相关属性
     L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=' +
         'sk.eyJ1IjoiY2hlbmdkYWRhIiwiYSI6ImNqZDFjaGo0ZjFzcnoyeG54enoxdnNuZHUifQ.hTWXXBUQ0wdGeuDF3GWeUw', {
         attribution: '<a href="#">AMikealson</a>',
@@ -23,7 +19,6 @@
         id: 'mapbox.streets',
         accessToken: 'your.mapbox.access.token'
     }).addTo(mymap);
-
 </script>
 </body>
 </html>
