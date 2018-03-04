@@ -2,7 +2,7 @@
 **TileLayer**
 ------
 > 在地图上加载和显示瓦片图层.可拓展[GridLayer](#).
-#### &ensp;用法示例
+#### &ensp;使用实例
 
 ```javascript
 L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png?{foo}', {foo: 'bar'}).addTo(map);
@@ -187,4 +187,89 @@ var map = L.map('map', {
 **Icon**
 ------
 
-> 
+> 创建标记时显示的图标。
+
+#### &ensp;使用实例
+
+```javascript
+var myIcon = L.icon({
+    iconUrl: 'my-icon.png',
+    iconSize: [38, 95],
+    iconAnchor: [22, 94],
+    popupAnchor: [-3, -76],
+    shadowUrl: 'my-icon-shadow.png',
+    shadowSize: [68, 95],
+    shadowAnchor: [22, 94]
+});
+L.marker([50.505, 30.57], {icon: myIcon}).addTo(map);
+```
+> [L.Icon.Default]()是由[L.Icon]()拓展而来，表示在默认情况下，标记使用的是蓝色图标。
+
+#### &ensp;创建
+
+|方法 |描述 |
+|:----:|:----|
+|`L.icon()`|通过给定的选项创建图标实例。|
+
+#### &ensp;选项
+
+| 选项 | 类型 | 默认 | 描述 |
+|:---:|:---:|:---:|:---|
+|iconUrl|String|null|（必需）图标图像的URL（脚本中的绝对或相对路径）。|
+|iconRetinaUrl|String|null|（图标图像视网膜版本的URL，用于视网膜屏幕的设备（脚本中的绝对或相对路径）。|
+|iconSize|Point|null|图标图像的大小（以像素为单位）。|
+|iconAnchor|Point|null|图标提示的坐标（在左上角）。图标将对齐，以便此点位于标记的地理位置。如果大小是指定的则此点位于中心处，也可以在CSS中设置负边界。|
+|popupAnchor|Point|[0,0]|与图标锚相关的打开弹出框的点的坐标。|
+|tooltipAnchor|Point|[0,0]|工具提示将相对于图标定位点“打开”的点的坐标。|
+|shadowUrl|String|null|图标阴影图的URL。如果没有指定，图标没有阴影。|
+|shadowRetinaUrl|String|null|图标在视网膜视图下的尺寸的URL。如果没有指定，图标没有阴影。用于视网膜屏幕的设备。|
+|shadowSize|Point|null|阴影图像的大小（以像素为单位）。|
+|shadowAnchor|Point|null|阴影“尖端”（相对于其左上角）的坐标（如果未指定，则与iconAnchor相同）。|
+|className|String|''|图标和阴影图片的自定义的类名。默认为空。|
+
+#### &ensp;方法
+
+|方法 |返回值 | 描述|
+|:----:|:----|:-----|
+|`createIcon()`|HTML元素|当图标必须显示时在内部调用，返回一个<img>根据选项设计的HTML元素。|
+|`createShadow()`|HTML元素|制作createIcon，作为它下面的阴影|
+
+#### &ensp;Icon.Default
+
+> A trivial subclass of Icon, represents the icon to use in Markers when no icon is specified. Points to the blue marker image distributed with Leaflet releases. In order to customize the default icon, just change the properties of L.Icon.Default.prototype.options (which is a set of Icon options). If you want to completely replace the default icon, override the L.Marker.prototype.options.icon with your own icon instead.
+
+|选项 | 类型 | 默认 | 描述 |
+|:----:|:----|:---:|:----|
+|imagePath|String||[Icon.Default]()会尝试自动检测蓝色图标图像的位置。如果您以非标准方式放置这些图像，请将此选项设置为指向正确的路径。|
+
+**DivIcon**
+------
+
+> 用div要素而非图片来轻量级地显示注记的图标。默认情况下，阴影会有一个小的白色的方形作为leaflet-div-icon类和样式。
+
+#### &ensp;使用实例
+
+```javascript
+var myIcon = L.divIcon({className: 'my-div-icon'});
+L.marker([50.505, 30.57], {icon: myIcon}).addTo(map);
+```
+> 默认情况下，阴影会有一个小的白色的方形作为leaflet-div-icon类和样式。
+
+#### &ensp;创建
+| 构造函数 | 描述  |
+|:-------:|:-----|
+|`L.divIcon()`|用给定的选项实例化图标。|
+
+
+#### &ensp;选项
+
+|选项 | 类型 | 默认 | 描述 |
+|:----:|:----|:---:|:----|
+|html|String|''|在div要素中自定义的HTML代码，默认为空。|
+|bgPos|Point|[0,0]|可选的背景相对位置，以像素为单位。|
+
+> 从[Icon]()继承的选项
+
+#### &ensp;方法
+
+> 从[Icon]()继承的方法
