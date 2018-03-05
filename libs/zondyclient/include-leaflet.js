@@ -84,9 +84,9 @@
     // if (inArray(includes, 'marker-animate')) {
     //    inputScript("http://" + ip + ":" + socket + "/cdn/leaflet plugins/AnimatedMarker.js");
     // }
-    // if (inArray(includes, 'heat')) {
-    //    inputScript("http://" + ip + ":" + socket + "/cdn/leaflet plugins/leaflet-heat.js");
-    // }
+    if (inArray(includes, 'heat')) {
+       inputScript(httpUrl + "/cdn/leaflet plugins/leaflet-heat.js");
+    }
     // if (inArray(includes, 'label')) {
     //   /*
     //      @ info - this function is conflit to cluster, so if you want to use this
