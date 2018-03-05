@@ -84,7 +84,7 @@
     // if (inArray(includes, 'marker-animate')) {
     //    inputScript("http://" + ip + ":" + socket + "/cdn/leaflet plugins/AnimatedMarker.js");
     // }
-    if (inArray(includes, 'heat')) {
+    if (inArray(includes, 'heater')) {
        inputScript(httpUrl + "/cdn/leaflet plugins/leaflet-heat.js");
     }
     // if (inArray(includes, 'label')) {
