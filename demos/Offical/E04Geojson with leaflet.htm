@@ -11,7 +11,7 @@
 <body>
 <div id="mapid"></div>
 <script>
-    var mymap = L.map('mapid').setView([40, -100], 4);
+    var mymap = L.map('mapid').setView([30.594183452544694,114.28939819335936], 10);
     L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=' +
         'sk.eyJ1IjoiY2hlbmdkYWRhIiwiYSI6ImNqZDFjaGo0ZjFzcnoyeG54enoxdnNuZHUifQ.hTWXXBUQ0wdGeuDF3GWeUw', {
         attribution: '<a href="#">AMikealson</a>',
@@ -22,33 +22,40 @@
     var geojsonFeature = {
         "type": "Feature",
         "properties": {
-            "name": "Coors Field",
-            "amenity": "Baseball Stadium",
-            "popupContent": "This is where the Rockies play!"
+            "name": "中国地质大学（武汉）",
         },
         "geometry": {
             "type": "Point",
-            "coordinates": [-104.99404, 39.75621]
+            "coordinates": [114.3950879573822, 30.523313470820923]
         }
     };
     L.geoJSON(geojsonFeature).addTo(mymap);
     var myLines = [{
         "type": "LineString",
-        "coordinates": [[-100, 40], [-105, 45], [-110, 55]]
-    }, {
-        "type": "LineString",
-        "coordinates": [[-105, 40], [-110, 45], [-115, 55]]
+        "coordinates": [
+            [
+                114.35531616210937,
+                30.659768907945107
+            ],
+            [
+                114.30519104003905,
+                30.59920733338353
+            ],
+            [
+                114.2749786376953,
+                30.551617781478764
+            ],
+            [
+                114.24270629882811,
+                30.50696288876576
+            ],
+            [
+                114.19910430908203,
+                30.458144351018077
+            ]]
     }];
     var myLayer = L.geoJSON().addTo(mymap);
     myLayer.addData(geojsonFeature);
-    var myLines = [{
-        "type": "LineString",
-        "coordinates": [[-100, 40], [-105, 45], [-110, 55]]
-    }, {
-        "type": "LineString",
-        "coordinates": [[-105, 40], [-110, 45], [-115, 55]]
-    }];
-
     var myStyle = {
         "color": "#ff7800",
         "weight": 5,
@@ -63,29 +70,81 @@
         "properties": {"party": "Republican"},
         "geometry": {
             "type": "Polygon",
-            "coordinates": [[
-                [-104.05, 48.99],
-                [-97.22,  48.98],
-                [-96.58,  45.94],
-                [-104.03, 45.94],
-                [-104.05, 48.99]
-            ]]
-        }
-    }, {
-        "type": "Feature",
-        "properties": {"party": "Democrat"},
-        "geometry": {
-            "type": "Polygon",
-            "coordinates": [[
-                [-109.05, 41.00],
-                [-102.06, 40.99],
-                [-102.03, 36.99],
-                [-109.04, 36.99],
-                [-109.05, 41.00]
-            ]]
+            "coordinates": [
+                [
+                    [
+                        114.23309326171875,
+                        30.658292247398826
+                    ],
+                    [
+                        114.23137664794922,
+                        30.657996912582398
+                    ],
+                    [
+                        114.14382934570312,
+                        30.602457940999596
+                    ],
+                    [
+                        114.20940399169922,
+                        30.531806554215013
+                    ],
+                    [
+                        114.30038452148437,
+                        30.59832078510471
+                    ],
+                    [
+                        114.23309326171875,
+                        30.658292247398826
+                    ]
+                ], [
+                    [
+                        114.22176361083984,
+                        30.636139632397274
+                    ],
+                    [
+                        114.2083740234375,
+                        30.610436242703546
+                    ],
+                    [
+                        114.18056488037108,
+                        30.608663343564213
+                    ],
+                    [
+                        114.20528411865234,
+                        30.592410255941313
+                    ],
+                    [
+                        114.19017791748047,
+                        30.568764534696207
+                    ],
+                    [
+                        114.2245101928711,
+                        30.585317145088748
+                    ],
+                    [
+                        114.24922943115234,
+                        30.569060141800456
+                    ],
+                    [
+                        114.23961639404297,
+                        30.592705790961702
+                    ],
+                    [
+                        114.25609588623047,
+                        30.61368647349551
+                    ],
+                    [
+                        114.2300033569336,
+                        30.612209109386665
+                    ],
+                    [
+                        114.22176361083984,
+                        30.636139632397274
+                    ]
+                ]
+            ]
         }
     }];
-
     L.geoJSON(states, {
         style: function(feature) {
             switch (feature.properties.party) {
@@ -102,61 +161,6 @@
         opacity: 1,
         fillOpacity: 0.8
     };
-
-    L.geoJSON(someGeojsonFeature, {
-        pointToLayer: function (feature, latlng) {
-            return L.circleMarker(latlng, geojsonMarkerOptions);
-        }
-    }).addTo(mymap);
-    function onEachFeature(feature, layer) {
-        if (feature.properties && feature.properties.popupContent) {
-            layer.bindPopup(feature.properties.popupContent);
-        }
-    }
-
-    var geojsonFeature = {
-        "type": "Feature",
-        "properties": {
-            "name": "Coors Field",
-            "amenity": "Baseball Stadium",
-            "popupContent": "This is where the Rockies play!"
-        },
-        "geometry": {
-            "type": "Point",
-            "coordinates": [-104.99404, 39.75621]
-        }
-    };
-
-    L.geoJSON(geojsonFeature, {
-        onEachFeature: onEachFeature
-    }).addTo(mymap);
-    var someFeatures = [{
-        "type": "Feature",
-        "properties": {
-            "name": "Coors Field",
-            "show_on_map": true
-        },
-        "geometry": {
-            "type": "Point",
-            "coordinates": [-104.99404, 39.75621]
-        }
-    }, {
-        "type": "Feature",
-        "properties": {
-            "name": "Busch Field",
-            "show_on_map": false
-        },
-        "geometry": {
-            "type": "Point",
-            "coordinates": [-104.98404, 39.74621]
-        }
-    }];
-
-    L.geoJSON(someFeatures, {
-        filter: function(feature, layer) {
-            return feature.properties.show_on_map;
-        }
-    }).addTo(mymap);
 </script>
 </body>
 </html>
