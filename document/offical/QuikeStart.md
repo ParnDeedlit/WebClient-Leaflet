@@ -1,4 +1,17 @@
-## 《快速上手教程》详细说明文档
+# Leaflet详细说明文档（alpha）
+******
+> an open-source JavaScript library for mobile-friendly interactive maps
+##### 英文标题：Detailed description of the Leaflet
+##### 作者：[潘卓然](https://user.qzone.qq.com/398809724/infocenter?_t_=0.019924784677374463)、[程昌红]()
+##### 授权方式：本教程仅供内部开发者使用。
+
+```text
+重要说明：本书正在持续修改之中，大部分章节都没有写完，正式发布还需要一段时间。所有内容随时可能发生变动!
+```
+
+
+
+
 **TileLayer**
 ------
 > 在地图上加载和显示瓦片图层.可拓展[GridLayer](#).
