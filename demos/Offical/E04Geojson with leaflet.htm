@@ -11,7 +11,7 @@
 <body>
 <div id="mapid"></div>
 <script>
-    var mymap = L.map('mapid').setView([30.594183452544694,114.28939819335936], 10);
+    var mymap = L.map('mapid').setView([30.594183452544694,114.28939819335936], 11);
     L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=' +
         'sk.eyJ1IjoiY2hlbmdkYWRhIiwiYSI6ImNqZDFjaGo0ZjFzcnoyeG54enoxdnNuZHUifQ.hTWXXBUQ0wdGeuDF3GWeUw', {
         attribution: '<a href="#">AMikealson</a>',
@@ -61,7 +61,6 @@
         "weight": 5,
         "opacity": 0.65
     };
-
     L.geoJSON(myLines, {
         style: myStyle
     }).addTo(mymap);
