@@ -85,7 +85,10 @@
     //    inputScript("http://" + ip + ":" + socket + "/cdn/leaflet plugins/AnimatedMarker.js");
     // }
     if (inArray(includes, 'heater')) {
-       inputScript(httpUrl + "/cdn/leaflet plugins/Leaflet.heat/dist/leaflet-heat.js");
+       inputScript(httpUrl + "/cdn/leaflet-plugins/Leaflet.heat/dist/leaflet-heat.js");
+    }
+    if (inArray(includes, 'elasticsearch')) {
+       inputScript(httpUrl + "/cdn/elasticsearch/14.1.0/elasticsearch.min.js");
     }
     // if (inArray(includes, 'label')) {
     //   /*

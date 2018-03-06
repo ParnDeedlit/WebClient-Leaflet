@@ -23,29 +23,18 @@
         maxZoom: 18,
         id: 'mapbox.streets'
       }).addTo(mymap);
-    var param = {
-      precision: 12 //有效范围 1- 12
-    };
-    $.ajax({
-      url: "http://192.168.13.193:8080/zondybigdatawebapp/RealTimeLocationAgg",
-      type: "POST",
-      dataType: "json",
-      data: JSON.stringify(param),
-      contentType: "application/x-www-from-urlencoded;charset=utf-8",
-      success: function(data) {
-        var heatPoints = [];
-        for (var i = 0; i < data.agg.length; i++) {
-          var point = data.agg[i];
-          var count = data.agg[i].count;
-          var latlon = [point.lat, point.lon, point.count];
-          heatPoints.push(latlon);
-        }
-        var heaterLayer = L.heatLayer(heatPoints, {
-          radius: 10,
-          minOpacity: 1.0
-        }).addTo(mymap);
-      },
-      error: function(xhr, status, p3, p4) {}
+    $.getJSON('../../data/dataview/heater-data.json', function(data) {
+      var heatPoints = [];
+      for (var i = 0; i < data.agg.length; i++) {
+        var point = data.agg[i];
+        var count = data.agg[i].count;
+        var latlon = [point.lat, point.lon, point.count];
+        heatPoints.push(latlon);
+      }
+      var heaterLayer = L.heatLayer(heatPoints, {
+        radius: 10,
+        minOpacity: 1.0
+      }).addTo(mymap);
     });
   </script>
 </body>

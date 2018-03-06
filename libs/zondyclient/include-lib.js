@@ -58,6 +58,10 @@
     if (inArray(includes, 'jquery')) {
       inputScript(httpUrl + "/cdn/jquery/jquery-1.12.4.min.js");
     }
+    if (inArray(includes, 'geohash')) {
+      inputScript(httpUrl + "/cdn/geohash/geohash.js");
+    }
+
     if (inArray(includes, 'geojson')) {
       inputScript(httpUrl + "/cdn/geojson/geojson.js");
     }
@@ -70,6 +74,8 @@
     if (inArray(includes, 'checkjs')) {
       inputScript(httpUrl + "/cdn/checkjs/checkjs.js");
     }
+
+
 
     // if (inArray(includes, 'bootstrap')) {
     //   inputScript("https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js");
