@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>GeoPoint</title>
+    <script includes="leaflet" src="../../libs/zondyclient/include-leaflet.js"></script>
+    <style>
+        #mapid{height:600px}
+    </style>
+</head>
+<body>
+<div id="mapid"></div>
+<script>
+    var mymap = L.map('mapid').setView([30.594183452544694,114.28939819335936], 11);
+    L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=' +
+        'sk.eyJ1IjoiY2hlbmdkYWRhIiwiYSI6ImNqZDFjaGo0ZjFzcnoyeG54enoxdnNuZHUifQ.hTWXXBUQ0wdGeuDF3GWeUw', {
+        attribution: '<a href="#">AMikealson</a>',
+        maxZoom: 18,
+        id: 'mapbox.streets',
+        accessToken: 'your.mapbox.access.token'
+    }).addTo(mymap);
+
+    //①定制Geojson数据模板
+    var GeojsonPoint = {                      //点类型
+        type : "FeatureCollection",
+        crs:{
+            type:"name",
+            properties:{
+                name:"EPSG:4326"              //EPSG:4326 ==>长方形，经纬度，数值小
+            }                                 //EPSG:3857 ==>正方形，墨卡托，数值大
+        },
+        features : []
+    };
+
+    var GeojsonLine = {                       //线类型
+        type : "FeatureCollection",
+        crs:{
+            type:"name",
+            properties:{
+                name:"EPSG:4326"
+            }
+        },
+        features : []
+    };
+
+    var GeojsonPolygon = {                    //面类型
+        type : "FeatureCollection",
+        crs:{
+            type:"name",
+            properties:{
+                name:"EPSG:4326"
+            }
+        },
+        features : []
+    };
+
+
+
+</script>
+</body>
+</html>
+
+
+
+
+
