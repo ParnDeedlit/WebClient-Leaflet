@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>MultiPolygon</title>
+    <script includes="leaflet" src="../../libs/zondyclient/include-leaflet.js"></script>
+    <style>
+        #mapid{height:600px}
+    </style>
+</head>
+<body>
+<div id="mapid"></div>
+<script>
+    var mymap = L.map('mapid').setView([30.594183452544694,114.28939819335936], 11);
+    L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=' +
+        'sk.eyJ1IjoiY2hlbmdkYWRhIiwiYSI6ImNqZDFjaGo0ZjFzcnoyeG54enoxdnNuZHUifQ.hTWXXBUQ0wdGeuDF3GWeUw', {
+        attribution: '<a href="#">AMikealson</a>',
+        maxZoom: 18,
+        id: 'mapbox.streets',
+        accessToken: 'your.mapbox.access.token'
+    }).addTo(mymap);
+
+    var MultiPolygon = {
+        "type": "Feature",
+        "properties": {},
+        "geometry": {
+            "type": "MultiPolygon",
+            "coordinates": [
+                [
+                    [
+                        [
+                            114.26811218261719,
+                            30.622254740808902
+                        ],
+                        [
+                            114.23618316650389,
+                            30.552800413453546
+                        ],
+                        [
+                            114.32853698730467,
+                            30.519681272749402
+                        ],
+                        [
+                            114.37076568603515,
+                            30.587977122488372
+                        ],
+                        [
+                            114.3563461303711,
+                            30.616936595191674
+                        ],
+                        [
+                            114.3240737915039,
+                            30.63968439181164
+                        ],
+                        [
+                            114.26811218261719,
+                            30.622254740808902
+                        ]
+                    ]
+                ],[
+                    [
+                        [
+                            114.3233871459961,
+                            30.57438091562706
+                        ],
+                        [
+                            114.33368682861328,
+                            30.57851909346139
+                        ],
+                        [
+                            114.34587478637695,
+                            30.586647142912706
+                        ],
+                        [
+                            114.33162689208984,
+                            30.596695425524466
+                        ],
+                        [
+                            114.31617736816406,
+                            30.57955361032709
+                        ],
+                        [
+                            114.3233871459961,
+                            30.57438091562706
+                        ]
+                    ]
+                ]
+            ]
+        }
+    };
+    L.geoJSON(MultiPolygon).addTo(mymap);
+</script>
+</body>
+</html>
