@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>leaflet显示</title>
+    <script include="leaflet" src="../../libs/zondyclient/include-leaflet.js"></script>
+    <style>
+        #mapid{height:600px}
+    </style>
+</head>
+<body>
+<div id="mapid"></div>
+<script>
+    var map = L.map(mapid,{
+        center:[30.518762, 114.398902],
+        zoom: 3});
+
+    /*var wmsLayer = L.tileLayer.wms('https://demo.boundlessgeo.com/geoserver/ows?', {
+        layers: 'ne:ne'
+    }).addTo(map);*/
+
+    /*var wmsLayer = L.tileLayer.wms('https://demo.boundlessgeo.com/geoserver/ows?', {
+        layers: 'nasa:bluemarble'
+    }).addTo(map);*/
+
+    /*var countriesAndBoundaries = L.tileLayer.wms('https://demo.boundlessgeo.com/geoserver/ows?', {
+        layers: 'ne:ne_10m_admin_0_countries,ne:ne_10m_admin_0_boundary_lines_land'
+    }).addTo(map);*/
+
+    var basemaps = {
+        Countries: L.tileLayer.wms('https://demo.boundlessgeo.com/geoserver/ows?', {
+            layers: 'ne:ne_10m_admin_0_countries'
+        }),
+
+        Boundaries: L.tileLayer.wms('https://demo.boundlessgeo.com/geoserver/ows?', {
+            layers: 'ne:ne_10m_admin_0_boundary_lines_land'
+        }),
+
+        'Countries, then boundaries': L.tileLayer.wms('https://demo.boundlessgeo.com/geoserver/ows?', {
+            layers: 'ne:ne_10m_admin_0_countries,ne:ne_10m_admin_0_boundary_lines_land'
+        }),
+
+        'Boundaries, then countries': L.tileLayer.wms('https://demo.boundlessgeo.com/geoserver/ows?', {
+            layers: 'ne:ne_10m_admin_0_boundary_lines_land,ne:ne_10m_admin_0_countries'
+        })
+    };
+
+    L.control.layers(basemaps).addTo(map);
+
+    basemaps.Countries.addTo(map);
+</script>
+</body>
+</html>
+6666
