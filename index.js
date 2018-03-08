@@ -36,6 +36,7 @@ app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x
 app.use('/', express.static('./'));
 app.use('/cdn', express.static('./libs'));
 app.use('/data', express.static('./data'));
+app.use('/demohelp', express.static('./demohelp'));
 app.get('/', function (req, res) {
     res.redirect('/index.html');
 });

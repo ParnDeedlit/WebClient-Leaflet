@@ -81,11 +81,11 @@
     //    inputCSS("http://" + ip + ":" + socket + "/cdn/leaflet plugins/leaflet.awesome-markers.css");
     //    inputScript("http://" + ip + ":" + socket + "/cdn/leaflet plugins/leaflet.awesome-markers.js");
     // }
-    // if (inArray(includes, 'marker-animate')) {
-    //    inputScript("http://" + ip + ":" + socket + "/cdn/leaflet plugins/AnimatedMarker.js");
-    // }
     if (inArray(includes, 'heater')) {
        inputScript(httpUrl + "/cdn/leaflet-plugins/Leaflet.heat/dist/leaflet-heat.js");
+    }
+    if (inArray(includes, 'animate-marker')) {
+       inputScript(httpUrl + "/cdn/leaflet-plugins/Leaflet.AnimatedMarker/src/AnimatedMarker.js");
     }
     if (inArray(includes, 'elasticsearch')) {
        inputScript(httpUrl + "/cdn/elasticsearch/14.1.0/elasticsearch.min.js");
