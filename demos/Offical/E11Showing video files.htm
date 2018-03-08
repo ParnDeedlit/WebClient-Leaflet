@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>leaflet显示</title>
+    <script include="leaflet" src="../../libs/zondyclient/include-leaflet.js"></script>
+    <style>
+        #mapid{height:600px}
+    </style>
+</head>
+<body>
+<div id="mapid"></div>
+<script>
+    var mymap = L.map('mapid').setView([30.518762, 114.398902],8);
+    L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=' +
+        'sk.eyJ1IjoiY2hlbmdkYWRhIiwiYSI6ImNqZDFjaGo0ZjFzcnoyeG54enoxdnNuZHUifQ.hTWXXBUQ0wdGeuDF3GWeUw', {
+        attribution: '<a href="#">AMikealson</a>',
+        maxZoom: 18,
+        id: 'mapbox.streets',
+        accessToken: 'your.mapbox.access.token'
+    }).addTo(mymap);
+
+    var bounds = L.latLngBounds([[
+        31.779547369387327,
+        113.22509765625
+
+    ],[
+        30.713503990354965,
+        115.543212890625
+
+    ]]);
+    /*L.rectangle(bounds).addTo(mymap);
+    mymap.fitBounds(bounds);*/
+
+    var videoUrls = [
+        'https://www.mapbox.com/bites/00188/patricia_nasa.webm',
+        'https://www.mapbox.com/bites/00188/patricia_nasa.mp4'
+    ];
+
+    var videoOverlay = L.videoOverlay( videoUrls, bounds, {
+        opacity: 0.8
+    }).addTo(mymap);
+
+    videoOverlay.on('load', function () {
+        var MyPauseControl = L.Control.extend({
+            onAdd: function() {
+                var button = L.DomUtil.create('button');
+                button.innerHTML = '⏸';
+                L.DomEvent.on(button, 'click', function () {
+                    videoOverlay.getElement().pause();
+                });
+                return button;
+            }
+        });
+        var MyPlayControl = L.Control.extend({
+            onAdd: function() {
+                var button = L.DomUtil.create('button');
+                button.innerHTML = '⏵';
+                L.DomEvent.on(button, 'click', function () {
+                    videoOverlay.getElement().play();
+                });
+                return button;
+            }
+        });
+
+        var pauseControl = (new MyPauseControl()).addTo(map);
+        var playControl = (new MyPlayControl()).addTo(map);
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>leaflet显示</title>
+    <script include="leaflet" src="../../libs/zondyclient/include-leaflet.js"></script>
+    <style>
+        #mapid{height:600px}
+    </style>
+</head>
+<body>
+<div id="mapid"></div>
+<script>
+    var map = L.map('mapid');
+    map.createPane('labels');
+    map.getPane('labels').style.zIndex = 650;
+    map.getPane('labels').style.pointerEvents = 'none';
+
+    var positron = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png', {
+        attribution: '©OpenStreetMap, ©CartoDB'
+    }).addTo(map);
+
+    var positronLabels = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}.png', {
+        attribution: '©OpenStreetMap, ©CartoDB',
+        pane: 'labels'
+    }).addTo(map);
+
+    var geodata = {
+        "type": "FeatureCollection",
+        "features": [
+            {
+                "type": "Feature",
+                "properties": {},
+                "geometry": {
+                    "type": "Polygon",
+                    "coordinates": [
+                        [
+                            [
+                                41.8359375,
+                                56.9449741808516
+                            ],
+                            [
+                                86.8359375,
+                                2.4601811810210052
+                            ],
+                            [
+                                148.0078125,
+                                3.5134210456400447
+                            ],
+                            [
+                                145.1953125,
+                                59.17592824927136
+                            ],
+                            [
+                                41.8359375,
+                                56.9449741808516
+                            ]
+                        ]
+                    ]
+                }
+            }
+        ]
+    };
+    var geojson = L.geoJson(geodata).addTo(map);
+    geojson.eachLayer(function (layer) {
+        layer.bindPopup("这里是中国");
+    });
+
+    map.fitBounds(geojson.getBounds());
+</script>
+</body>
+</html>

@@ -6,7 +6,7 @@
 ##### 授权方式：本教程仅供内部开发者使用。
 
 ```text
-重要说明：本书正在持续修改之中，大部分章节都没有写完，正式发布还需要一段时间。所有内容随时可能发生变动!
+重要说明：本教程正在持续修改之中，大部分章节都没有写完，正式发布还需要一段时间。所有内容随时可能发生变动!
 ```
 
 **TileLayer**
@@ -192,6 +192,31 @@ var map = L.map('map', {
 |move|[Event]()|在地图的任何移动过程中反复发射，包括平移和飞行动画。|
 |zoomend|[Event]()|任何动画之后，当地图发生变化时触发。|
 |moveend|[Event]()|地图中心停止改变时（例如，用户停止拖动地图）触发。|
+<<<<<<< HEAD
+
+**注:**
+load事件说明：
+
+```text
+在地图状态改变事件中，load事件比较特殊，不同于click和zoom等事件的使用方法，如click事件的示例代码如下：
+```
+
+```javascript
+function onMapClick(e) {
+    alert("You clicked the map at " + e.latlng);
+}
+mymap.on('click', onMapClick);
+```
+
+```text
+如果简单的将'click'改为'load'将不会有任何效果，正确的解决方法是在加载地图之前将on('load', function(){......})添加进去，示例代码如下：
+```
+```javascript
+var mymap = L.map('mapid').on('load', onMapClick).setView([30.51872, 114.39802], 12);
+```
+
+=======
+>>>>>>> 3b418ea074c43dd67dd0062aec69a1183767a516
 
 **Icon**
 ------
