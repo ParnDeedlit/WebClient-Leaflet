@@ -10,70 +10,56 @@
     #mapid {
       height: 600px
     }
+
+    .info {
+      padding: 6px 8px;
+      font: 14px/16px Arial, Helvetica, sans-serif;
+      background: white;
+      background: rgba(255, 255, 255, 0.8);
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+      border-radius: 5px;
+    }
+
+    .info h4 {
+      margin: 0 0 5px;
+      color: #777;
+    }
+
+    .legend {
+      line-height: 18px;
+      color: #555;
+    }
+
+    .legend i {
+      width: 18px;
+      height: 18px;
+      float: left;
+      margin-right: 8px;
+      opacity: 0.7;
+    }
   </style>
 </head>
 
 <body>
+  <div class="info legend" onclick="zoomToFitBound()">
+    <h4>点击这里缩放到随机点</h4></div>
   <div id="mapid"></div>
   <script>
-    L.Control.Legend = L.Control.extend({
-    options: {
-        position: 'topright' //初始位置
-    },
-    initialize: function (options) {
-        L.Util.extend(this.options, options);
-    },
-    onAdd: function (map) {
-       //创建一个class为leaflet-control-clegend的div
-        this._container = L.DomUtil.create('div', 'leaflet-control-custom');
-        //创建一个关闭控件的按钮
-        var clickbutton = document.createElement('a');
-        clickbutton.id = 'leaflet-control-custom-click';
-        clickbutton.className = 'custom click';
-        this._clickbutton = clickbutton;
-
-        this._container.appendChild(this._clickbutton);
-        //注册关闭事件
-        L.DomEvent.addListener(this._clickbutton, 'click', this._onClickEvent, this);
-
-        return this._container;
-    },
-    _onClickEvent: function () {
-
-    },
-    bindFunction: function(clickFunc){
-      clickFunc;
-    }
-});
-
     var mymap = L.map('mapid').setView([34.25, 108.95], 10);
 
-    var markers = L.markerClusterGroup({
-      disableClusteringAtZoom: 14
-    });
+    var markers = L.markerClusterGroup();
     var markerList = [];
 
     initView();
     loadData();
 
     function initView() {
-      clickButton.onAdd = function(map) {
-        this._div = L.DomUtil.create('div', 'clickButton');
-        this._div.innerHTML = '<h4>点击缩放到随机点</h4>';
-        return this._div;
-      };
-      clickButton.addTo(mymap);
-      clickButton.getContainer().
-
-      };
-
       L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=' +
         'sk.eyJ1IjoiY2hlbmdkYWRhIiwiYSI6ImNqZDFjaGo0ZjFzcnoyeG54enoxdnNuZHUifQ.hTWXXBUQ0wdGeuDF3GWeUw', {
           attribution: '<a href="#">MapBox</a>',
-          maxZoom: 18,
+          maxZoom: 14,
           id: 'mapbox.streets'
         }).addTo(mymap);
-
     };
 
     function loadData() {
@@ -89,11 +75,18 @@
         var marker = L.marker(L.latLng(point.lat, point.lon), {
           title: count
         });
-        marker.bindPopup(count);
-        markers.addLayer(marker);
-        markerList.push(marker);
+        marker.bindPopup("" + count);
+				markers.addLayer(marker);
+				markerList.push(marker);
       }
       mymap.addLayer(markers);
+    }
+
+    function zoomToFitBound() {
+      var m = markerList[Math.floor(Math.random() * markerList.length)];
+      markers.zoomToShowLayer(m, function() {
+        m.openPopup();
+      });
     }
   </script>
 </body>
