@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>leaflet显示</title>
+  <script include="jquery,geohash,moment" src="../../libs/zondyclient/include-lib.js"></script>
+  <script include="heater,elasticsearch" src="../../libs/zondyclient/include-leaflet.js"></script>
+  <style>
+    #mapid {
+      height: 600px
+    }
+
+    .info {
+      padding: 6px 8px;
+      font: 14px/16px Arial, Helvetica, sans-serif;
+      background: white;
+      background: rgba(255, 255, 255, 0.8);
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+      border-radius: 5px;
+    }
+
+    .info h4 {
+      margin: 0 0 5px;
+      color: #777;
+    }
+
+    .legend {
+      line-height: 18px;
+      color: #555;
+    }
+
+    .legend i {
+      width: 18px;
+      height: 18px;
+      float: left;
+      margin-right: 8px;
+      opacity: 0.7;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="mapid"></div>
+  <script>
+    var mapExtent, mapLevel, startTime, endTime, timeSpeed, currentTime;
+    startTime = currentTime = 1516723200000; //2017-01-24 00:00:00 换算毫秒
+    endTime = 1516809599000; //2017-01-24 23:59:59  换算毫秒
+    timeSpeed = 600000; //10分钟的速度
+    var info = L.control();
+    var mymap = L.map('mapid').setView([34.25, 108.95], 10);
+    var timer = self.setInterval("clock()", 2000);;
+    var client = new elasticsearch.Client({
+      host: '192.168.94.121:9200'
+    });
+
+    initView();
+
+    function initView() {
+      info.onAdd = function(map) {
+        this._div = L.DomUtil.create('div', 'info');
+        this.update();
+        return this._div;
+      };
+      info.update = function(time) {
+        var timeformat = moment(time).format("YYYY-MM-DD HH:mm:ss");
+        this._div.innerHTML = '<h4>北京时间</h4>' +
+          '<b>' + timeformat + '</b><br>播放速度:' + timeSpeed/1000/60 + '分钟</br>';
+      };
+      info.addTo(mymap);
+      info.update(1516723200000);
+
+      L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=' +
+        'sk.eyJ1IjoiY2hlbmdkYWRhIiwiYSI6ImNqZDFjaGo0ZjFzcnoyeG54enoxdnNuZHUifQ.hTWXXBUQ0wdGeuDF3GWeUw', {
+          attribution: '<a href="#">MapBox</a>',
+          maxZoom: 18,
+          id: 'mapbox.streets'
+        }).addTo(mymap);
+
+    };
+
+    function clock() {
+      mapExtent = mymap.getBounds();
+      mapLevel = mymap.getZoom();
+      currentTime = currentTime + timeSpeed;
+      info.update(currentTime);
+      if (currentTime >= endTime) {
+      //  window.clearInterval(timer);
+      }
+      mapLevel = (mapLevel % 20) * 12 / 20; //precision只支持1-12之间
+      //loadData(mapLevel, mapExtent, currentTime, currentTime + timeSpeed);
+    };
+
+    function loadData(level, extent, startTimeStamp, endTimeStamp) {
+      client.search({
+        index: 'df_history',//数据库名称
+        //type: '2018-01-24',//数据库-表名称
+        //也可以是2018-01-24,这里的type实际上上是指的每一张表,如果不设置的话就全库查询,
+        //设置的话就针对这一天的表进行查询
+        body: {
+          query: {
+            filter: {
+              range: {
+                'dataTime': {
+                  from: startTimeStamp,//查询起始时间
+                  to: endTimeStamp//查询结束时间,就是上面的起始时间+时间播放速度
+                }
+              }
+            }
+          },
+          aggregations: {//结果聚合
+            geohash: {//按照geohash的方式进行聚合
+              geohash_grid: {//geohash_网格索引方式
+                field: "geo",
+                precision: level//聚类精度, 对应参数level
+              }
+            }
+          }
+        }
+      }, function(error, responsive) {
+        updateView(responsive.aggregations.geohash.buckets);
+      });
+    };
+
+    function updateView(data) {
+      var heatPoints = [];
+      for (var i = 0; i < data.length; i++) {
+        var item = data[i];
+        var latlon = decodeGeoHash(item.key);
+        var point = [latlon.latitude[2], latlon.longitude[2], 0];
+        heatPoints.push(point);
+      }
+      var heaterLayer = L.heatLayer(heatPoints, {
+        radius: 10,
+        minOpacity: 1.0
+      }).addTo(mymap);
+    };
+  </script>
+</body>
+
+</html>

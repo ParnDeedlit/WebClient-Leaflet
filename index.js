@@ -4,7 +4,7 @@ var fs = require('fs');
 var util = require('util');
 var express = require('express');
 var bodyParser = require('body-parser');
-var multer = require('multer'); 
+var multer = require('multer');
 
 var upload = multer(); // for parsing multipart/form-data
 var app = express();
@@ -35,6 +35,7 @@ app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x
 
 app.use('/', express.static('./'));
 app.use('/cdn', express.static('./libs'));
+app.use('/data', express.static('./data'));
 app.get('/', function (req, res) {
     res.redirect('/index.html');
 });

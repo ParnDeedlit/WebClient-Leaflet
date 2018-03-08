@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>leaflet显示</title>
+  <script include="jquery" src="../../libs/zondyclient/include-lib.js"></script>
+  <script include="heater" src="../../libs/zondyclient/include-leaflet.js"></script>
+  <style>
+    #mapid {
+      height: 600px
+    }
+  </style>
+</head>
+
+<body>
+  <div id="mapid"></div>
+  <script>
+    var mymap = L.map('mapid').setView([34.25, 108.95], 10);
+    L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=' +
+      'sk.eyJ1IjoiY2hlbmdkYWRhIiwiYSI6ImNqZDFjaGo0ZjFzcnoyeG54enoxdnNuZHUifQ.hTWXXBUQ0wdGeuDF3GWeUw', {
+        attribution: '<a href="#">MapBox</a>',
+        maxZoom: 18,
+        id: 'mapbox.streets'
+      }).addTo(mymap);
+    $.getJSON('../../data/dataview/heater-data.json', function(data) {
+      var heatPoints = [];
+      for (var i = 0; i < data.agg.length; i++) {
+        var point = data.agg[i];
+        var count = data.agg[i].count;
+        var latlon = [point.lat, point.lon, point.count];
+        heatPoints.push(latlon);
+      }
+      var heaterLayer = L.heatLayer(heatPoints, {
+        radius: 10,
+        minOpacity: 1.0
+      }).addTo(mymap);
+    });
+  </script>
+</body>
+
+</html>
