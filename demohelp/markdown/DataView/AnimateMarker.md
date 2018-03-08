@@ -1,6 +1,9 @@
 # Leaflet Animated Marker
 一个可以播放标注动画的leaflet插件,如自行车沿着行驶道路的行车轨迹等[官方示例](http://openplans.github.com/Leaflet.AnimatedMarker/).
 
+## 提交BUG
+找到bug请提交[issue](https://github.com/ParnDeedlit/WebClient-Leaflet/issues)
+
 ## 工作原理
 使用CSS3的动画原理,让leaflet的marker能够在点与点之间按照指定的速度移动(米/毫秒).
 
