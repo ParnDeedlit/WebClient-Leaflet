@@ -61,6 +61,11 @@
     if (inArray(includes, 'geohash')) {
       inputScript(httpUrl + "/cdn/geohash/geohash.js");
     }
+    if (inArray(includes, 'moment')) { //用于时间戳转换
+       inputScript(httpUrl + "/cdn/moment/2.18.1/moment.min.js");
+       inputScript(httpUrl + "/cdn/moment/2.18.1/locale/zh-cn.js");
+    }
+
 
     if (inArray(includes, 'geojson')) {
       inputScript(httpUrl + "/cdn/geojson/geojson.js");
@@ -76,23 +81,6 @@
     }
 
 
-
-    // if (inArray(includes, 'bootstrap')) {
-    //   inputScript("https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js");
-    //   inputCSS("http://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css");
-    //   inputScript("http://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js");
-    // }
-    // if (inArray(includes, 'bootstrap-css')) {
-    //   inputCSS("http://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css")
-    // }
-
-    // if (inArray(includes, 'bootstrap-js')) {
-    //   inputScript("http://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js");
-    // }
-    // if (inArray(includes, 'template')) {
-    //   inputScript("http://localhost:4000/mapgis/libs/art-template/template-native.js");
-    // }
-
     // if (inArray(includes, 'randomcolor')) {
     //   inputScript("http://cdn.bootcss.com/randomcolor/0.5.2/randomColor.min.js");
     // }
@@ -100,10 +88,7 @@
     //   inputScript("http://cdn.bootcss.com/PapaParse/4.3.2/papaparse.min.js");
     // }
 
-    // if (inArray(includes, 'moment')) {
-    //   inputScript("http://cdn.bootcss.com/moment.js/2.18.1/moment.min.js");
-    //   inputScript("http://cdn.bootcss.com/moment.js/2.18.1/locale/zh-cn.js");
-    // }
+
 
     // if (inArray(includes, 'bootstrap-datetimepicker')) {
     //   inputCSS("http://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css");
@@ -113,9 +98,7 @@
     //   inputCSS("http://cdn.bootcss.com/bootstrap-select/1.12.2/css/bootstrap-select.min.css");
     //   inputScript("http://cdn.bootcss.com/bootstrap-select/1.12.2/js/bootstrap-select.min.js");
     // }
-    // if (inArray(includes, 'geohash')) {
-    //   inputScript("http://iclient.supermap.io/libs/geohash/geohash.js");
-    // }
+
     // if (inArray(includes, 'dat-gui')) {
     //   inputScript("http://cdn.bootcss.com/dat-gui/0.6.5/dat.gui.min.js");
     // }
