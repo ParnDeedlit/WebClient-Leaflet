@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Choropleth Tutorial - Leaflet</title>
+  <script include="jquery,geohash,geojson,moment" src="../../libs/zondyclient/include-lib.js"></script>
+  <script include="heater,elasticsearch" src="../../libs/zondyclient/include-leaflet.js"></script>
+  <script src="../../js/us-states.js"></script>
+  <style>
+    #mapid {
+      height: 600px
+    }
+
+    .info {
+      padding: 6px 8px;
+      font: 14px/16px Arial, Helvetica, sans-serif;
+      background: white;
+      background: rgba(255, 255, 255, 0.8);
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+      border-radius: 5px;
+    }
+
+    .info h4 {
+      margin: 0 0 5px;
+      color: #777;
+    }
+
+    .legend {
+      line-height: 18px;
+      color: #555;
+    }
+
+    .legend i {
+      width: 18px;
+      height: 18px;
+      float: left;
+      margin-right: 8px;
+      opacity: 0.7;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="mapid"></div>
+  <script>
+    var mapExtent, mapLevel, startTime, endTime, timeSpeed, currentTime, geojson;
+    startTime = currentTime = 1516723200000; //2017-01-24 00:00:00 换算毫秒
+    endTime = 1516809599000; //2017-01-24 23:59:59  换算毫秒
+    timeSpeed = 600000; //10分钟的速度
+    var map = L.map('mapid').setView([34.25, 108.95], 9);
+    var timer = self.setInterval("clock()", 1000);
+    var client = new elasticsearch.Client({
+      host: '192.168.94.121:9200'
+    });
+    var geojsonLayer;
+
+    L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=' +
+      'sk.eyJ1IjoiY2hlbmdkYWRhIiwiYSI6ImNqZDFjaGo0ZjFzcnoyeG54enoxdnNuZHUifQ.hTWXXBUQ0wdGeuDF3GWeUw', {
+        attribution: '<a href="#">MapBox</a>',
+        maxZoom: 18,
+        id: 'mapbox.streets',
+      }).addTo(map);
+
+    function getColor(d) {
+      return d > 100 ? '#800026' :
+        d > 50 ? '#BD0026' :
+        d > 20 ? '#E31A1C' :
+        d > 10 ? '#FC4E2A' :
+        d > 5 ? '#FD8D3C' :
+        d > 2 ? '#FEB24C' :
+        d > 1 ? '#FED976' :
+        '#FFEDA0';
+    }
+
+    function style(feature) {
+      return {
+        fillColor: getColor(feature.properties.count),
+        weight: 2,
+        opacity: 1,
+        color: 'white',
+        dashArray: '3',
+        fillOpacity: 0.7
+      };
+    }
+
+    function highlightFeature(e) {
+      var layer = e.target;
+
+      layer.setStyle({
+        weight: 5,
+        color: '#666',
+        dashArray: '',
+        fillOpacity: 0.7
+      });
+
+      if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+        layer.bringToFront();
+      }
+      info.update(layer.feature.properties);
+    }
+
+    function resetHighlight(e) {
+      geojson.resetStyle(e.target);
+      info.update();
+    }
+
+    function zoomToFeature(e) {
+      map.fitBounds(e.target.getBounds());
+    }
+
+    function onEachFeature(feature, layer) {
+      layer.on({
+        mouseover: highlightFeature,
+        mouseout: resetHighlight,
+        click: zoomToFeature
+      });
+    }
+
+    // geojson = L.geoJson(statesData, {
+    //   style: style,
+    //   onEachFeature: onEachFeature
+    // }).addTo(map);
+
+    var info = L.control();
+
+    info.onAdd = function(map) {
+      this._div = L.DomUtil.create('div', 'info');
+      this.update();
+      return this._div;
+    };
+
+    info.update = function(props) {
+      this._div.innerHTML = '<h4>US Population Density</h4>' + (props ?
+        '<b>' + props.name + '</b><br />' + props.density + ' people / mi<sup>2</sup>' :
+        'Hover over a state');
+    };
+
+    info.addTo(map);
+
+    var legend = L.control({
+      position: 'bottomright'
+    });
+
+    legend.onAdd = function(map) {
+
+      var div = L.DomUtil.create('div', 'info legend'),
+        grades = [0, 10, 20, 50, 100, 200, 500, 1000],
+        labels = [];
+
+      // loop through our density intervals and generate a label with a colored square for each interval
+      for (var i = 0; i < grades.length; i++) {
+        div.innerHTML +=
+          '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
+          grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
+      }
+
+      return div;
+    };
+
+    legend.addTo(map);
+
+    //--------------------------------------------------------------------
+    //--------------------------------------------------------------------
+    //--------------------------------------------------------------------
+    function clock() {
+      mapExtent = map.getBounds();
+      mapLevel = map.getZoom();
+      currentTime = currentTime + timeSpeed;
+      mapLevel = (mapLevel % 20) * 12 / 20; //precision只支持1-12之间
+      loadData(mapLevel, mapExtent, currentTime, currentTime + timeSpeed);
+    };
+
+    function loadData(level, extent, startTimeStamp, endTimeStamp) {
+      var bound = wrapLatLngBounds(extent);
+      client.search({
+        index: 'df_history', //数据库名称
+        //type: '2018-01-24',//数据库-表名称
+        //也可以是2018-01-24,这里的type实际上上是指的每一张表,如果不设置的话就全库查询,
+        //设置的话就针对这一天的表进行查询
+        //scroll: '2m', // 30s or 2m 保持结果滚动2分钟或30秒
+        body: {
+          size:0,   //此处返回的是hits的数组大小
+          query: {
+            bool: {
+              filter: {
+                range: {
+                  'dataTime': {
+                    from: startTimeStamp,
+                    to: endTimeStamp
+                  }
+                }
+              }
+            }
+          },
+          aggregations: {
+            'mapExtent': {
+              filter: {
+                geo_bounding_box: {
+                  'geo': {
+                    top_left: {
+                      lat: bound.getNorthWest().lat,
+                      lon: bound.getNorthWest().lng
+                    },
+                    bottom_right: {
+                      lat: bound.getSouthEast().lat,
+                      lon: bound.getSouthEast().lng
+                    }
+                  }
+                }
+              },
+              aggregations: {
+                geohash: {
+                  geohash_grid: {
+                    field: "geo",
+                    precision: 5
+                  }
+                }
+              }
+            }
+          }
+        }
+      }, getData);
+    };
+
+    function getData(error, response) {
+      updateView(response);
+    }
+
+    var geojsonFeature  = {
+      "type": "FeatureCollection",
+      "features": []
+    }
+
+    function updateView(response) {
+      response.aggregations.mapExtent.geohash.buckets.forEach(function(bucket) {
+        var coordinates = decodeGeoHashToPolygon(bucket.key);
+        var polygon = {
+            "type": "Feature",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [coordinates]
+            },
+            "properties": {
+                "count": bucket.doc_count
+            }
+        };
+        geojsonFeature.features.push(polygon);
+      });
+      updateItemView();
+    };
+
+    function updateItemView(){
+      if(geojsonLayer != undefined)geojsonLayer.remove();
+      geojsonLayer = L.geoJson(geojsonFeature, {
+        style: style,
+        onEachFeature: onEachFeature
+      }).addTo(map);;
+    }
+
+    function wrapLatLngBounds(extent) {
+      var left = extent.getNorthWest().lng < -180 ? -180 : extent.getNorthWest().lng;
+      var bottom = extent.getSouthEast().lat < -90 ? -90 : extent.getSouthEast().lat;
+      var right = extent.getSouthEast().lng > 180 ? 180 : extent.getSouthEast().lng;
+      var top = extent.getNorthWest().lat > 90 ? 90 : extent.getNorthWest().lat;
+      return L.latLngBounds(L.latLng(bottom, left), L.latLng(top, right));
+    }
+  </script>
+</body>
+
+</html>
