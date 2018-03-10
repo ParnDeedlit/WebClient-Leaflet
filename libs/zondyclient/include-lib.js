@@ -65,11 +65,11 @@
        inputScript(httpUrl + "/cdn/moment/2.18.1/moment.min.js");
        inputScript(httpUrl + "/cdn/moment/2.18.1/locale/zh-cn.js");
     }
-
-
     if (inArray(includes, 'geojson')) {
-      inputScript(httpUrl + "/cdn/geojson/geojson.js");
+      inputScript(httpUrl + "/cdn/geojson/geojson.min.js");
     }
+
+
     if (inArray(includes, 'proj4')) {
       inputScript(httpUrl + "/cdn/proj4/proj4.js");
     }
