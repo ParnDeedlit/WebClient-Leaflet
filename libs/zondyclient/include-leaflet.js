@@ -87,6 +87,9 @@
     if (inArray(includes, 'animate-marker')) {
        inputScript(httpUrl + "/cdn/leaflet-plugins/Leaflet.AnimatedMarker/src/AnimatedMarker.js");
     }
+    if (inArray(includes, 'realmove-marker')) {
+       inputScript(httpUrl + "/cdn/leaflet-plugins/Leaflet.MovingMarker/MovingMarker.js");
+    }
     if (inArray(includes, 'elasticsearch')) {
        inputScript(httpUrl + "/cdn/elasticsearch/14.1.0/elasticsearch.min.js");
     }

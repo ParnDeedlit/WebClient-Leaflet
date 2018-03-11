@@ -3,8 +3,8 @@
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>leaflet显示</title>
-  <script include="jquery,geohash,moment" src="../../libs/zondyclient/include-lib.js"></script>
+  <title>Choropleth Tutorial - Leaflet</title>
+  <script include="jquery,geohash,geojson,moment" src="../../libs/zondyclient/include-lib.js"></script>
   <script include="heater,elasticsearch" src="../../libs/zondyclient/include-leaflet.js"></script>
   <style>
     #mapid {
@@ -43,98 +43,136 @@
 <body>
   <div id="mapid"></div>
   <script>
-    var mapExtent, mapLevel, startTime, endTime, timeSpeed, currentTime;
-    startTime = currentTime = 1516723200000; //2017-01-24 00:00:00 换算毫秒
-    endTime = 1516809599000; //2017-01-24 23:59:59  换算毫秒
-    timeSpeed = 600000; //10分钟的速度
-    var info = L.control();
-    var mymap = L.map('mapid').setView([34.25, 108.95], 10);
-    var timer = self.setInterval("clock()", 2000);;
+    var mapExtent, mapLevel, startTime, endTime, timeSpeed, flashSpeed, currentTime, geojson;
+    startTime = currentTime = Date.parse(new Date("2018-01-24 08:00:00"));//1516723200000; 毫秒
+    endTime = Date.parse(new Date("2018-01-24 20:00:00"));// 1516809599000; 毫秒
+    timeSpeed = 60000; //10分钟的速度
+    flashSpeed = 2000; //2秒一刷新
+    var map = L.map('mapid').setView([34.25, 108.95], 9);
+    var timer = self.setInterval("clock()", flashSpeed);
     var client = new elasticsearch.Client({
       host: '192.168.94.121:9200'
     });
+    var heaterLayer;
 
-    initView();
+    L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=' +
+      'sk.eyJ1IjoiY2hlbmdkYWRhIiwiYSI6ImNqZDFjaGo0ZjFzcnoyeG54enoxdnNuZHUifQ.hTWXXBUQ0wdGeuDF3GWeUw', {
+        attribution: '<a href="#">MapBox</a>',
+        maxZoom: 18,
+        id: 'mapbox.streets',
+      }).addTo(map);
 
-    function initView() {
-      info.onAdd = function(map) {
-        this._div = L.DomUtil.create('div', 'info');
-        this.update();
-        return this._div;
-      };
-      info.update = function(time) {
+    var info = L.control();
+    info.onAdd = function(map) {
+      this._div = L.DomUtil.create('div', 'info');
+      this.update();
+      return this._div;
+    };
+    info.update = function(time) {
         var timeformat = moment(time).format("YYYY-MM-DD HH:mm:ss");
         this._div.innerHTML = '<h4>北京时间</h4>' +
-          '<b>' + timeformat + '</b><br>播放速度:' + timeSpeed/1000/60 + '分钟</br>';
-      };
-      info.addTo(mymap);
-      info.update(1516723200000);
-
-      L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=' +
-        'sk.eyJ1IjoiY2hlbmdkYWRhIiwiYSI6ImNqZDFjaGo0ZjFzcnoyeG54enoxdnNuZHUifQ.hTWXXBUQ0wdGeuDF3GWeUw', {
-          attribution: '<a href="#">MapBox</a>',
-          maxZoom: 18,
-          id: 'mapbox.streets'
-        }).addTo(mymap);
-
+          '<b>' + timeformat + '</b><br>播放速度:' + timeSpeed/1000/60 + '分钟</br>' +
+          '<b>刷新速度:' + flashSpeed/1000 + '秒</b>' ;
     };
+    info.addTo(map);
 
+    //--------------------------------------------------------------------
+    //-----------------下面是实际核心代码，以前都是各种样式------------------
+    //--------------------------------------------------------------------
     function clock() {
-      mapExtent = mymap.getBounds();
-      mapLevel = mymap.getZoom();
+      mapExtent = map.getBounds();
+      mapLevel = map.getZoom();
       currentTime = currentTime + timeSpeed;
+      mapLevel = (mapLevel % 20) * 12 / 20 - 1;
       info.update(currentTime);
-      if (currentTime >= endTime) {
-      //  window.clearInterval(timer);
-      }
-      mapLevel = (mapLevel % 20) * 12 / 20; //precision只支持1-12之间
-      //loadData(mapLevel, mapExtent, currentTime, currentTime + timeSpeed);
+      loadData(mapLevel, mapExtent, currentTime, currentTime + timeSpeed);
     };
 
     function loadData(level, extent, startTimeStamp, endTimeStamp) {
+      var bound = wrapLatLngBounds(extent);
       client.search({
-        index: 'df_history',//数据库名称
+        index: 'df_history', //数据库名称
         //type: '2018-01-24',//数据库-表名称
         //也可以是2018-01-24,这里的type实际上上是指的每一张表,如果不设置的话就全库查询,
         //设置的话就针对这一天的表进行查询
+        //scroll: '2m', // 30s or 2m 保持结果滚动2分钟或30秒
         body: {
+          size:0,   //此处返回的是hits的数组大小
           query: {
-            filter: {
-              range: {
-                'dataTime': {
-                  from: startTimeStamp,//查询起始时间
-                  to: endTimeStamp//查询结束时间,就是上面的起始时间+时间播放速度
+            bool: {
+              filter: {
+                range: {
+                  'dataTime': {
+                    from: startTimeStamp,
+                    to: endTimeStamp
+                  }
                 }
               }
             }
           },
-          aggregations: {//结果聚合
-            geohash: {//按照geohash的方式进行聚合
-              geohash_grid: {//geohash_网格索引方式
-                field: "geo",
-                precision: level//聚类精度, 对应参数level
+          aggregations: {
+            'mapExtent': {
+              filter: {
+                geo_bounding_box: {
+                  'geo': {
+                    top_left: {
+                      lat: bound.getNorthWest().lat,
+                      lon: bound.getNorthWest().lng
+                    },
+                    bottom_right: {
+                      lat: bound.getSouthEast().lat,
+                      lon: bound.getSouthEast().lng
+                    }
+                  }
+                }
+              },
+              aggregations: {
+                'geohash': {
+                  geohash_grid: {
+                    field: "geo",
+                    precision: level
+                  }
+                }
               }
             }
           }
         }
-      }, function(error, responsive) {
-        updateView(responsive.aggregations.geohash.buckets);
+      }, getData);
+    };
+
+    var heatPoints = [];
+    function getData(error, response) {
+      convertData(response);
+      updateView();
+    }
+
+    function convertData(response) {
+      heatPoints = [];
+      response.aggregations.mapExtent.geohash.buckets.forEach(function(bucket) {
+        var coordinates = decodeGeoHash(bucket.key);
+        var latlon = [coordinates.latitude[2], coordinates.longitude[2], bucket.doc_count];//[0] min [1]max [2] 中心点
+        heatPoints.push(latlon);
       });
     };
 
-    function updateView(data) {
-      var heatPoints = [];
-      for (var i = 0; i < data.length; i++) {
-        var item = data[i];
-        var latlon = decodeGeoHash(item.key);
-        var point = [latlon.latitude[2], latlon.longitude[2], 0];
-        heatPoints.push(point);
+    function updateView(){
+      if(heaterLayer != undefined){
+        heaterLayer.remove(map);
       }
-      var heaterLayer = L.heatLayer(heatPoints, {
-        radius: 10,
-        minOpacity: 1.0
-      }).addTo(mymap);
-    };
+      heaterLayer = L.heatLayer(heatPoints, {
+          radius: 20,
+          minOpacity: 1.0
+        }).addTo(map);
+    }
+
+    function wrapLatLngBounds(extent) {
+      var left = extent.getNorthWest().lng < -180 ? -180 : extent.getNorthWest().lng;
+      var bottom = extent.getSouthEast().lat < -90 ? -90 : extent.getSouthEast().lat;
+      var right = extent.getSouthEast().lng > 180 ? 180 : extent.getSouthEast().lng;
+      var top = extent.getNorthWest().lat > 90 ? 90 : extent.getNorthWest().lat;
+      return L.latLngBounds(L.latLng(bottom, left), L.latLng(top, right));
+    }
+
   </script>
 </body>
 
