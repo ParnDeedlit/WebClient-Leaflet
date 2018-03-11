@@ -80,21 +80,18 @@
     }
 
     var lineLayers = [];   //记录polyline数组
-    var trackLines = [];   //按照设备id进行分组
+    var trackLines = {};   //按照设备id进行分组
 
     function convertData(response) {
-      trackLines = [];
-      var last_id = null;
-
       response.hits.hits.forEach(function(iter) {
         var item = iter._source;
-        if (item.imei == last_id) {
-          trackLines[trackLines.length - 1].push(item);
-        } else {
+        var id = "" + item.imei;   //这里的id表示的是键值key，而不是数组的下表，请特别注意
+        if(trackLines[id] == undefined){  //之前没有统计该设备号
           var trackLine = [];
-          trackLines.push(trackLine);
+          trackLines[id] =  trackLine; //记录该设备号的轨迹点，用数组表示
+        }else{    //之前统计过该设备号
+          trackLines[id].push(item);   //对该设备号的数组添加新的记录
         }
-        last_id = item.imei;
       });
     };
 
@@ -114,10 +111,11 @@
         lineLayers = [];
       }
       var index = 0;
-      trackLines.forEach(function(line) {
-        line.sort(compare('dataTime'));
-        var polyline = [];
-        var times = [];
+      for(var id in trackLines){
+        var line = trackLines[id];
+        line.sort(compare('dataTime')); //之前的数据来自不同的节点，时间存在交错，需要重新排序
+        var polyline = []; //记录排序后的轨迹线
+        var times = [];   //记录轨迹中每个点与临近的下一个点的时间
         var last_time;
         for(var index = 0; index < line.length; index++){
           var point = line[index];
@@ -126,10 +124,11 @@
             last_time = point.dataTime;
           }
           if(index > 0){
-            times.push((point.dataTime - last_time) / runSpeed);
+            times.push((point.dataTime - last_time) / runSpeed);   //如果不除以runSpeed则是真实时间播放
             last_time = point.dataTime;
           }
         }
+        //显示轨迹和移动的点
         var position = index % colors.length;
         var marker2 = L.Marker.movingMarker(polyline, times, {
           autostart: true
@@ -139,9 +138,10 @@
         }).addTo(map);
         lineLayers.push(track);
         index++;
-      });
-      trackLines = [];
+      }
     }
+
+
     loadData();
   </script>
 </body>
