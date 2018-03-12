@@ -5,7 +5,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>Choropleth Tutorial - Leaflet</title>
   <script include="jquery,geohash,geojson,moment" src="../../libs/zondyclient/include-lib.js"></script>
-  <script include="elasticsearch" src="../../libs/zondyclient/include-leaflet.js"></script>
+  <script include="realmove-marker,elasticsearch" src="../../libs/zondyclient/include-leaflet.js"></script>
   <style>
     #mapid {
       height: 600px
@@ -44,16 +44,17 @@
   <div id="mapid"></div>
   <script>
     var mapExtent, mapLevel, startTime, endTime, timeSpeed, flashSpeed, currentTime, geojson;
-    startTime = currentTime = Date.parse(new Date("2018-01-24 08:00:00"));//1516723200000; 毫秒
-    endTime = Date.parse(new Date("2018-01-24 20:00:00"));// 1516809599000; 毫秒
-    timeSpeed = 60000; //10分钟的速度
+    startTime = currentTime = Date.parse(new Date("2018-01-24 08:00:00")); //1516723200000; 毫秒
+    endTime = Date.parse(new Date("2018-01-24 20:00:00")); // 1516809599000; 毫秒
+    timeSpeed = 10000; //10分钟的速度
     flashSpeed = 2000; //2秒一刷新
+    var colors = ["blue", "green", "red", "yellow", "black"];
     var map = L.map('mapid').setView([34.25, 108.95], 9);
     var timer = self.setInterval("clock()", flashSpeed);
     var client = new elasticsearch.Client({
       host: '192.168.94.121:9200'
     });
-    var geojsonLayer;
+    var heaterLayer;
 
     L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=' +
       'sk.eyJ1IjoiY2hlbmdkYWRhIiwiYSI6ImNqZDFjaGo0ZjFzcnoyeG54enoxdnNuZHUifQ.hTWXXBUQ0wdGeuDF3GWeUw', {
@@ -62,69 +63,22 @@
         id: 'mapbox.streets',
       }).addTo(map);
 
-    function getColor(d) {
-      return d > 100 ? '#800026' :
-        d > 50 ? '#BD0026' :
-        d > 20 ? '#E31A1C' :
-        d > 10 ? '#FC4E2A' :
-        d > 5 ? '#FD8D3C' :
-        d > 2 ? '#FEB24C' :
-        d > 1 ? '#FED976' :
-        '#FFEDA0';
-    }
-
-    function style(feature) {
-      return {
-        fillColor: getColor(feature.properties.count),
-        weight: 2,
-        opacity: 1,
-        color: 'white',
-        dashArray: '3',
-        fillOpacity: 0.7
-      };
-    }
-
     var info = L.control();
-
     info.onAdd = function(map) {
       this._div = L.DomUtil.create('div', 'info');
-      this.update();
+      this.update(currentTime);
       return this._div;
     };
-
     info.update = function(time) {
-        var timeformat = moment(time).format("YYYY-MM-DD HH:mm:ss");
-        this._div.innerHTML = '<h4>北京时间</h4>' +
-          '<b>' + timeformat + '</b><br>播放速度:' + timeSpeed/1000/60 + '分钟</br>' +
-          '<b>刷新速度:' + flashSpeed/1000 + '秒</b>' ;
+      var timeformat = moment(time).format("YYYY-MM-DD HH:mm:ss");
+      this._div.innerHTML = '<h4>北京时间</h4>' +
+        '<b>' + timeformat + '</b><br>播放速度:' + timeSpeed / 1000 / 60 + '分钟</br>' +
+        '<b>刷新速度:' + flashSpeed / 1000 + '秒</b>';
     };
-
     info.addTo(map);
 
-    var legend = L.control({
-      position: 'bottomright'
-    });
-
-    legend.onAdd = function(map) {
-
-      var div = L.DomUtil.create('div', 'info legend'),
-        grades = [0, 1, 2, 5, 10, 20, 50, 100],
-        labels = [];
-
-      // loop through our density intervals and generate a label with a colored square for each interval
-      for (var i = 0; i < grades.length; i++) {
-        div.innerHTML +=
-          '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
-          grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
-      }
-
-      return div;
-    };
-
-    legend.addTo(map);
-
     //--------------------------------------------------------------------
-    //--------------------------------------------------------------------
+    //-----------------下面是实际核心代码，以前都是各种样式------------------
     //--------------------------------------------------------------------
     function clock() {
       mapExtent = map.getBounds();
@@ -135,8 +89,13 @@
       loadData(mapLevel, mapExtent, currentTime, currentTime + timeSpeed);
     };
 
+    var height = 0,
+      width = 0;
+
     function loadData(level, extent, startTimeStamp, endTimeStamp) {
       var bound = wrapLatLngBounds(extent);
+      height = (bound.getNorth() - bound.getSouth()) / 2;
+      width = (bound.getEast() - bound.getWest()) / 2;
       client.search({
         index: 'df_history', //数据库名称
         //type: '2018-01-24',//数据库-表名称
@@ -144,7 +103,7 @@
         //设置的话就针对这一天的表进行查询
         //scroll: '2m', // 30s or 2m 保持结果滚动2分钟或30秒
         body: {
-          size:0,   //此处返回的是hits的数组大小
+          size: 1000, //此处返回的是hits的数组大小，即设备数对的
           query: {
             bool: {
               filter: {
@@ -154,11 +113,7 @@
                     to: endTimeStamp
                   }
                 }
-              }
-            }
-          },
-          aggregations: {
-            'mapExtent': {
+              },
               filter: {
                 geo_bounding_box: {
                   'geo': {
@@ -172,14 +127,6 @@
                     }
                   }
                 }
-              },
-              aggregations: {
-                'geohash': {
-                  geohash_grid: {
-                    field: "geo",
-                    precision: level
-                  }
-                }
               }
             }
           }
@@ -188,40 +135,47 @@
     };
 
     function getData(error, response) {
-      updateView(response);
+      convertData(response);
+      updateView();
     }
 
-    var geojsonFeature  = {
-      "type": "FeatureCollection",
-      "features": []
-    }
+    var lineLayers = [];
+    var trackLines = [];
 
-    function updateView(response) {
-      geojsonFeature.features = [];
-      response.aggregations.mapExtent.geohash.buckets.forEach(function(bucket) {
-        var coordinates = decodeGeoHashToPolygon(bucket.key);
-        var polygon = {
-            "type": "Feature",
-            "geometry": {
-                "type": "Polygon",
-                "coordinates": coordinates
-            },
-            "properties": {
-                "count": bucket.doc_count
-            }
-        };
-        geojsonFeature.features.push(polygon);
+    function convertData(response) {
+      trackLines = [];
+      var last_id = null;
+
+      response.hits.hits.forEach(function(iter) {
+        var item = iter._source;
+        if (item.imei == last_id) {
+          trackLines[trackLines.length - 1].push([item.geo.lat, item.geo.lon]);
+        } else {
+          var trackLine = [];
+          trackLines.push(trackLine);
+        }
+        last_id = item.imei;
       });
-      updateItemView();
     };
 
-    function updateItemView(){
-      if(geojsonLayer != undefined){
-        geojsonLayer.clearLayers();
+    function updateView() {
+      if (lineLayers != undefined) {
+        lineLayers.forEach(function(layer) {
+          layer.remove();
+        });
+        lineLayers = [];
       }
-      geojsonLayer = L.geoJson(geojsonFeature, {
-        style: style
-      }).addTo(map);
+      var index = 0;
+      trackLines.forEach( function(line){
+        line.splice(line.length - 2,2);
+        var position = index % colors.length;
+        var track = L.polyline(line, {
+          color: colors[position]
+        }).addTo(map);
+        lineLayers.push(track);
+        index++;
+      });
+      trackLines = [];
     }
 
     function wrapLatLngBounds(extent) {
