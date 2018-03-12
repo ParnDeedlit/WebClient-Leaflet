@@ -7,17 +7,20 @@
 ```text
 重要说明：本文档正在持续修改之中，大部分章节都没有写完，正式发布还需要一段时间。所有内容随时可能发生变动!
 ```
-## 地图(Map)
+## <span id="Map">地图(Map)<span>
 ## 地图方法(Map Methods)
 ## 地图杂项(Map Misc)
 ## UI图层(UI Layers)
+### <span id="Marker">Marker<span>
 ## 栅格图层(Raster Layers)
 ## 矢量图层(Vector Layers)
+### Path
+#### <span id="Pathoptions">Path options<span>
 ## 其他图层(Other Layers)
-### LayerGroup
+### <span id="LayerGroup">LayerGroup<span>
 ### <span id="FeatureGroup">FeatureGroup<span>
 ### GeoJSON
-表示GeoJSON对象或GeoJSON对象数组，可以将GeoJSON数据显示在地图上。拓展[FeatureGroup](#FeatureGroup)
+表示单个GeoJSON对象或一组GeoJSON对象数组，可以将GeoJSON数据显示在地图上。拓展[FeatureGroup](#FeatureGroup)
 #### 示例
 
 ```javascript
@@ -34,15 +37,142 @@ L.geoJSON(data, {
 
 |     构造函数     |     描述     |
 |:----------------|:------------|
-|L.geoJSON(geojson(`object`),[GeoJSON options](#GeoJSONoptions))|创建一个GeoJSON图层，接收一个用[GeoJSON](http://geojson.org/geojson-spec.html)格式表示的对象并将其添加进地图(可选，也可以之后通过`addData`方法添加)和一个`options`对象。|
+|L.geoJSON((`<object>` geojson?),<[GeoJSON options](#GeoJSONoptions)>options?)|创建一个GeoJSON图层，接收一个用[GeoJSON](http://geojson.org/geojson-spec.html)格式表示的对象并将其添加进地图(可选，也可以之后通过`addData`方法添加)和一个`options`对象。|
 
 #### <span id="GeoJSONoptions">Options<span>
 
-### GridLayer
-## 基本类型(Basic Types)
-## 控件(Controls)
-## 
+|   Option   |   类型   |   默认   |   描述   |
+|:----------:|:--------:|:-------:|:--------|
+|pointToLayer|Function|  *  |A Function defining how GeoJSON points spawn Leaflet layers. It is internally called when data is added, passing the GeoJSON point feature and its [LatLng](#LatLng). The default is to spawn a default [Marker](#Marker): ```function(geoJsonPoint, latlng) {return L.marker(latlng);}```|
+|style|Function|  *  |A Function defining the [Path options](#Pathoptions) for styling GeoJSON lines and polygons, called internally when data is added. The default value is to not override any defaults: ```function (geoJsonFeature) {return {}}```|
+|onEachFeature|Function|  *  |A Function that will be called once for each created Feature, after it has been created and styled. Useful for attaching events and popups to features. The default is to do nothing with the newly created layers: ```function (feature, layer) {}```|
+|filter|Function|  *  |A Function that will be used to decide whether to include a feature or not. The default is to include all features: ```function (geoJsonFeature) {return true;}```Note: dynamically changing the filter option will have effect only on newly added data. It will not re-evaluate already included features.|
+|coordsToLatLng|Function|  *  |A Function that will be used for converting GeoJSON coordinates to [LatLng](#LatLng)s. The default is the coordsToLatLng static method.|
+> **Options inherited from [Layer](#Layer)**
+#### Events
+> **Events inherited from [FeatureGroup](#FeatureGroup)**
 
+> **Events inherited from [Layer](#Layer)**
+
+> **Popup events inherited from [Layer](#Layer)**
+
+> **Tooltip events inherited from [Layer](#Layer)**
+
+#### Methods
+|   Method   |   返回值   |   描述   |
+|:----------:|:---------:|:--------|
+|addData(`data`)|this|Adds a GeoJSON object to the layer.|
+|resetStyle(`layer`)|this|Resets the given vector layer's style to the original GeoJSON style, useful for resetting style after hover events.|
+|setStyle(`style`)|this|Changes styles of GeoJSON vector layers with the given style function.|
+
+> **Methods inherited from [FeatureGroup](#FeatureGroup)**
+
+> **Methods inherited from [LayerGroup](#LayerGroup)**
+
+> **Methods inherited from [Layer](#Layer)**
+
+> **Popup methods inherited from [Layer](#Layer)**
+
+> **Tooltip methods inherited from [Layer](#Layer)**
+
+> **Methods inherited from [Evented](#Evented)**
+
+#### Functions
+There are several static functions which can be called without instantiating L.GeoJSON:
+
+|   Function    |   返回值   |   描述   |
+|:----------|:-------:|:--------|
+|geometryToLayer(`<Object>` featureData, <[GeoJSON options](#GeoJSONoptions)> options?)|[Layer](#Layer)|Creates a [Layer](#Layer) from a given GeoJSON feature. Can use a custom `pointToLayer` and/or `coordsToLatLng` functions if provided as options.|
+|coordsToLatLng(`<Array>` coords)|[LatLng](#LatLng)|Creates a [LatLng](#LatLng) object from an array of 2 numbers (longitude, latitude) or 3 numbers (longitude, latitude, altitude) used in GeoJSON for points.|
+|coordsToLatLngs(`<Array>` coords,`<Number>` levelsDeep?, `<Function>` coordsToLatLng?)|Array|Creates a multidimensional array of [LatLng](#LatLng)s from a GeoJSON coordinates array. levelsDeep specifies the nesting level (0 is for an array of points, 1 for an array of arrays of points, etc., 0 by default). Can use a custom `coordsToLatLng` function.|
+|latLngToCoords(<[LatLng](#LatLng)> latlng, `<Number>` precision?)|Array|Reverse of `coordsToLatLng`|
+|latLngsToCoords(`<Array>` latlngs, `<Number>` levelsDeep?, `<Boolean>` closed?)|Array|Reverse of `coordsToLatLngs` closed determines whether the first point should be appended to the end of the array to close the feature, only used when levelsDeep is 0. False by default.|
+|asFeature(`<Object>` geojson)|Object|Normalize GeoJSON geometries/features into GeoJSON features.|
+
+
+
+
+
+
+### GridLayer
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## 基本类型(Basic Types)
+### <span id="LatLng">LatLng<span>
+## 控件(Controls)
+## Utility
+## DOM Utility
+## 基础类(Base Classes)
+### <span id="Layer">Layer<span>
+### <span id="Evented">Evented<span>
+### <span id="Control">Control<span>
+L.Control is a base class for implementing map controls. Handles positioning. All other controls extend from this class.
+#### Options
+|   Option   |   类型   |   默认   |   描述   |
+|:----------:|:-------:|:--------:|:--------|
+|  position  | String |'topright'|The position of the control (one of the map corners). Possible values are 'topleft', 'topright', 'bottomleft' or 'bottomright'|
+
+#### Methods
+Classes extending L.Control will inherit the following methods:
+
+|   Method   |   返回值   |   描述   |
+|:----------|:-------:|:--------|
+|getPosition()|string|Returns the position of the control.|
+|setPosition(`<string>` position)|this|Sets the position of the control.|
+|getContainer()|HTMLElement|Returns the HTMLElement that contains the control.|
+|addTo(<['Map'](#Map)> map)|this|Adds the control to the given map.|
+|remove()|this|Removes the control from the map it is currently active on.|
+
+##### Extension methods
+Every control should extend from [L.Control](#Control) and (re-)implement the following methods.
+
+|   Method    |   返回值   |   描述   |
+|:----------|:-------:|:--------|
+|onAdd(<['Map'](#Map)> map)|HTMLElement|Should return the container DOM element for the control and add listeners on relevant map events. Called on `control.addTo(map)`.|
+|onRemove(<['Map'](#Map)> map)||Optional method. Should contain all clean up code that removes the listeners previously added in `onAdd`. Called on `control.remove()`.|
+
+### <span id="Handler">Handler<span>
+Abstract class for map interaction handlers
+#### Methods
+
+|   Method    |   返回值   |   描述   |
+|:----------|:-------:|:--------|
+|enable()|this|Enables the handler|
+|disable()|this|Disables the handler|
+|enabled()|Boolean|Returns true if the handler is enabled|
+
+##### Extension methods
+Classes inheriting from [Handler](#Handler) must implement the two following methods:
+
+|   Method    |   返回值   |   描述   |
+|:----------|:-------:|:--------|
+|addHooks()||Called when the handler is enabled, should add event hooks.|
+|removeHooks()||Called when the handler is disabled, should remove the event hooks added previously.|
+
+#### Functions
+There is static function which can be called without instantiating L.Handler:
+
+|   Function    |   返回值   |   描述   |
+|:----------|:-------:|:--------|
+|addTo(<['Map'](#Map)> map, `<String>` name)|this|Adds a new Handler to the given map with the given name.|
+
+
+
+
+
+## Misc
 
 
 

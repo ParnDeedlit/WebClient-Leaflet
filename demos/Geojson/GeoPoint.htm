@@ -24,14 +24,33 @@
         "type": "Feature",
         "geometry": {
             "type": "Point",
-            "coordinates": [114.28939819335936,30.594183452544694]
+            "coordinates": [14.28939819335936,0.594183452544694]
         },
         "properties": {
             "name": "点类型",
             "location":"武汉"
         }
     };
-    L.geoJSON(GeoPoint).addTo(mymap);
+    L.geoJSON(GeoPoint,{
+        pointToLayer:function(geoJsonPoint,latlng){
+            return L.marker(latlng);
+        }
+    }).addTo(mymap);
+
+
+
+/*    var GeoPoint = {
+        "type": "Feature",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [114.28939819335936,30.594183452544694]
+        },
+        "properties": {
+            "name": "点类型",
+            "location":"武汉"
+        }
+    };*/
+  /*  L.geoJSON(GeoPoint).addTo(mymap);*/
 </script>
 </body>
 </html>
