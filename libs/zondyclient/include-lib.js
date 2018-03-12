@@ -68,7 +68,10 @@
     if (inArray(includes, 'geojson')) {
       inputScript(httpUrl + "/cdn/geojson/geojson.min.js");
     }
-
+    if (inArray(includes, 'bootstrap')) {
+      inputCSS(httpUrl + "/cdn/bootstrap/bootstrap.min.css");
+      inputScript(httpUrl + "/cdn/bootstrap/bootstrap.min.js");
+    }
 
     if (inArray(includes, 'proj4')) {
       inputScript(httpUrl + "/cdn/proj4/proj4.js");

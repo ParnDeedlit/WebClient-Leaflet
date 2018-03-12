@@ -231,6 +231,9 @@ function reStore() {
 
 function initMarkdown(){
     var markedRender = new marked.Renderer();
+    markedRender.table = function (header, body) {
+      return '<table class="table table-striped">'+header+body+'</table>'
+    }
     marked.setOptions({
       renderer: markedRender,
       gfm: true,
