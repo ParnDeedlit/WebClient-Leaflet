@@ -57,10 +57,22 @@
 
     initView();
     loadData();
-
+    var hiden ;
+    function hide(){
+        hiden = document.getElementsByClassName("info");
+        hiden['0'].style.display="none";
+    }
     function initView() {
+
       info.onAdd = function(map) {
-        this._div = L.DomUtil.create('div', 'info');
+        /*this._container = L.DomUtil.create('div', 'leaflet-control-clegend');*/
+        this._div = L.DomUtil.create('div', 'info' );
+        L.DomEvent.on(this._div, 'click', function(){
+            hide()
+        });
+
+
+
         this.update();
         return this._div;
       };
@@ -69,6 +81,7 @@
         this._div.innerHTML = '<h4>北京时间</h4>' +
           '<b>' + timeformat + '</b><br>播放速度:' + timeSpeed / 1000 / 60 + '分钟</br>';
       };
+      info.setPosition('bottomleft');
       info.addTo(mymap);
       info.update(1516723200000);
 

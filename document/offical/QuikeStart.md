@@ -1,16 +1,90 @@
 # Leaflet详细说明文档（alpha）
-******
 > an open-source JavaScript library for mobile-friendly interactive maps
 ##### 英文标题：Detailed description of the Leaflet
 ##### 作者：[潘卓然](https://user.qzone.qq.com/398809724/infocenter?_t_=0.019924784677374463)、[程昌红]()
 ##### 授权方式：本教程仅供内部开发者使用。
 
 ```text
-重要说明：本教程正在持续修改之中，大部分章节都没有写完，正式发布还需要一段时间。所有内容随时可能发生变动!
+重要说明：本文档正在持续修改之中，大部分章节都没有写完，正式发布还需要一段时间。所有内容随时可能发生变动!
+```
+## 地图(Map)
+## 地图方法(Map Methods)
+## 地图杂项(Map Misc)
+## UI图层(UI Layers)
+## 栅格图层(Raster Layers)
+## 矢量图层(Vector Layers)
+## 其他图层(Other Layers)
+### LayerGroup
+### <span id="FeatureGroup">FeatureGroup<span>
+### GeoJSON
+表示GeoJSON对象或GeoJSON对象数组，可以将GeoJSON数据显示在地图上。拓展[FeatureGroup](#FeatureGroup)
+#### 示例
+
+```javascript
+L.geoJSON(data, {
+    style: function (feature) {
+        return {color: feature.properties.color};
+    }
+}).bindPopup(function (layer) {
+    return layer.feature.properties.description;
+}).addTo(map);
 ```
 
-**TileLayer**
+#### Creation
+
+|     构造函数     |     描述     |
+|:----------------|:------------|
+|L.geoJSON(geojson(`object`),[GeoJSON options](#GeoJSONoptions))|创建一个GeoJSON图层，接收一个用[GeoJSON](http://geojson.org/geojson-spec.html)格式表示的对象并将其添加进地图(可选，也可以之后通过`addData`方法添加)和一个`options`对象。|
+
+#### <span id="GeoJSONoptions">Options<span>
+
+### GridLayer
+## 基本类型(Basic Types)
+## 控件(Controls)
+## 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### TileLayer
+
 ------
+
 > 在地图上加载和显示瓦片图层.可拓展[GridLayer](#).
 #### &ensp;使用实例
 
@@ -307,3 +381,5 @@ L.marker([50.505, 30.57], {icon: myIcon}).addTo(map);
 #### &ensp;方法
 
 > 从[Icon]()继承的方法
+
+<span id = "jump">FeatureGroup</span>
