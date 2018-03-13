@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>leaflet显示</title>
+  <script include="jquery" src="../../libs/zondyclient/include-lib.js"></script>
+  <script include="heater" src="../../libs/zondyclient/include-leaflet.js"></script>
+  <style>
+    #mapid {
+      height: 600px
+    }
+  </style>
+</head>
+
+<body>
+  <div id="mapid"></div>
+  <script>
+    var mymap = L.map('mapid').setView([27.87, 112.95], 10);
+    L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=' +
+      'sk.eyJ1IjoiY2hlbmdkYWRhIiwiYSI6ImNqZDFjaGo0ZjFzcnoyeG54enoxdnNuZHUifQ.hTWXXBUQ0wdGeuDF3GWeUw', {
+        attribution: '<a href="#">MapBox</a>',
+        maxZoom: 18,
+        id: 'mapbox.streets'
+      }).addTo(mymap);
+    // jquery.ajax({
+    //   async: true,
+    //   url: 'http://localhost:8811/bigdata/dataview/cluster-bigdata.json',
+    //   success: function(data) {
+    //     updateView(data);
+    //   }
+    // });
+
+    var heatPoints = [];
+    function updateView(data) {
+      var list = data.SFEleArray;
+      if (list != undefined) {
+        for (var i = 0; i < list.length; i++) {
+          var point = list[i];
+          var count = 10;
+          var latlon = [point.bound.ymin, point.bound.xmin, count];
+          heatPoints.push(latlon);
+        }
+        var heaterLayer = L.heatLayer(heatPoints, {
+          radius: 5,
+          minOpacity: 1.0
+        }).addTo(mymap);
+
+      }
+    }
+
+    $.getJSON('http://192.168.10.184:8811/bigdata/dataview/cluster-bigdata.json', function(data) {
+        updateView(data);
+    });
+  </script>
+</body>
+
+</html>
