@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>leaflet显示</title>
+    <script include="leaflet" src="../../libs/zondyclient/include-leaflet.js"></script>
+    <style>
+        #mapid{height:600px}
+    </style>
+</head>
+<body>
+<div id="mapid"></div>
+<script>
+    /*
+    var mymap = L.map('mapid').setView([30.518762, 114.398902], 13);
+    L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=' +
+        'sk.eyJ1IjoiY2hlbmdkYWRhIiwiYSI6ImNqZDFjaGo0ZjFzcnoyeG54enoxdnNuZHUifQ.hTWXXBUQ0wdGeuDF3GWeUw', {
+        attribution: '<a href="#">AMikealson</a>',
+        maxZoom: 18,
+        id: 'mapbox.streets',
+        accessToken: 'your.mapbox.access.token'
+    }).addTo(mymap);
+    var trd = [63.41, 10.41];
+
+    L.TiltHandler = L.Handler.extend({
+        addHooks: function() {
+            L.DomEvent.on(window, 'deviceorientation', this._tilt, this);
+        },
+
+        removeHooks: function() {
+            L.DomEvent.off(window, 'deviceorientation', this._tilt, this);
+        },
+
+        _tilt: function(ev) {
+            // Treat Gamma angle as horizontal pan (1 degree = 1 pixel) and Beta angle as vertical pan
+            this._map.panBy( L.point( ev.gamma, ev.beta ) );
+            document.getElementById('info').innerHTML = ev.gamma + ',' + ev.beta;
+        }
+    });
+
+    L.Map.addInitHook('addHandler', 'tilt', L.TiltHandler);
+
+    var map = L.map('map', {
+        center: [0, 0],
+        zoom: 1,
+        tilt: true
+    });
+
+    var positron = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+        attribution: "CartoDB"
+    }).addTo(mymap);
+    */
+
+
+
+
+
+
+    var mymap = L.map('mapid').setView([30.518762, 114.398902], 13);
+    L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=' +
+        'sk.eyJ1IjoiY2hlbmdkYWRhIiwiYSI6ImNqZDFjaGo0ZjFzcnoyeG54enoxdnNuZHUifQ.hTWXXBUQ0wdGeuDF3GWeUw', {
+        attribution: '<a href="#">AMikealson</a>',
+        maxZoom: 18,
+        id: 'mapbox.streets',
+        accessToken: 'your.mapbox.access.token'
+    }).addTo(mymap);
+
+    L.Control.Watermark = L.Control.extend({
+        onAdd: function(mymap) {
+            var img = L.DomUtil.create('img');
+
+            img.src = '../../images/logoleaflet.png';
+            img.style.width = '200px';
+
+            return img;
+        },
+
+        onRemove: function(mymap) {
+            // Nothing to do here
+        }
+    });
+
+    L.control.watermark = function(opts) {
+        return new L.Control.Watermark(opts);
+    }
+
+    L.control.watermark({ position: 'bottomleft' }).addTo(mymap);
+</script>
+</body>
+</html>

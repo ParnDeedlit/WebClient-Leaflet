@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>GeoL</title>
+    <script includes="leaflet" src="../../libs/zondyclient/include-leaflet.js"></script>
+    <style>
+        #mapid{height:600px}
+    </style>ine
+</head>
+<body>
+<div id="mapid"></div>
+<script>
+    var mymap = L.map('mapid').setView([30.594183452544694,114.28939819335936], 11);
+    L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=' +
+        'sk.eyJ1IjoiY2hlbmdkYWRhIiwiYSI6ImNqZDFjaGo0ZjFzcnoyeG54enoxdnNuZHUifQ.hTWXXBUQ0wdGeuDF3GWeUw', {
+        attribution: '<a href="#">AMikealson</a>',
+        maxZoom: 18,
+        id: 'mapbox.streets',
+        accessToken: 'your.mapbox.access.token'
+    }).addTo(mymap);
+
+    var GeoLine = {
+        "type": "LineString",
+        "properties":{
+            "prop0": "value0"
+        },
+        "coordinates": [
+                [
+                    114.34776306152344,
+                    30.623436511269382
+                ],
+                [
+                    114.32510375976562,
+                    30.63909360759635
+                ],
+                [
+                    114.30673599243164,
+                    30.634958017061198
+                ],
+                [
+                    114.29180145263672,
+                    30.629640569460406
+                ],
+                [
+                    114.28339004516601,
+                    30.627424880048103
+                ],
+                [
+                    114.26467895507812,
+                    30.620777507443577
+                ],
+                [
+                    114.24613952636719,
+                    30.616050209185243
+                ],
+                [
+                    114.23566818237304,
+                    30.61073172273802
+                ]]
+    };
+    L.geoJSON(GeoLine).addTo(mymap);
+</script>
+</body>
+</html>
