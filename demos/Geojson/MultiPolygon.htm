@@ -5,24 +5,26 @@
     <title>MultiPolygon</title>
     <script includes="leaflet" src="../../libs/zondyclient/include-leaflet.js"></script>
     <style>
-        #mapid{height:600px}
+        #mapid{height:535px}
     </style>
 </head>
 <body>
 <div id="mapid"></div>
 <script>
-    var mymap = L.map('mapid').setView([30.594183452544694,114.28939819335936], 11);
+    var map = L.map('mapid').setView([30.594183452544694,114.28939819335936], 11);
     L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=' +
         'sk.eyJ1IjoiY2hlbmdkYWRhIiwiYSI6ImNqZDFjaGo0ZjFzcnoyeG54enoxdnNuZHUifQ.hTWXXBUQ0wdGeuDF3GWeUw', {
-        attribution: '<a href="#">AMikealson</a>',
+        attribution: '<a href="#">MapGIS</a>',
         maxZoom: 18,
         id: 'mapbox.streets',
         accessToken: 'your.mapbox.access.token'
-    }).addTo(mymap);
+    }).addTo(map);
 
     var MultiPolygon = {
         "type": "Feature",
-        "properties": {},
+        "properties": {
+            name:"多面"
+        },
         "geometry": {
             "type": "MultiPolygon",
             "coordinates": [
@@ -88,7 +90,7 @@
             ]
         }
     };
-    L.geoJSON(MultiPolygon).addTo(mymap);
+    L.geoJSON(MultiPolygon).addTo(map);
 </script>
 </body>
 </html>

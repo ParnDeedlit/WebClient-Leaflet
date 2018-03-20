@@ -1,11 +1,10 @@
-### GeoJSON-MultiPoint
+#### GeoJSON-MultiPoint
+-------
 
-```text
-对类型"MultiPoint"来说，"coordinates"成员必须是位置数组。 
-```
+***注：*** 对类型"MultiPoint"来说，"coordinates"成员必须是位置数组。
 
-> * 标准数据格式：
 
+标准数据格式：
 ```javascript
 var MultiPoint = {
         "type": "Feature",

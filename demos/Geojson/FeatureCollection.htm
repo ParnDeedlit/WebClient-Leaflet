@@ -2,27 +2,24 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>GeoPoint</title>
+    <title>FeatureCollection</title>
     <script includes="leaflet" src="../../libs/zondyclient/include-leaflet.js"></script>
     <script include="jquery,geohash,geojson,moment" src="../../libs/zondyclient/include-lib.js"></script>
     <script include="heater,elasticsearch" src="../../libs/zondyclient/include-leaflet.js"></script>
-    <script src="../../js/us-states.js"></script>
-    <script src="../../js/jquery-3.3.1.js"></script>
     <style>
-        #mapid{height:600px}
+        #mapid{height:535px}
     </style>
-
 </head>
 <body>
 <div id="mapid"></div>
 <script>
-    var mymap = L.map('mapid').setView([34.25, 108.95], 9);
+    var map = L.map('mapid').setView([34.25, 108.95], 9);
     L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=' +
         'sk.eyJ1IjoiY2hlbmdkYWRhIiwiYSI6ImNqZDFjaGo0ZjFzcnoyeG54enoxdnNuZHUifQ.hTWXXBUQ0wdGeuDF3GWeUw', {
-        attribution: '<a href="#">AMikealson</a>',
+        attribution: '<a href="#">MapGIS</a>',
         maxZoom: 18,
         id: 'mapbox.streets'
-    }).addTo(mymap);
+    }).addTo(map);
 
     var FeaCollection = {
         "type":"FeatureCollection",
@@ -39,7 +36,7 @@
             updateView();
         },
         error:function(){
-            alert = ("请求失败");
+            alert = ("请求数据失败");
         }
     });
 
@@ -59,20 +56,17 @@
             };
             FeaCollection.features.push(GeoPolygon);
         }
-
     }
 
     function updateView(){
-        L.geoJson(FeaCollection).addTo(mymap);
+        L.geoJson(FeaCollection).addTo(map);
     }
+
     var myStyle = {
         "color": "#ff7800",
         "weight": 5
     };
-    L.geoJSON(FeaCollection, {
-        style: myStyle
-    }).addTo(mymap);
-
+    L.geoJSON(FeaCollection, {style: myStyle}).addTo(map);
 </script>
 </body>
 </html>
