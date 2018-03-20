@@ -1,13 +1,11 @@
-### GeoJSON-Polygon
+#### GeoJSON-Polygon
+------
 
-```text
-对类型"Polygon"来说，"coordinates"成员必须是一个线性
+***注：*** 对类型"Polygon"来说，"coordinates"成员必须是一个线性
 环坐标数组的数组。对拥有多个环的的面来说，第一个环必须是
 外部环，其他的必须是内部环或者孔。
-```
 
-> * 标准数据格式：
-
+标准数据格式：
 ```javascript
 var GeoPolygon = {
         "type": "Feature",

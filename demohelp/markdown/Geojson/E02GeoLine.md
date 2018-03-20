@@ -1,12 +1,10 @@
-### GeoJSON-Line
+#### GeoJSON-Line
+------
 
-```text
-对类型"LineString"来说，“coordinates"成员必须是两个
+***注：*** 对类型"LineString"来说，“coordinates"成员必须是两个
 或者多个位置的数组。
-```
 
-> * 标准数据格式：
-
+标准数据格式：
 ```javascript
 var GeoLine = {
         "type": "LineString",
@@ -33,5 +31,4 @@ var GeoLine = {
     };
 ```
 
-**注：**
-线性环具有4个或者更多位置的封闭的线。第一个和最后一个位置是相等的（它们表示相同的的点）。
+***注：*** 线性环具有4个或者更多位置的封闭的线。第一个和最后一个位置是相等的（它们表示相同的的点）。

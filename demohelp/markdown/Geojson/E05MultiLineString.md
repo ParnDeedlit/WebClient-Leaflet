@@ -1,12 +1,11 @@
-### GeoJSON-MultiLineString
+#### GeoJSON-MultiLineString
+---------
 
-```text
-对类型“MultiLineString"来说，"coordinates"成员
+***注：*** 对类型“MultiLineString"来说，"coordinates"成员
 必须是一个线坐标数组的数组。
-```
 
-> * 标准数据格式：
 
+标准数据格式：
 ```javascript
 var MultiLine = {
         "type": "Feature",

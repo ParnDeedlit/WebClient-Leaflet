@@ -24,14 +24,12 @@
     }).addTo(mymap);
 
     $.ajax({
-        url:"../../data/json/xian.json",
+        url:"http://192.168.176.13:6163/igs/rest/mrfs/layer/query?f=geojson&structs=%7B%22IncludeAttribute%22%3Atrue%2C%22IncludeGeometry%22%3Atrue%2C%22IncludeWebGraphic%22%3Afalse%7D&page=0&pageCount=1000&rule=%7B%22CompareRectOnly%22%3Afalse%2C%22EnableDisplayCondition%22%3Afalse%2C%22MustInside%22%3Afalse%2C%22Intersect%22%3Atrue%7D&isAsc=false&cursorType=&fields=&coordPrecision=2&guid=__readonly_user__&gdbp=gdbp%3A%2F%2FMapGisLocal%2F%25E4%25BA%25BA%25E5%258F%25A3GDP%2Fsfcls%2F%25E5%258E%25BF%25E7%25BA%25A7%25E4%25BA%25BA%25E5%258F%25A3GDP2014&_=1520849276510",
         type:"GET",
         datatype:"json",
-        async:false,
+        async:true,
         success:function(data){
-            var geojson = JSON.parse(xian.jaon);
-            var result = data;
-            output(result);
+            output(data);
         },
         error:function(){
             alert = ("请求失败");
@@ -39,13 +37,8 @@
     });
 
     function output(data) {
-
-        var transform = GeoJSON.parse(data, {Point:['lat','lng']});
-        var myStyle = {
-            "color": "#ff7800",
-            "weight": 5
-        };
-        L.geoJSON(transform,{style:myStyle}).addTo(mymap);
+        var geojson = JSON.parse(data);
+        L.geoJSON(geojson).addTo(mymap);
     }
 
 
