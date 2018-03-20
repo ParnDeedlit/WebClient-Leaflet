@@ -21,13 +21,13 @@
       'sk.eyJ1IjoiY2hlbmdkYWRhIiwiYSI6ImNqZDFjaGo0ZjFzcnoyeG54enoxdnNuZHUifQ.hTWXXBUQ0wdGeuDF3GWeUw', {
         attribution: '<a href="#">MapBox</a>',
         maxZoom: 18,
-        id: 'mapbox.dark'
+        id: 'mapbox.streets'
       }).addTo(mymap);
 
     var routeLines = [],
       paths = [];
 
-    $.getJSON('../../data/dataview/animate-marker.json', function(data) {
+    $.getJSON('../../data/dataview/ant-path.json', function(data) {
       for (var i = 0; i < data.features.length; i++) {
         var point_iter = data.features[i].geometry.coordinates;
         var points = [];
