@@ -2,28 +2,28 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>GeoL</title>
+    <title>GeoLine</title>
     <script includes="leaflet" src="../../libs/zondyclient/include-leaflet.js"></script>
     <style>
-        #mapid{height:600px}
-    </style>ine
+        #mapid{height:535px}
+    </style>
 </head>
 <body>
 <div id="mapid"></div>
 <script>
-    var mymap = L.map('mapid').setView([30.594183452544694,114.28939819335936], 11);
+    var map = L.map('mapid').setView([30.594183452544694,114.28939819335936], 11);
     L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=' +
         'sk.eyJ1IjoiY2hlbmdkYWRhIiwiYSI6ImNqZDFjaGo0ZjFzcnoyeG54enoxdnNuZHUifQ.hTWXXBUQ0wdGeuDF3GWeUw', {
-        attribution: '<a href="#">AMikealson</a>',
+        attribution: '<a href="#">MapGIS</a>',
         maxZoom: 18,
         id: 'mapbox.streets',
         accessToken: 'your.mapbox.access.token'
-    }).addTo(mymap);
+    }).addTo(map);
 
     var GeoLine = {
         "type": "LineString",
         "properties":{
-            "prop0": "value0"
+            "name": "线"
         },
         "coordinates": [
                 [
@@ -59,7 +59,7 @@
                     30.61073172273802
                 ]]
     };
-    L.geoJSON(GeoLine).addTo(mymap);
+    L.geoJSON(GeoLine).addTo(map);
 </script>
 </body>
 </html>

@@ -12,17 +12,133 @@
 ## 地图杂项(Map Misc)
 ## UI图层(UI Layers)
 ### <span id="Marker">Marker<span>
+
+
+
+
+
+
+
 ## 栅格图层(Raster Layers)
+### TileLayer
+在地图上用于加载和显示瓦片图层。继承于[GridLayer](#GridLayer)
+#### 示例
+```javascript
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png?{foo}', {foo: 'bar'}).addTo(map);
+```
+##### URL模板
+```javascript
+'http://{s}.somedomain.com/blabla/{z}/{x}/{y}{r}.png'
+```
+- {s}:表示一个有效的子域名(用于帮助浏览器并行请求每个域限制；在选项中指定子域值；默认情况下可以省略a、b或c)。
+- {z}:缩放级别。
+- {x}、{y}:瓦片坐标。
+- {r}:可以用来添加“@2x”到URL来加载视网膜瓦片。你可以在模板中使用自定义键，它将从TileLayer选项中取值，如下所示：
+```javascript
+L.tileLayer('http://{s}.somedomain.com/{foo}/{z}/{x}/{y}.png', {foo: 'bar'});
+```
+#### Creation
+##### Extension methods
+
+|     构造函数     |     描述     |
+|:----------------|:------------|
+|L.tilelayer(`<String>` urlTemplate, <[TileLayer options](#TileLayeroptions)> options?)|通过给定一个URL模板和一个options对象来实例化一个切片图层。|
+
+#### <span id="TileLayeroptions">Options<span>
+
+|   Option   |   类型   |   默认值   |    描述    |
+|:----------:|:-------:|:---------:|:-----------|
+|minZoom|Number|0|图层显示能够缩放到的最小级别。(包含)|
+|maxZoom|Number|18|图层显示能够放大到的最大级别。(包含)|
+|subdomains|String\String[]|'abc'|瓦片服务的子域名。可以传递一个字符串（其中每一个字母都是一个子域名称）或是一个字符串数组。|
+|errorTileUrl|String|' '|显示瓦片图片的URL以代替未能加载的瓦片。|
+|zoomOffset|Number|0|The zoom number used in tile URLs will be offset with this value.|
+|tms|Number|false|If true, inverses Y axis numbering for tiles (turn this on for TMS services).|
+|zoomReverse|Boolean|false|If set to true, the zoom number used in tile URLs will be reversed (maxZoom - zoom instead of zoom)|
+|detectRetina|Boolean|false|If true and user is on a retina display, it will request four tiles of half the specified size and a bigger zoom level in place of one to utilize the high resolution.|
+|crossOrigin|Boolean|false|If true, all tiles will have their crossOrigin attribute set to ''. This is needed if you want to access tile pixel data.|
+
+> **Options inherited from [GridLayer](#GridLayer)**
+
+> **Options inherited from [Layer](#Layer)**
+
+#### Event
+
+> **Events inherited from [GridLayer](#GridLayer)**
+
+> **Events inherited from [Layer](#Layer)**
+
+> **Popup events inherited from [Layer](#Layer)**
+
+> **Tooltip events inherited from [Layer](#Layer)**
+
+#### Methods
+
+|   Method   |   返回值   |   描述   |
+|:----------|:---------:|:--------|
+|setUrl(`<String>` url, `<Boolean>` noRedraw?)|this|更新图层的URL模板并重绘它（除非noRedraw设置为true）|
+|createTile(`<Object>` coords, `<Function>` done?)|HTMLElement|仅在内部调用，覆盖GridLayer的createTile()以返回给定坐标的适当图像URL的<img> HTML元素。在瓦片加载完成后回调done函数。|
+
+##### Extension methods
+扩展[TileLayer]()的图层可以重新实现下面方法。
+
+|   Method   |   返回值   |   描述   |
+|:----------|:---------:|:--------|
+|getTileUrl(`<Object>` coords)|String|仅在内部调用，返回一个给定坐标的瓦片URL，扩展[TileLayer]()的类可以重写此函数以提供自定义瓦片URL命名方案。|
+
+###### 小例子
+
+```javascript
+L.TileLayer.Kitten = L.TileLayer.extend({
+    getTileUrl: function(coords) {
+        var i = Math.ceil( Math.random() * 4 );
+        return "http://placekitten.com/256/256?image=" + i;
+    }
+});
+```
+
+> **Methods inherited from [GridLayer](#GridLayer)**
+
+> **Methods inherited from [Layer](#Layer)**
+
+> **Popup methods inherited from [Layer](#Layer)**
+
+> **Tooltip methods inherited from [Layer](#Layer)**
+
+> **Methods inherited from EventedMethods inherited from [Evented](#Evented)**
+
+### TileLayer.WMS
+### ImageOverlay
+### VideoOverlay
+
+
+
+
+
+
+
+
+
 ## 矢量图层(Vector Layers)
 ### Path
 #### <span id="Pathoptions">Path options<span>
+
+
+
+
+
+
+
+
+
+
+
 ## 其他图层(Other Layers)
 ### <span id="LayerGroup">LayerGroup<span>
 ### <span id="FeatureGroup">FeatureGroup<span>
 ### GeoJSON
-表示单个GeoJSON对象或一组GeoJSON对象数组，可以将GeoJSON数据显示在地图上。拓展[FeatureGroup](#FeatureGroup)
+表示单个GeoJSON对象或一组GeoJSON对象数组，可以将GeoJSON数据显示在地图上。继承于[FeatureGroup](#FeatureGroup)
 #### 示例
-
 ```javascript
 L.geoJSON(data, {
     style: function (feature) {
@@ -48,8 +164,11 @@ L.geoJSON(data, {
 |onEachFeature|Function|  *  |A Function that will be called once for each created Feature, after it has been created and styled. Useful for attaching events and popups to features. The default is to do nothing with the newly created layers: ```function (feature, layer) {}```|
 |filter|Function|  *  |A Function that will be used to decide whether to include a feature or not. The default is to include all features: ```function (geoJsonFeature) {return true;}```Note: dynamically changing the filter option will have effect only on newly added data. It will not re-evaluate already included features.|
 |coordsToLatLng|Function|  *  |A Function that will be used for converting GeoJSON coordinates to [LatLng](#LatLng)s. The default is the coordsToLatLng static method.|
+
 > **Options inherited from [Layer](#Layer)**
+
 #### Events
+
 > **Events inherited from [FeatureGroup](#FeatureGroup)**
 
 > **Events inherited from [Layer](#Layer)**
@@ -60,7 +179,7 @@ L.geoJSON(data, {
 
 #### Methods
 |   Method   |   返回值   |   描述   |
-|:----------:|:---------:|:--------|
+|:----------|:---------:|:--------|
 |addData(`data`)|this|Adds a GeoJSON object to the layer.|
 |resetStyle(`layer`)|this|Resets the given vector layer's style to the original GeoJSON style, useful for resetting style after hover events.|
 |setStyle(`style`)|this|Changes styles of GeoJSON vector layers with the given style function.|
@@ -89,16 +208,7 @@ There are several static functions which can be called without instantiating L.G
 |latLngsToCoords(`<Array>` latlngs, `<Number>` levelsDeep?, `<Boolean>` closed?)|Array|Reverse of `coordsToLatLngs` closed determines whether the first point should be appended to the end of the array to close the feature, only used when levelsDeep is 0. False by default.|
 |asFeature(`<Object>` geojson)|Object|Normalize GeoJSON geometries/features into GeoJSON features.|
 
-
-
-
-
-
-### GridLayer
-
-
-
-
+### <span id="GridLayer">GridLayer<span>
 
 
 
@@ -111,16 +221,193 @@ There are several static functions which can be called without instantiating L.G
 
 ## 基本类型(Basic Types)
 ### <span id="LatLng">LatLng<span>
+
+
+
+
+
+
+
+
+
 ## 控件(Controls)
+
+
+
+
+
+
 ## Utility
+
+
+
+
+
+
 ## DOM Utility
+
+
+
+
+
+
+
+
 ## 基础类(Base Classes)
-### <span id="Layer">Layer<span>
+### <span id="Class">Class<span>
+L.Class powers the OOP facilities of Leaflet and is used to create almost all of the Leaflet classes documented here. In addition to implementing a simple classical inheritance model, it introduces several special properties for convenient code organization — options, includes and statics.
+#### 示例
+
+```javascript
+var MyClass = L.Class.extend({
+initialize: function (greeter) {
+    this.greeter = greeter;
+    // class constructor
+},
+greet: function (name) {
+    alert(this.greeter + ', ' + name)
+    }
+});
+// create instance of MyClass, passing "Hello" to the constructor
+var a = new MyClass("Hello");
+// call greet method, alerting "Hello, World"
+a.greet("World");
+```
+##### 类构造器
+你可能已经注意到，Leaflet对象是在不使用新关键字的情况下创建的。通过用小写构造函数方法补充每个类来实现的：
+```javascript
+new L.Map('map'); // becomes:
+L.map('map');
+```
+这些构造函数实现很简单, 你可以这样做:
+```javascript
+L.map = function (id, options) {
+    return new L.Map(id, options);
+};
+```
+##### Inheritance
+你可以使用`L.Class.extend`来定义一个新的类, 但是你也可以在继承于它的任何类上使用相同的方法。
+```javascript
+var MyChildClass = MyClass.extend({
+    // ... new properties and methods
+});
+```
+这将创建一个继承父类所有方法和属性的类（通过适当的原型链），添加或覆盖你扩展的类。它也会对`instanceof`做出适当的反应:
+```javascript
+var a = new MyChildClass();
+a instanceof MyChildClass; // true
+a instanceof MyClass; // true
+```
+你可以通过访问父类原型并使用JavaScript的调用或应用来调用相应子对象的父方法（包括构造函数）（就像你使用其他语言的调用一样）。
+```javascript
+var MyChildClass = MyClass.extend({
+    initialize: function () {
+        MyClass.prototype.initialize.call(this, "Yo");
+    },
+    greet: function (name) {
+        MyClass.prototype.greet.call(this, 'bro ' + name + '!');
+    }
+});
+var a = new MyChildClass();
+a.greet('Jason'); // alerts "Yo, bro Jason!"
+```
+##### Options
+选项是一个特殊属性，与传递给其他对象的不同之处在于，它将与父对象合并，而不是完全覆盖它，这使得管理对象的配置和默认值变得很方便：
+```javascript
+var MyClass = L.Class.extend({
+    options: {
+        myOption1: 'foo',
+        myOption2: 'bar'
+    }
+});
+var MyChildClass = MyClass.extend({
+    options: {
+        myOption1: 'baz',
+        myOption3: 5
+    }
+});
+var a = new MyChildClass();
+a.options.myOption1; // 'baz'
+a.options.myOption2; // 'bar'
+a.options.myOption3; // 5
+```
+还有`L.Util.setOptions`，一种用于方便地将传递给构造函数的选项与类中定义的默认值合并的方法：
+```javascript
+var MyClass = L.Class.extend({
+    options: {
+        foo: 'bar',
+        bla: 5
+    },
+    initialize: function (options) {
+        L.Util.setOptions(this, options);
+        ...
+    }
+});
+var a = new MyClass({bla: 10});
+a.options; // {foo: 'bar', bla: 10}
+```
+请注意，options对象允许使用任何键，而不仅仅是由类及其基类定义的选项。这意味着你可以使用选项对象来存储特定于应用程序的信息，只要您避免相关类已使用的键。
+##### Includes
+includes是一个特殊的类属性，它将所有指定的对象合并到类中（这些对象称为mixin）。
+```javascript
+var MyMixin = {
+    foo: function () { ... },
+    bar: 5
+};
+var MyClass = L.Class.extend({
+    includes: MyMixin
+});
+var a = new MyClass();
+a.foo();
+```
+你也可以使用`include`方法在运行时执行这些includes操作:
+```javascript
+MyClass.include(MyMixin);
+```
+`statics`只是一个便利的属性，它将特定的对象属性作为类的静态属性注入，用于定义常量：
+```javascript
+var MyClass = L.Class.extend({
+    statics: {
+        FOO: 'bar',
+        BLA: 5
+    }
+});
+MyClass.FOO; // 'bar'
+```
+##### Constructor hooks
+如果你是一个插件开发人员，通常需要为现有类添加额外的初始化代码（例如，编辑`L.Polyline`的钩子）。leaflet提供了一种使用`addInitHook`轻松完成的方法：
+```javascript
+MyClass.addInitHook(function () {
+    // ... do something in constructor additionally
+    // e.g. add event listeners, set custom properties etc.
+});
+```
+当您只需要进行一个额外的方法调用时，您还可以使用以下快捷方式：
+```javascript
+MyClass.addInitHook('methodName', arg1, arg2, …);
+```
+#### Functions
+|   Function    |   返回值   |   描述   |
+|:----------|:-------:|:--------|
+|extend(`<Object>` props)|Function|Extends the current class given the properties to be included. Returns a Javascript function that is a class constructor (to be called with new).|
+|include(`<Object>` properties)|this|Includes a mixin into the current class.|
+|mergeOptions(`<Object>` options)|this|Merges options into the defaults of the class.|
+|addInitHook(`<Function>` fn)|this|Adds a constructor hook to the class.|
+
+
+
+
+
+
+
+
+
 ### <span id="Evented">Evented<span>
+### <span id="Layer">Layer<span>
 ### <span id="Control">Control<span>
 L.Control is a base class for implementing map controls. Handles positioning. All other controls extend from this class.
 #### Options
-|   Option   |   类型   |   默认   |   描述   |
+|   Option   |   类型   |   默认值   |   描述   |
 |:----------:|:-------:|:--------:|:--------|
 |  position  | String |'topright'|The position of the control (one of the map corners). Possible values are 'topleft', 'topright', 'bottomleft' or 'bottomright'|
 
@@ -136,12 +423,12 @@ Classes extending L.Control will inherit the following methods:
 |remove()|this|Removes the control from the map it is currently active on.|
 
 ##### Extension methods
-Every control should extend from [L.Control](#Control) and (re-)implement the following methods.
+每个控制应该从[L.Control](#Control)扩展并（重新）实现以下方法。
 
 |   Method    |   返回值   |   描述   |
 |:----------|:-------:|:--------|
-|onAdd(<['Map'](#Map)> map)|HTMLElement|Should return the container DOM element for the control and add listeners on relevant map events. Called on `control.addTo(map)`.|
-|onRemove(<['Map'](#Map)> map)||Optional method. Should contain all clean up code that removes the listeners previously added in `onAdd`. Called on `control.remove()`.|
+|onAdd(<['Map'](#Map)> map)|HTMLElement|返回控件的DOM容器元素，并在相关的地图事件上添加侦听器。调用`control.addTo(map)`。|
+|onRemove(<['Map'](#Map)> map)||可选方法。应该包含所有清理代码，用于删除先前在`onAdd`中添加的侦听器。调用`control.remove()`。|
 
 ### <span id="Handler">Handler<span>
 Abstract class for map interaction handlers
@@ -172,6 +459,7 @@ There is static function which can be called without instantiating L.Handler:
 
 
 
+
 ## Misc
 
 
@@ -194,83 +482,6 @@ There is static function which can be called without instantiating L.Handler:
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-### TileLayer
-
-------
-
-> 在地图上加载和显示瓦片图层.可拓展[GridLayer](#).
-#### &ensp;使用实例
-
-```javascript
-L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png?{foo}', {foo: 'bar'}).addTo(map);
-```
-##### &ensp;URL模板
-###### &ensp;&ensp;以下形式的字符串：
-
-```javascript
-'http://{s}.somedomain.com/blabla/{z}/{x}/{y}{r}.png'
-```
-- {s}:表示可用子域之一(用于帮助处理每个域限制的浏览器并行请求；在选项中指定子域值；默认情况下可以省略a、b或c)。
-- {z}:缩放级别。
-- {x}、{y}:瓦片坐标。
-- {r}:可以用来添加“@2x”到URL来加载视网膜瓦片。可以在模板中使用自定义键，它将从TileLayer选项中取值，如下所示：
-
-```javascript
-L.tileLayer('http://{s}.somedomain.com/{foo}/{z}/{x}/{y}.png', {foo: 'bar'});
-```
-#### &ensp;创建
-##### &ensp;&ensp;拓展方法
-
-|  构造器        |   描述        |
-|:-------|:------------|
-| `L.tilelayer` |通过给定URL模板和具有选项的对象来实例化一个切片图层。|
-
-#### &ensp;选项
-
-| 选项 | 类型 | 默认 |    描述    |
-|:---:|:---:|:---:|:-----------|
-|minZoom|Number|0|显示的最小级别数。|
-|maxZoom|Number|18|显示的最大级别数。|
-|subdomains|String\String[]|'abc'|服务的子域。可以传递一个字符串（其中每一个字母都是一个子域名称）或是一个字符串数组。|
-|errorTileUrl|String|''|图片的URL给出加载错误的位置。|
-|zoomOffset|Number|0|用此值来补偿URL中地图的缩放级别。|
-|tms|Number|false|如果此值为true，反转切片Y轴的编号（对于TMS服务需将此项打开）。|
-|zoomReverse|Boolean|false|如果此项为true，URL中的缩放级别会被反转（用最大到最小缩放级别来替代缩放级别）。|
-|detectRetina|Boolean|false|如果此项为true，并且用户是视网膜显示模式，会请求规定大小一般的四个切片和一个地区内一个更大的缩放级别来利用高分辨率。|
-|crossOrigin|Boolean|false|如果为true，则所有图块将其crossOrigin属性设置为''。如果你想访问瓦片像素数据，这是必需的。|
-
-> 从[GridLayer]()继承的选项
-
-> 从[Layer]()继承的选项
-
-#### &ensp;事件
-
-> 从[GridLayer]()继承的事件
-
-> 从[Layer]()继承的事件
-
-> 从[Layer]()继承的弹出事件
-
-> 从[Layer]()继承的Tooltip事件
-
-> 从[Evented]()继承的方法
 
 **Map**
 ------

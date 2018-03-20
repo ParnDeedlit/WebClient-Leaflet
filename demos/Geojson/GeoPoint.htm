@@ -5,52 +5,33 @@
     <title>GeoPoint</title>
     <script includes="leaflet" src="../../libs/zondyclient/include-leaflet.js"></script>
     <style>
-        #mapid{height:600px}
+        #mapid{height:535px}
     </style>
 </head>
 <body>
 <div id="mapid"></div>
 <script>
-    var mymap = L.map('mapid').setView([30.594183452544694,114.28939819335936], 11);
+    var map = L.map('mapid').setView([30.594183452544694,114.28939819335936], 11);
     L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=' +
         'sk.eyJ1IjoiY2hlbmdkYWRhIiwiYSI6ImNqZDFjaGo0ZjFzcnoyeG54enoxdnNuZHUifQ.hTWXXBUQ0wdGeuDF3GWeUw', {
-        attribution: '<a href="#">AMikealson</a>',
+        attribution: '<a href="#">MapGIS</a>',
         maxZoom: 18,
         id: 'mapbox.streets',
         accessToken: 'your.mapbox.access.token'
-    }).addTo(mymap);
+    }).addTo(map);
 
     var GeoPoint = {
-        "type": "Feature",
-        "geometry": {
-            "type": "Point",
-            "coordinates": [14.28939819335936,0.594183452544694]
-        },
-        "properties": {
-            "name": "点类型",
-            "location":"武汉"
-        }
-    };
-    L.geoJSON(GeoPoint,{
-        pointToLayer:function(geoJsonPoint,latlng){
-            return L.marker(latlng);
-        }
-    }).addTo(mymap);
-
-
-
-/*    var GeoPoint = {
         "type": "Feature",
         "geometry": {
             "type": "Point",
             "coordinates": [114.28939819335936,30.594183452544694]
         },
         "properties": {
-            "name": "点类型",
+            "name": "点",
             "location":"武汉"
         }
-    };*/
-  /*  L.geoJSON(GeoPoint).addTo(mymap);*/
+    };
+    L.geoJSON(GeoPoint).addTo(map);
 </script>
 </body>
 </html>

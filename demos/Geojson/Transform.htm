@@ -4,22 +4,22 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>Transform</title>
     <script includes="leaflet" src="../../libs/zondyclient/include-leaflet.js"></script>
-    <script src="../../js/geojson.min.js"></script>
+    <script include="jquery,geohash,geojson,moment" src="../../libs/zondyclient/include-lib.js"></script>
     <style>
-        #mapid{height:600px}
+        #mapid{height:535px}
     </style>
 </head>
 <body>
 <div id="mapid"></div>
 <script>
-    var mymap = L.map('mapid').setView([30.594183452544694,114.28939819335936], 11);
+    var map = L.map('mapid').setView([30.594183452544694,114.28939819335936], 11);
     L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=' +
         'sk.eyJ1IjoiY2hlbmdkYWRhIiwiYSI6ImNqZDFjaGo0ZjFzcnoyeG54enoxdnNuZHUifQ.hTWXXBUQ0wdGeuDF3GWeUw', {
-        attribution: '<a href="#">AMikealson</a>',
+        attribution: '<a href="#">MapGIS</a>',
         maxZoom: 18,
         id: 'mapbox.streets',
         accessToken: 'your.mapbox.access.token'
-    }).addTo(mymap);
+    }).addTo(map);
 
     var data = [
         { name: 'Location A', category: 'Store', street: 'Market', coordinate:[114.29351806640625,30.602457940999596] },
@@ -27,8 +27,7 @@
         { name: 'Location C', category: 'Office', street: 'South', coordinate:[114.30896759033203,30.529145036680408] }
     ];
     var transform = GeoJSON.parse(data, {Point:'coordinate'});
-    L.geoJSON(transform).addTo(mymap);
-
+    L.geoJSON(transform).addTo(map);
 
     var data1 = [
         {
@@ -84,15 +83,15 @@
         }
     ];
     var transform1 = GeoJSON.parse(data1, {'Point': ['x', 'y'], 'LineString': 'line', 'Polygon': 'polygon'});
-    L.geoJSON(transform1).addTo(mymap);
+    L.geoJSON(transform1).addTo(map);
 
     var data2 = [{ name: 'Location A', street: 'Market', x: 34, y: -75 }];
     var data3 = [{ name: 'Location B', date: '11/23/2012', x: 54, y: -98 }];
     GeoJSON.defaults = {Point: ['x', 'y'], include: ['name']};
     var transform2 = GeoJSON.parse(data2, {});
     var transform3 = GeoJSON.parse(data3, {});
-    L.geoJSON(transform2).addTo(mymap);
-    L.geoJSON(transform3).addTo(mymap);
+    L.geoJSON(transform2).addTo(map);
+    L.geoJSON(transform3).addTo(map);
 </script>
 </body>
 </html>

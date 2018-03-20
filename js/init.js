@@ -64,7 +64,7 @@ $(function () {
 $(function () {
   initMarkdown();
     //setCore("AutoPlay", "ViewControl", "E05TopAnalysistInter_help.htm"); //显示默认页面的源码
-  setCore("Navigation", "MapControls", 'MapControls/E01Navigation_help.md'); //显示默认页面的源码
+  setCore("EO1QuikeStart", "Offical", 'Offical/EO1QuikeStart.htm'); //显示默认页面的源码
 })
 
 /** 二级菜单项对应功能页面的源码显示 **/
