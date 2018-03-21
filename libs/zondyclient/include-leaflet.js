@@ -99,6 +99,24 @@
     if (inArray(includes, 'migrate')) {
        inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet.MigrationLayer/dist/leaflet.migrationLayer.js");
     }
+    if (inArray(includes, 'elasticsearch')) {
+       inputScript(httpUrl + "/cdn/elasticsearch/14.1.0/elasticsearch.min.js");
+    }
+    if (inArray(includes, 'els-mapgis')) {
+       inputScript(httpUrl + "/cdn/zondyclient/els-mapgis.js");
+    }
+    if (inArray(includes, 'geohash')) {
+      inputScript(httpUrl + "/cdn/geohash/geohash.js");
+    }
+    if (inArray(includes, 'geojson')) {
+      inputScript(httpUrl + "/cdn/geojson/geojson.min.js");
+    }
+    if (inArray(includes, 'shapefile')) {
+      inputScript(httpUrl + "/cdn/shapefile/shapefile.js");
+    }
+    if (inArray(includes, 'turf')) {
+      inputScript(httpUrl + "/cdn/turf/turf.min.js");
+    }
     // if (inArray(includes, 'label')) {
     //   /*
     //      @ info - this function is conflit to cluster, so if you want to use this
