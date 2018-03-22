@@ -74,7 +74,7 @@ http://192.168.17.237:8080/es/GeoEnclosureQuery?indexName=df_history&typeName=20
 |indexName|索引名称|这个对应的是传统数据库的名称|
 |typeName|表名|这个对应的是传统数据库的某张表的名称,可以为`空`|
 |spatialCondition|几何查询条件|只支持`circle`, `polygon`两种|
-|timefield|时间字段|`时间字段名称`，对应的时间属性字段，不给内部自动判断数字长整型|
+|geofield|几何字段|`几何字段名称`，对应的几何属性字段，不给内部自动判断geopoint类型|
 |idfield|id字段|`设备id字段名称`|
 | ids|id列表|以逗号分割 例"1,2,3"`一组id`|
 
