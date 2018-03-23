@@ -2,6 +2,10 @@
 > 给定一个缓冲半径进行缓冲区分析. 单位支持 `miles 米`,`kilometers 千米`,`degrees 度`.
 
 ---
+#### 提交BUG
+> 找到bug请提交[issue](https://github.com/ParnDeedlit/WebClient-Leaflet/issues)
+
+---
 #### 参数
 
 |参数	|类型	|描述|

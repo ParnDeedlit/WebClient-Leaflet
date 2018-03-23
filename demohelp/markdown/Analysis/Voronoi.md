@@ -3,6 +3,10 @@
 > 针对给定的点生成泰森多边形,请注意一定要传入bbox参数,`如果没有绘制对应的多边形,那么肯定是bbox的范围没有包含住所有的点集`,*这点非常重要*
 
 ---
+#### 提交BUG
+> 找到bug请提交[issue](https://github.com/ParnDeedlit/WebClient-Leaflet/issues)
+
+---
 #### 参数
 
 |参数	|类型	|描述|

@@ -1,6 +1,11 @@
 ### 线插值操作 Along
 > 线插值操作是通过 `计算起点-终点长度`,然后再根据长度等分计算需要插值的点,最后再把这些点插入到原始数据中.
 
+---
+#### 提交BUG
+> 找到bug请提交[issue](https://github.com/ParnDeedlit/WebClient-Leaflet/issues)
+
+---
 **一共分为三步**
 
 1.计算 `长度`

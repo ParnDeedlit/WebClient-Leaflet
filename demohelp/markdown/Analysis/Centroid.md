@@ -3,6 +3,11 @@
 > 计算给定GeoJSON的数据中心支持所有的GeoJSON类型
 
 ---
+#### 提交BUG
+> 找到bug请提交[issue](https://github.com/ParnDeedlit/WebClient-Leaflet/issues)
+
+---
+
 #### 参数
 
 |参数	|类型	|描述|

@@ -3,6 +3,10 @@
 > TIN方法将无重复点的散乱数据点集按某种规则(如Delaunay 规则) 进行三角剖分，使这些散乱点形成连续但不重叠的不规则三角面片网，并以此来描述3D 物体的表面。
 
 ---
+#### 提交BUG
+> 找到bug请提交[issue](https://github.com/ParnDeedlit/WebClient-Leaflet/issues)
+
+---
 #### 参数
 
 |参数	|类型	|描述|
