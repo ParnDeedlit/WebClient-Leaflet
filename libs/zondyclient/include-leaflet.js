@@ -59,16 +59,16 @@
       inputScript(httpUrl + "/cdn/leaflet/leaflet.js");
     }
     // if (!inArray(includes, 'wmts')) {
-    //    inputScript("http://" + ip + ":" + socket + "/cdn/leaflet plugins/leaflet-tilelayer-wmts.js");
+    //    inputScript(httpUrl + "/cdn/leaflet plugins/leaflet-tilelayer-wmts.js");
     // }
     // if (inArray(includes, 'turf')) {
-    //    inputScript("http://" + ip + ":" + socket + "/cdn/turf/turf.min.js");
+    //    inputScript(httpUrl + "/cdn/turf/turf.min.js");
     // }
     // if (inArray(includes, 'mapv')) {
-    //    inputScript("http://" + ip + ":" + socket + "/cdn/mapv/mapv.min.js");
+    //    inputScript(httpUrl + "/cdn/mapv/mapv.min.js");
     // }
     // if (inArray(includes, 'echarts')) {
-    //    inputScript("http://" + ip + ":" + socket + "/cdn/echarts/echarts.js");
+    //    inputScript(httpUrl + "/cdn/echarts/echarts.js");
     // }
     if (inArray(includes, 'cluster')) {
         //https://unpkg.com/leaflet.markercluster@1.3.0/dist/
@@ -76,11 +76,11 @@
         inputCSS(httpUrl + "/cdn/leaflet-plugins/Leaflet.markercluster-1.3.0/dist/MarkerCluster.Default.css");
         inputScript(httpUrl + "/cdn/leaflet-plugins/Leaflet.markercluster-1.3.0/dist/leaflet.markercluster.js");
     }
-    // if (inArray(includes, 'marker')) {
-    //    inputCSS("http://" + ip + ":" + socket + "/cdn/leaflet plugins/font-awesome.css");
-    //    inputCSS("http://" + ip + ":" + socket + "/cdn/leaflet plugins/leaflet.awesome-markers.css");
-    //    inputScript("http://" + ip + ":" + socket + "/cdn/leaflet plugins/leaflet.awesome-markers.js");
-    // }
+    if (inArray(includes, 'colors-marker')) {
+       inputCSS(httpUrl + "/cdn/leaflet-plugins/Leaflet.awesome-markers/examples/css/font-awesome.min.css");
+       inputCSS(httpUrl + "/cdn/leaflet-plugins/Leaflet.awesome-markers/dist/leaflet.awesome-markers.css");
+       inputScript(httpUrl + "/cdn/leaflet-plugins/Leaflet.awesome-markers/dist/leaflet.awesome-markers.js");
+    }
     if (inArray(includes, 'heater')) {
        inputScript(httpUrl + "/cdn/leaflet-plugins/Leaflet.heat/dist/leaflet-heat.js");
     }
@@ -115,6 +115,7 @@
       inputScript(httpUrl + "/cdn/shapefile/shapefile.js");
     }
     if (inArray(includes, 'turf')) {
+      //https://cdn.jsdelivr.net/npm/@turf/turf@5/turf.min.js
       inputScript(httpUrl + "/cdn/turf/turf.min.js");
     }
     // if (inArray(includes, 'label')) {
@@ -124,19 +125,19 @@
     //      @ property - {module} label linkto https://github.com/Leaflet/Leaflet.label
     //      @ author - Zondy PanZhuoran.ParnDeedlit
     //    */
-    //    inputCSS("http://" + ip + ":" + socket + "/cdn/leaflet plugins/leaflet.label.css");
-    //    inputScript("http://" + ip + ":" + socket + "/cdn/leaflet plugins/leaflet.label.js");
-    //    inputScript("http://" + ip + ":" + socket + "/cdn/leaflet plugins/label.Label.js");
-    //    inputScript("http://" + ip + ":" + socket + "/cdn/leaflet plugins/label.BaseMarkerMethods.js");
-    //    inputScript("http://" + ip + ":" + socket + "/cdn/leaflet plugins/label.Marker.Label.js");
-    //    inputScript("http://" + ip + ":" + socket + "/cdn/leaflet plugins/label.CircleMarker.Label.js");
-    //    inputScript("http://" + ip + ":" + socket + "/cdn/leaflet plugins/label.Path.Label.js");
-    //    inputScript("http://" + ip + ":" + socket + "/cdn/leaflet plugins/label.Map.Label.js");
-    //    inputScript("http://" + ip + ":" + socket + "/cdn/leaflet plugins/label.FeatureGroup.Label.js");
+    //    inputCSS(httpUrl + "/cdn/leaflet plugins/leaflet.label.css");
+    //    inputScript(httpUrl + "/cdn/leaflet plugins/leaflet.label.js");
+    //    inputScript(httpUrl + "/cdn/leaflet plugins/label.Label.js");
+    //    inputScript(httpUrl + "/cdn/leaflet plugins/label.BaseMarkerMethods.js");
+    //    inputScript(httpUrl + "/cdn/leaflet plugins/label.Marker.Label.js");
+    //    inputScript(httpUrl + "/cdn/leaflet plugins/label.CircleMarker.Label.js");
+    //    inputScript(httpUrl + "/cdn/leaflet plugins/label.Path.Label.js");
+    //    inputScript(httpUrl + "/cdn/leaflet plugins/label.Map.Label.js");
+    //    inputScript(httpUrl + "/cdn/leaflet plugins/label.FeatureGroup.Label.js");
     // }
     // if (inArray(includes, 'popup')) {
-    //    inputCSS("http://" + ip + ":" + socket + "/cdn/leaflet plugins/leaflet.responsive.popup.css");
-    //    inputScript("http://" + ip + ":" + socket + "/cdn/leaflet plugins/leaflet.responsive.popup.js");
+    //    inputCSS(httpUrl + "/cdn/leaflet plugins/leaflet.responsive.popup.css");
+    //    inputScript(httpUrl + "/cdn/leaflet plugins/leaflet.responsive.popup.js");
     // }
   }
 
