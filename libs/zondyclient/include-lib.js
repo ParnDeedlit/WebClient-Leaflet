@@ -72,12 +72,16 @@
       inputCSS(httpUrl + "/cdn/bootstrap/bootstrap.min.css");
       inputScript(httpUrl + "/cdn/bootstrap/bootstrap.min.js");
     }
+    if (inArray(includes, 'shapefile')) {
+      inputScript(httpUrl + "/cdn/shapefile/shapefile.js");
+    }
+    if (inArray(includes, 'turf')) {
+      inputScript(httpUrl + "/cdn/turf/turf.min.js");
+    }
+
 
     if (inArray(includes, 'proj4')) {
       inputScript(httpUrl + "/cdn/proj4/proj4.js");
-    }
-    if (inArray(includes, 'shapefile')) {
-      inputScript(httpUrl + "/cdn/shapefile/shapefile.js");
     }
     if (inArray(includes, 'checkjs')) {
       inputScript(httpUrl + "/cdn/checkjs/checkjs.js");
