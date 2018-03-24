@@ -7,6 +7,7 @@
 
 ### Handlers用法示例
 > 将水平角度和垂直角度转换成水平和垂直位移的代码如下：
+
 ```javascript
 L.TiltHandler = L.Handler.extend({
     addHooks: function() {
@@ -24,6 +25,7 @@ L.TiltHandler = L.Handler.extend({
 
 ### Controls用法示例
 > `onAdd`和`onRemove`是L.control拓展的两个方法，在使用L.control拓展的时候必须使用，即使函数方法内部不执行任何操作。
+
 ```javascript
 L.Control.Watermark = L.Control.extend({
     onAdd: function(map) {

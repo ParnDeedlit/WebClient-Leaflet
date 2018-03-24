@@ -1,6 +1,4 @@
-﻿
-
-body, html, div, ul, li, iframe, p, img {
+﻿body, html, div, ul, li, iframe, p, img {
     border: none;
     padding: 0;
     margin: 0;
@@ -12,14 +10,13 @@ body, html {
     overflow: hidden;
 }
 
-body {
+body {                    /*leaflet示例集锦*/
     font-size: 14px;
     color: #000;
     font-family: "微软雅黑";
 }
 
-/*禁止文本选中*/
-#header .logo span, #header .logo img, .leftsidebar_box,.s1,.s2 {
+#header .logo span, #header .logo img, .leftsidebar_box,.s1,.s2 {    /*禁止文本选中*/
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
@@ -27,7 +24,6 @@ body {
     -ms-user-select: none;
     user-select: none;
 }
-
 
 dl, dt, dd {
     display: block;
@@ -38,8 +34,7 @@ a {
     text-decoration: none;
 }
 
-/*=S 头部区域样式 */
-#header {
+#header {            /*=S 头部区域样式 */
     width: 100%;
     height: 50px;
     z-index: 3;
@@ -47,7 +42,7 @@ a {
     background-color: #0075C7;
 }
 
-    #header .logo {
+#header .logo {
         height: 50px;
         float: left;
         margin-top: 6px;
@@ -55,12 +50,12 @@ a {
         position: absolute;
     }
 
-        #header .logo img {
+#header .logo img {
             height: 37px;
             width: 113px;
         }
 
-        #header .logo span {
+#header .logo span {
             display: block;
             float: right;
             color: #fff;
@@ -71,7 +66,7 @@ a {
             padding-left: 11px;
         }
 
-    #header a.help {
+#header a.help {
         display: block;
         float: right;
         color: #fff;
@@ -156,7 +151,7 @@ a.help span {
     font-size: 14px;
 }
 
-    .leftsidebar_box dd:before {
+.leftsidebar_box dd:before {
         border-bottom: 1px dotted #b0b5c2;
         content: "";
         display: inline-block;
@@ -206,7 +201,7 @@ a.help span {
     margin: 0 0 0 270px;
 }
 
-#code_core {
+#code_core {                /*源代码编辑处样式*/
     width: 468px;
     overflow: hidden;
     height: 100%;
@@ -397,11 +392,10 @@ a.help span {
     position: absolute; /*top: 210px;*/
     top: 0px; /*left:-7px;*/
     bottom: 0px;
-    background: #fff;
+    background: white;
     overflow: auto;
     box-sizing: border-box;
-    font-size: 15px;
-    background: #FFFFFF;
+    font-size: 12px;
 }
 
 .interfaceContent .interface_iframe-body ul > li {

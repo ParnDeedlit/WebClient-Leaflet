@@ -1,7 +1,7 @@
-#### 特定地理数据转换为GeoJSON
+### 特定地理数据转换为GeoJSON
 ------
-
-***注：*** 使用GeoJSON脚本库的`parse()`方法，可以将一组或单个地理数据对象转换为GeoJSON数据。
+#### 特定格式
+使用GeoJSON脚本库的`parse()`方法，可以将一组或单个地理数据对象转换为GeoJSON数据。
 
 **1. 一组对象**
 代码示例：
@@ -104,4 +104,57 @@ var output1 = {
     ]
   };
 ```
+
+#### 非特定格式
+若地理数据非以上格式，而是地理数据中`嵌套对象或数组`，如以下数据：
+```javascript
+var data =[{"geo":{"lon":108.898895,"lat":34.185112},
+            "result":"false",
+            "model":"R611",
+            "dataTime":1514864532000},
+           {"geo":{"lon":108.88043,"lat":34.240665},
+            "result":"false",
+            "model":"R611",
+            "dataTime":1516543650000}];
+```
+针对以上数据格式，可以通过下面这个方法解决数据：
+1. 根据相应数据（点，线，面）创建相应的标准GeoJSON数据模板。如：
+```javascript
+ var GeoPoint = {         //根据数据类型做相应改变
+        "type":"FeatureCollection",
+        "features":[]
+    }
+```
+
+2. 通过ajax异步获取网络数据或者相对路径获取本地数据。异步请求代码如下：
+```javascript
+$.ajax({
+    url:"http 或者../data",   //请求的url地址
+    dataType:"json",   //返回格式为json
+    async:true,   //请求是否异步，默认为异步，这也是ajax重要特性
+    type:"GET",
+    success:function(data){
+        //将获取到的数据传给一个变量
+    },
+    error:function(){
+        //请求出错的处理，一般为弹出一个警示框
+    }
+})
+```
+3. 对获取到的数据，访问相应的数据位置（对象或数组）。取出数据并存放到'feature'模板下的‘coordinates’中。代码如下：
+```javascript
+var feature1 = {             //点
+    "type": "Feature",
+    "geometry": {
+        "type": "Point",    //注意数据类型不要写错，如大小写
+        "coordinates": []   
+        },
+    "properties": {
+        "prop0": "value0"
+    }
+}
+//注：基本类型为"Point","Linesting","Polygon","MultiPoint","MultiLineString","MultiPolygon"
+```
+4. 通过数组push()方法将feature添加到第1步features中。
+
 
