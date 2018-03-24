@@ -8,15 +8,32 @@
 重要说明：本文档正在持续修改之中，大部分章节都没有写完，正式发布还需要一段时间。所有内容随时可能发生变动!
 ```
 ## <span id="Map">地图(Map)<span>
+### Usage example
+### Creation
+### Options
+### Event
+
+
 ## 地图方法(Map Methods)
+### Modifying map 
+### state
+### Getting map state
+### Layers and 
+### controls
+### Conversion
+### methods
+### Other methods
+
+
 ## 地图杂项(Map Misc)
+### Properties
+### Panes
+
+
 ## UI图层(UI Layers)
 ### <span id="Marker">Marker<span>
-
-
-
-
-
+### Popup
+### Tooltip
 
 
 ## 栅格图层(Raster Layers)
@@ -112,25 +129,16 @@ L.TileLayer.Kitten = L.TileLayer.extend({
 ### VideoOverlay
 
 
-
-
-
-
-
-
-
 ## 矢量图层(Vector Layers)
 ### Path
 #### <span id="Pathoptions">Path options<span>
-
-
-
-
-
-
-
-
-
+### Polyline
+### Polygon
+### Rectangle
+### Circle
+### CircleMarker
+### SVG
+### Canvas
 
 
 ## 其他图层(Other Layers)
@@ -211,37 +219,23 @@ There are several static functions which can be called without instantiating L.G
 ### <span id="GridLayer">GridLayer<span>
 
 
-
-
-
-
-
-
-
-
 ## 基本类型(Basic Types)
 ### <span id="LatLng">LatLng<span>
-
-
-
-
-
-
-
+### LatLngBounds
+### Point
+### Bounds
+### Icon
+### DivIcon
 
 
 ## 控件(Controls)
-
-
-
-
+### Zoom
+### Attribution
+### Layers
+### Scale
 
 
 ## Utility
-
-
-
-
 
 
 ## DOM Utility
