@@ -1,35 +1,33 @@
 ﻿<!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Leaflet.MeasureControl</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css">
-    <link rel="stylesheet" href="../../css/demo.css">
-    <link rel="stylesheet" href="../../css/leaflet.measurecontrol.css">
-    <!-- Dependency to Leaflet -->
-    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7/leaflet.css" />
-    <script src="http://cdn.leafletjs.com/leaflet-0.7/leaflet.js"></script>
-
-    <!-- Dependency to Leaflet Draw -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.3.2/leaflet.draw.css"/>
-    <!-- Files from current project -->
-    <script src="../../js/leaflet.measurecontrol.js"></script>
-    <script src="../../js/Leaflet.draw.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>leaflet显示</title>
+    <script ip="192.168.13.44" socket="8800" include="leaflet,measurement" src="../../libs/zondyclient/include-leaflet.js"></script>
+    <style>
+        #mapid{height:600px}
+    </style>
 </head>
 <body>
 <div id="mapid"></div>
-
-
-<script type="text/javascript">
+<script>
     var map = L.map('mapid').setView([30.518762, 114.398902], 13);
     L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=' +
         'sk.eyJ1IjoiY2hlbmdkYWRhIiwiYSI6ImNqZDFjaGo0ZjFzcnoyeG54enoxdnNuZHUifQ.hTWXXBUQ0wdGeuDF3GWeUw', {
-        attribution: '<a href="#">leaflet</a>',
+        attribution: '<a href="#">MapGIS</a>',
         maxZoom: 18,
         id: 'mapbox.streets',
         accessToken: 'your.mapbox.access.token'
     }).addTo(map);
-    L.Control.measureControl().addTo(map);
+    var options = {
+        position: 'topleft',
+        lengthUnit: {
+            factor: null,
+            display: 'Km',
+            decimal: 2
+        }
+    };
+    L.control.ruler(options).addTo(map);
 </script>
-
 </body>
 </html>

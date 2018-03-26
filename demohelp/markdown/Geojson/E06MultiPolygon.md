@@ -1,8 +1,10 @@
 #### GeoJSON-MultiPolygon
 ------
 
-***注：*** 对类型"MultiPlygon"来说，"coordinates"成员必须是
-面坐标数组的数组。
+> 对类型"MultiPlygon"来说，"coordinates"成员必须是`面坐标数组`的数组(即`四维数组`)。
+
+##### 提交BUG
+> 找到bug请提交，我们会及时解决[issue](https://github.com/ParnDeedlit/WebClient-Leaflet/issues)。
 
 标准数据格式：
 ```javascript
@@ -48,3 +50,4 @@ var MultiPolygon = {
         }
     };
 ```
+> 请注意，在Leaflet中，绘制多面区域`不区分`顺逆方向。若在同一区域内绘制多个区，不管顺逆均会出现洞区。

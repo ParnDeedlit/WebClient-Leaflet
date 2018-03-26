@@ -1,5 +1,9 @@
-### 特定地理数据转换为GeoJSON
+### 地理数据转换为GeoJSON
 ------
+
+##### 提交BUG
+> 找到bug请提交，我们会及时解决[issue](https://github.com/ParnDeedlit/WebClient-Leaflet/issues)。
+
 #### 特定格式
 使用GeoJSON脚本库的`parse()`方法，可以将一组或单个地理数据对象转换为GeoJSON数据。
 
