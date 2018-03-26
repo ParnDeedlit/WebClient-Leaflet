@@ -1,7 +1,10 @@
 #### 关于JSON.parse(), $.parseJSON()的用法区别
 ------
 
-***注:*** 从jQuery 3.0开始,不推荐使用`$.parseJSON`。要解析JSON字符串，请改用原生的`JSON.parse`方法。
+> 从jQuery 3.0开始,不推荐使用`$.parseJSON`。要解析JSON字符串，请改用原生的`JSON.parse`方法。
+
+##### 提交BUG
+> 找到bug请提交，我们会及时解决[issue](https://github.com/ParnDeedlit/WebClient-Leaflet/issues)。
 
 **1. JSON.parse()**
 

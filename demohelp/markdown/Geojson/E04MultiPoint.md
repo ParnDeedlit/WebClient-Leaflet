@@ -1,8 +1,10 @@
 #### GeoJSON-MultiPoint
 -------
 
-***注：*** 对类型"MultiPoint"来说，"coordinates"成员必须是位置数组。
+> 对类型"MultiPoint"来说，"coordinates"成员必须是`二维数组`。
 
+##### 提交BUG
+> 找到bug请提交，我们会及时解决[issue](https://github.com/ParnDeedlit/WebClient-Leaflet/issues)。
 
 标准数据格式：
 ```javascript

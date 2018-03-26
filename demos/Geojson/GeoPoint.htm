@@ -5,7 +5,7 @@
     <title>GeoPoint</title>
     <script includes="leaflet" src="../../libs/zondyclient/include-leaflet.js"></script>
     <style>
-        #mapid{height:535px}
+        #mapid{height:600px}
     </style>
 </head>
 <body>
@@ -31,7 +31,35 @@
             "location":"武汉"
         }
     };
-    L.geoJSON(GeoPoint).addTo(map);
+    var latlng = L.latLng(30.594183452544694,114.28939819335936);
+    var myIcon = L.icon({
+        iconUrl: '../../images/leaf-green.png',
+        iconSize: [38, 95],
+        iconAnchor: [22, 94]
+    });
+    L.geoJSON(GeoPoint,{
+        pointToLayer:function (geoJsonPoint,latlng){
+                return L.marker(latlng, {draggable:true,icon:myIcon});
+        }
+    }).addTo(map);
+
+    var GeoPoint1 = {
+        "type": "Feature",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [114.30656433105469,30.52323029223123]
+        },
+        "properties": {
+            "proprety":"prp0"
+        }
+    };
+    var latlng1 = L.latLng(30.52323029223123,114.30656433105469);
+    L.geoJSON(GeoPoint1,{
+        pointToLayer:function(geoJsonPoint,latlng1){
+            return L.circleMarker(latlng1,{radius:20,color:'#00CC00',fillOpacity:0.8});
+        }
+    }).addTo(map);
+
 </script>
 </body>
 </html>

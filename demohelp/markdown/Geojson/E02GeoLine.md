@@ -1,8 +1,9 @@
 #### GeoJSON-Line
 ------
+> 对类型"LineString"来说，“coordinates"成员必须是`两个`或者`多个`位置的数组。
 
-***注：*** 对类型"LineString"来说，“coordinates"成员必须是两个
-或者多个位置的数组。
+##### 提交BUG
+> 找到bug请提交，我们会及时解决[issue](https://github.com/ParnDeedlit/WebClient-Leaflet/issues)。
 
 标准数据格式：
 ```javascript
@@ -31,4 +32,4 @@ var GeoLine = {
     };
 ```
 
-***注：*** 线性环具有4个或者更多位置的封闭的线。第一个和最后一个位置是相等的（它们表示相同的的点）。
+> 线性环具有`4个`或者`更多`位置的封闭的线。第一个和最后一个位置是相等的（它们表示相同的的点）。

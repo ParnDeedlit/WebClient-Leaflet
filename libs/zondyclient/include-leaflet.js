@@ -118,6 +118,10 @@
       //https://cdn.jsdelivr.net/npm/@turf/turf@5/turf.min.js
       inputScript(httpUrl + "/cdn/turf/turf.min.js");
     }
+    if (inArray(includes, 'measurement')) {
+      inputCSS(httpUrl + "/cdn/leaflet-plugins/leaflet-measurement/leaflet-ruler.css");
+      inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-measurement/leaflet-ruler.js");
+    }
     // if (inArray(includes, 'label')) {
     //   /*
     //      @ info - this function is conflit to cluster, so if you want to use this
