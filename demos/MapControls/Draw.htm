@@ -6,16 +6,22 @@
     <script ip="192.168.13.44" socket="8800" include="leaflet,Draw" src="../../libs/zondyclient/include-leaflet.js"></script>
     <style>
         #map{height:600px}
+        #export{
+            width:100%;
+            height:50px;
+            background: #faf5fb;
+        }
     </style>
 </head>
 <body>
+<div id="export" onclick="exportData()"></div>
 <div id="map"></div>
 <script>
     var osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
         osmAttrib = '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors',
         osm = L.tileLayer(osmUrl, { maxZoom: 18, attribution: osmAttrib }),
         map = new L.Map('map', { center: new L.LatLng(51.505, -0.04), zoom: 13 }),
-        drawnItems = L.featureGroup().addTo(map);
+        drawnItems = L.featureGroup().addTo(map);   //FeatureGroup用于存储可编辑图层
     L.control.layers({
         'osm': osm.addTo(map),
         "google": L.tileLayer('http://www.google.cn/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}', {
@@ -37,11 +43,37 @@
             }
         }
     }));
-
+    var results = [];
     map.on(L.Draw.Event.CREATED, function (event) {
         var layer = event.layer;
+        results.push(layer);
         drawnItems.addLayer(layer);
+
     });
+    //获取线坐标的信息(只针对画线功能)
+    var geoline = {               //GeoJson数据模板
+        "type":"Feature",
+        "geometry":{
+            "type":"LineString",
+            "coordinates":[]
+        }
+    };
+    var coors = [];               //坐标空数组
+    function exportData(){
+        for(var i = 0;i < results.length;i++){      //获取线的条数
+            var arr = results[i].editing.latlngs[0];
+                for(var j = 0;j < arr.length;j++){  //获取线上的点数
+                    var x = arr[j].lat;
+                    var y = arr[j].lng;             //将坐标lat,lng取出
+                    var coor = [x,y];
+                    coors.push(coor);               //将坐标点添加进坐标数组中
+                }
+            var obj = geoline.geometry.coordinates;
+            obj.push(coors);
+        }
+        alert(geoline.geometry.coordinates);        //弹出坐标信息
+    }
+
 </script>
 </body>
 </html>
