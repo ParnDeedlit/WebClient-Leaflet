@@ -122,6 +122,9 @@
       inputCSS(httpUrl + "/cdn/leaflet-plugins/leaflet-measurement/leaflet-ruler.css");
       inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-measurement/leaflet-ruler.js");
     }
+    if (inArray(includes, 'Editable')) {
+        inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Editable/Leaflet.Editable.js");
+    }
     if (inArray(includes, 'Draw')) {
         inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Draw/Leaflet.draw.js");
         inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Draw/Leaflet.Draw.Event.js");
@@ -153,6 +156,24 @@
         inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Draw/Edit.Marker.js");
         inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Draw/Edit.CircleMarker.js");
         inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Draw/Edit.Circle.js");
+      }
+      if (inArray(includes, 'Toolbar')) {
+          //inputCSS(httpUrl + "/cdn/leaflet-plugins/leaflet-Toolbar/bootstrap.min.css");
+          inputCSS(httpUrl + "/cdn/leaflet-plugins/leaflet-Toolbar/bootstrap-theme.min.css");
+          inputCSS(httpUrl + "/cdn/leaflet-plugins/leaflet-Toolbar/leaflet.draw.css");
+          inputCSS(httpUrl + "/cdn/leaflet-plugins/leaflet-Toolbar/leaflet.toolbar.css");
+          inputCSS(httpUrl + "/cdn/leaflet-plugins/leaflet-Toolbar/leaflet.draw-toolbar.css");
+          inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Toolbar/leaflet.toolbar-src.js");
+          inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Toolbar/leaflet.draw-src.js");
+          inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Toolbar/leaflet.draw-toolbar.js");
+          inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Toolbar/ColorPicker.js");
+      }
+      if (inArray(includes, 'Fullscreen')) {
+          inputCSS(httpUrl + "/cdn/leaflet-plugins/leaflet-fullscreen/leaflet.fullscreen.css");
+          inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-fullscreen/Leaflet.fullscreen.js");
+      }
+      if (inArray(includes, 'IconGlyph')) {
+          inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-IconGlyph/Leaflet.Icon.Glyph.js");
       }
     // if (inArray(includes, 'label')) {
     //   /*

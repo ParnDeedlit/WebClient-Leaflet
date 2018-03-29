@@ -2,23 +2,58 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>leaflet显示</title>
-    <script ip = ""include="leaflet,Toolbar" src="../../libs/zondyclient/include-leaflet.js"></script>
+    <title>Toolbar</title>
+    <script ip = "192.168.13.44" socket = "8800" include="jquery, bootstrap" src="../../libs/zondyclient/include-lib.js"></script>
+    <script ip = "192.168.13.44" socket = "8800" include="leaflet,Draw,Toolbar" src="../../libs/zondyclient/include-leaflet.js"></script>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css"/>
     <style>
-        #mapid{height:600px}
+        #map{height:600px}
     </style>
 </head>
 <body>
-<div id="mapid"></div>
+<div id="map"></div>
 <script>
-    var mymap = L.map('mapid').setView([30.518762, 114.398902], 13);
-    L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=' +
-        'sk.eyJ1IjoiY2hlbmdkYWRhIiwiYSI6ImNqZDFjaGo0ZjFzcnoyeG54enoxdnNuZHUifQ.hTWXXBUQ0wdGeuDF3GWeUw', {
-        attribution: '<a href="#">AMikealson</a>',
-        maxZoom: 18,
-        id: 'mapbox.streets',
-        accessToken: 'your.mapbox.access.token'
-    }).addTo(mymap);
+    var map = L.map('map').setView([41.7896,-87.5996], 15),
+        drawnItems = new L.FeatureGroup().addTo(map),
+        editActions = [
+            L.Toolbar2.EditAction.Popup.Edit,
+            L.Toolbar2.EditAction.Popup.Delete,
+            L.Toolbar2.Action.extendOptions({
+                toolbarIcon: {
+                    className: 'leaflet-color-picker',
+                    html: '<span class="fa fa-eyedropper"></span>'
+                },
+                subToolbar: new L.Toolbar2({ actions: [
+                    L.ColorPicker.extendOptions({ color: '#db1d0f' }),
+                    L.ColorPicker.extendOptions({ color: '#025100' }),
+                    L.ColorPicker.extendOptions({ color: '#ffff00' }),
+                    L.ColorPicker.extendOptions({ color: '#0000ff' })
+                ]})
+            })
+        ];
+
+    L.tileLayer("http://tile.stamen.com/terrain/{z}/{x}/{y}.jpg", {
+        attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.'
+    }).addTo(map);
+
+    new L.Control.Draw({
+        position: 'topleft',
+    }).addTo(map);
+
+    map.on('draw:created', function(evt) {
+        var	type = evt.layerType,
+            layer = evt.layer;
+
+        drawnItems.addLayer(layer);
+
+        layer.on('click', function(event) {
+            new L.Toolbar2.EditToolbar.Popup(event.latlng, {
+                actions: editActions
+            }).addTo(map, layer);
+        });
+    });
 </script>
 </body>
 </html>
