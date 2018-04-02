@@ -58,6 +58,9 @@
       inputCSS(httpUrl + "/cdn/leaflet/leaflet.css");
       inputScript(httpUrl + "/cdn/leaflet/leaflet.js");
     }
+    // if (!inArray(excludes, 'leaflet')) {
+    //   inputScript(httpUrl + "/cdn/zondyclient/mapgis-leaflet.js");
+    // }
     // if (!inArray(includes, 'wmts')) {
     //    inputScript(httpUrl + "/cdn/leaflet plugins/leaflet-tilelayer-wmts.js");
     // }
