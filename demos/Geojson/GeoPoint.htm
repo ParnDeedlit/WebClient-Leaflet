@@ -38,7 +38,10 @@
     });
     L.geoJSON(GeoPoint,{
         pointToLayer:function (geoJsonPoint,latlng){
-                return L.marker(latlng, {draggable:true,icon:myIcon});
+                return L.marker(latlng, {
+                    draggable:true,    //可拖拽，默认值为false
+                    icon:myIcon        //定制图标
+                });
         }
     }).addTo(map);
 
@@ -55,7 +58,11 @@
     var latlng1 = L.latLng(30.52323029223123,114.30656433105469);
     L.geoJSON(GeoPoint1,{
         pointToLayer:function(geoJsonPoint,latlng1){
-            return L.circleMarker(latlng1,{radius:20,color:'#00CC00',fillOpacity:0.8});
+            return L.circleMarker(latlng1, {
+                radius:20,          //点的半径
+                color:'#00CC00',    //点的颜色
+                fillOpacity:0.8     //点内部透明度
+            });
         }
     }).addTo(map);
 
