@@ -5,22 +5,18 @@
     <title>leaflet显示</title>
     <script include="leaflet" src="../../libs/zondyclient/include-leaflet.js"></script>
     <style>
-        #mapid{height:600px}
+        #mapid{height:600px;width: 100%;}
     </style>
 </head>
 <body>
 <div id="mapid"></div>
 <script>
-    var map = L.map('map', {
+    var map = L.map('mapid', {
         crs: L.CRS.Simple
     });
     var bounds = [[0,0], [1000,1000]];
     var image = L.imageOverlay('uqm_map_full.png', bounds).addTo(map);
     map.fitBounds(bounds);
-    var map = L.map('map', {
-        crs: L.CRS.Simple,
-        minZoom: -5
-    });
     var bounds = [[-26.5,-25], [1021.5,1023]];
     var image = L.imageOverlay('uqm_map_full.png', bounds).addTo(map);
     var sol = L.latLng([ 145, 175.2 ]);
