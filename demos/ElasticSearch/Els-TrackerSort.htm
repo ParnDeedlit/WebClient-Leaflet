@@ -5,7 +5,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>Choropleth Tutorial - Leaflet</title>
   <script include="jquery,geohash,geojson,moment" src="../../libs/zondyclient/include-lib.js"></script>
-  <script include="realmove-marker,elasticsearch" src="../../libs/zondyclient/include-leaflet.js"></script>
+  <script include="animate-marker,elasticsearch" src="../../libs/zondyclient/include-leaflet.js"></script>
   <style>
     #mapid {
       height: 600px
@@ -31,9 +31,12 @@
   <script>
     var mapExtent, mapLevel, startTime, endTime, timeSpeed, flashSpeed, currentTime, geojson;
     startTime = Date.parse(new Date("2018-01-24 08:00:00")); //1516723200000; 毫秒
-    endTime = Date.parse(new Date("2018-01-24 08:10:00"));
-    runSpeed = 100;//轨迹播放速度 100倍
+    endTime = Date.parse(new Date("2018-01-24 20:00:00"));
+    runSpeed = 100;//轨迹播放速度 100米每帧
     var colors = ["blue", "green", "red", "yellow", "black"];
+    var client = new elasticsearch.Client({
+      host: '192.168.94.121:9200'
+    });
     var map = L.map('mapid').setView([34.25, 108.95], 9);
 
     L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=' +
@@ -56,8 +59,8 @@
       this._div.innerHTML = '<h4>起始时间</h4>' +
         '<b>' + startT + '</b>' + '<h4>结束时间</h4>' +
         '<b>' + endT + '</b>' +
-        '<br>时间跨度:' + 10 + '分钟</br>' +
-        '<b>播放加速:' + runSpeed + '倍</b>';
+        '<br>时间跨度:' + 12 + '小时</br>' +
+        '<b>播放加速:' + runSpeed + '米每一帧</b>';
     };
     info.addTo(map);
     //--------------------------------------------------------------------
@@ -68,10 +71,35 @@
       width = 0;
 
     function loadData() {
-      $.getJSON("../../data/dataview/tracker-speed.json", function(data) {
-        convertData(data);
-        updateView();
-      });
+      client.search({
+        index: 'df_history', //数据库名称
+        //type: '2018-01-24',//数据库-表名称
+        //也可以是2018-01-24,这里的type实际上上是指的每一张表,如果不设置的话就全库查询,
+        //设置的话就针对这一天的表进行查询
+        //scroll: '2m', // 30s or 2m 保持结果滚动2分钟或30秒
+        body: {
+          size: 10000, //此处返回的是hits的数组大小，即设备数对的
+          query: {
+            bool: {
+              filter: {
+                range: {
+                  'dataTime': {
+                    from: startTime,
+                    to: endTime
+                  }
+                }
+              }
+            }
+          },
+          sort: { "dataTime": { "order": "desc" }}
+        }
+      }, getData);
+
+      // $.getJSON("../../data/dataview/tracker-speed.json", function(data) {
+      //   convertData(data);
+      //   updateView();
+      // });
+
     };
 
     function getData(error, response) {
@@ -81,6 +109,13 @@
 
     var lineLayers = [];   //记录polyline数组
     var trackLines = {};   //按照设备id进行分组
+    var markers = [];      //按照设备id进行分组
+    var bikeIcon = L.icon({
+      iconUrl: 'marker-bike-green-shadowed.png',
+      iconSize: [25, 39],
+      iconAnchor: [12, 39],
+      shadowUrl: null
+    });
 
     function convertData(response) {
       response.hits.hits.forEach(function(iter) {
@@ -115,30 +150,45 @@
         var line = trackLines[id];
         line.sort(compare('dataTime')); //之前的数据来自不同的节点，时间存在交错，需要重新排序
         var polyline = []; //记录排序后的轨迹线
-        var times = [];   //记录轨迹中每个点与临近的下一个点的时间
-        var last_time;
         for(var index = 0; index < line.length; index++){
           var point = line[index];
           polyline.push([point.geo.lat, point.geo.lon]);
-          if(index == 0){
-            last_time = point.dataTime;
-          }
-          if(index > 0){
-            times.push((point.dataTime - last_time) / runSpeed);   //如果不除以runSpeed则是真实时间播放
-            last_time = point.dataTime;
-          }
         }
-        //显示轨迹和移动的点
-        var position = index % colors.length;
-        var marker2 = L.Marker.movingMarker(polyline, times, {
-          autostart: true
-        }).addTo(map);
-        var track = L.polyline(polyline, {
-          color: colors[position]
-        }).addTo(map);
-        lineLayers.push(track);
-        index++;
+        var line = L.polyline(polyline);
+        lineLayers.push(line);
       }
+
+      $.each(lineLayers, function(i, routeLine) {
+        var marker = L.animatedMarker(routeLine.getLatLngs(), {
+          icon: bikeIcon,
+          autoStart: true,
+          distance: 100, // meters,表示每帧移动的距离,越大则一秒移动的距离越远,速度越快
+          interval: 1000, // milliseconds,每帧之间移动的时间间隔,与distance相互配合
+          onEnd: function() {
+            // TODO:
+            this.remove();//消除该图标marker
+          }
+        });
+        marker.on('click', function(e) {
+
+        }); //
+        marker.on('popupopen', function(e) {
+
+        });
+        marker.on('popupclose', function(e) {
+
+        });
+
+        var popup = L.popup().setContent('<p>Hello world!<br />This is a nice popup.</p>')
+
+        marker.bindPopup(popup);
+        map.addLayer(marker);
+        markers.push(marker);
+      });
+
+      $.each(markers, function(i, marker) {
+        marker.start();
+      });
     }
 
 

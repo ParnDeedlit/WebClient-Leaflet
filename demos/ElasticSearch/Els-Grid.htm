@@ -3,7 +3,7 @@
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>中地封装接口-ELS聚类</title>
+  <title>Choropleth Tutorial - Leaflet</title>
   <script include="jquery,geohash,geojson,moment" src="../../libs/zondyclient/include-lib.js"></script>
   <script include="datastore,mapv,elasticsearch" src="../../libs/zondyclient/include-leaflet.js"></script>
   <style>
@@ -50,7 +50,9 @@
     flashSpeed = 2000; //2秒一刷新
     var map = L.map('mapid').setView([34.25, 108.95], 9);
     var timer = self.setInterval("clock()", flashSpeed);
-
+    var client = new elasticsearch.Client({
+      host: '192.168.94.121:9200'
+    });
     var mapvLayer, layerDataSet, layerOptions = getLayerOptions();
 
     L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=' +
@@ -89,20 +91,42 @@
     function loadData(level, extent, startTimeStamp, endTimeStamp) {
       var bound = wrapLatLngBounds(extent);
       var prec = recalcLevel(level);
-      vat timeField = "timefield";
-      var timerange = "" + startTimeStamp + "," + endTimeStamp;
-      var geoField = "geo";
-      var rectRange = "polygon:" + bound.getNorth() + "," + bound.getWest() + ";"
-            + bound.getNorth() + "," + bound.getEast() + ";"
-            + bound.getSourth() + "," + bound.getEast() + ";"
-            + bound.getSourth() + "," + bound.getWest();
-      $.post("http://192.168.94.121:9091/es/stQueryByAgg?indexName=df_history" +
-        "&spatialCondition=" + rectRange +
-        "&timefield=" + timeField +
-        "&geofield=" + geoField +
-        "&timeCondition=" + timerange + "", getData(response));
-
-
+      client.search({
+        index: 'df_history', //数据库名称
+        //type: '2018-01-24',//数据库-表名称
+        //也可以是2018-01-24,这里的type实际上上是指的每一张表,如果不设置的话就全库查询,
+        //设置的话就针对这一天的表进行查询
+        //scroll: '2m', // 30s or 2m 保持结果滚动2分钟或30秒
+        body: {
+          size: 0, //此处返回的是hits的数组大小
+          query: {
+            bool: {
+              filter: {
+                range: {
+                  'dataTime': {
+                    from: startTimeStamp,
+                    to: endTimeStamp
+                  }
+                }
+              }
+            }
+          },
+          aggregations: {
+            'mapExtent': {
+              filter: {
+                geo_bounding_box: {
+                  'geo': {
+                    top_left: {
+                      lat: bound.getNorthWest().lat,
+                      lon: bound.getNorthWest().lng
+                    },
+                    bottom_right: {
+                      lat: bound.getSouthEast().lat,
+                      lon: bound.getSouthEast().lng
+                    }
+                  }
+                }
+              },
               aggregations: {
                 'geohash': {
                   geohash_grid: {
@@ -111,11 +135,15 @@
                   }
                 }
               }
+            }
+          }
+        }
+      }, getData);
     };
 
     var heatPoints = [];
 
-    function getData(response) {
+    function getData(error, response) {
       layerDataSet = convertData(response);
       updateView();
     }
@@ -150,32 +178,32 @@
 
     function getLayerOptions() {
       return {
-        fillStyle: 'rgba(55, 50, 250, 0.8)',
-        shadowColor: 'rgba(255, 250, 50, 1)',
-        shadowBlur: 10,
-        size: 40,
-        globalAlpha: 0.5,
-        label: {
-          show: true,
-          fillStyle: 'white',
-          shadowColor: 'yellow',
-          font: '15px Arial',
-          shadowBlur: 10
-        },
-        gradient: {
-          0: "rgba(49, 54, 149, 0)",
-          0.2: "rgba(69,117,180, 0.7)",
-          0.3: "rgba(116,173,209, 0.7)",
-          0.4: "rgba(171,217,233, 0.7)",
-          0.5: "rgba(224,243,248, 0.7)",
-          0.6: "rgba(254,224,144,0.7)",
-          0.7: "rgba(253,174,97,0.7)",
-          0.8: "rgba(244,109,67,0.8)",
-          0.9: "rgba(215,48,39,0.8)",
-          0.95: "rgba(165, 0, 38,0.8)"
-        },
-        draw: 'grid'
-      }
+            fillStyle: 'rgba(55, 50, 250, 0.8)',
+            shadowColor: 'rgba(255, 250, 50, 1)',
+            shadowBlur: 10,
+            size: 40,
+            globalAlpha: 0.5,
+            label: {
+                show: true,
+                fillStyle: 'white',
+                shadowColor: 'yellow',
+                font: '15px Arial',
+                shadowBlur: 10
+            },
+            gradient: {
+                0: "rgba(49, 54, 149, 0)",
+                0.2: "rgba(69,117,180, 0.7)",
+                0.3: "rgba(116,173,209, 0.7)",
+                0.4: "rgba(171,217,233, 0.7)",
+                0.5: "rgba(224,243,248, 0.7)",
+                0.6: "rgba(254,224,144,0.7)",
+                0.7: "rgba(253,174,97,0.7)",
+                0.8: "rgba(244,109,67,0.8)",
+                0.9: "rgba(215,48,39,0.8)",
+                0.95: "rgba(165, 0, 38,0.8)"
+            },
+            draw: 'grid'
+        };
     }
 
     function recalcLevel(level){
