@@ -4,8 +4,8 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>中地封装接口-ELS聚类</title>
-  <script include="jquery,geohash,geojson,moment" src="../../libs/zondyclient/include-lib.js"></script>
-  <script include="datastore,mapv,elasticsearch" src="../../libs/zondyclient/include-leaflet.js"></script>
+  <script ip="localhost" socket="8800" include="jquery,geohash,geojson,moment" src="../../libs/zondyclient/include-lib.js"></script>
+  <script ip="localhost" socket="8800" include="datastore,mapv" src="../../libs/zondyclient/include-leaflet.js"></script>
   <style>
     #mapid {
       height: 600px
@@ -51,7 +51,7 @@
     var map = L.map('mapid').setView([34.25, 108.95], 9);
     var timer = self.setInterval("clock()", flashSpeed);
 
-    var mapvLayer, layerDataSet, layerOptions = getLayerOptions();
+    var queryOptions= getQueryOptions(), layerOptions = getLayerOptions();
 
     L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=' +
       'sk.eyJ1IjoiY2hlbmdkYWRhIiwiYSI6ImNqZDFjaGo0ZjFzcnoyeG54enoxdnNuZHUifQ.hTWXXBUQ0wdGeuDF3GWeUw', {
@@ -89,109 +89,72 @@
     function loadData(level, extent, startTimeStamp, endTimeStamp) {
       var bound = wrapLatLngBounds(extent);
       var prec = recalcLevel(level);
-      vat timeField = "timefield";
-      var timerange = "" + startTimeStamp + "," + endTimeStamp;
-      var geoField = "geo";
-      var rectRange = "polygon:" + bound.getNorth() + "," + bound.getWest() + ";"
-            + bound.getNorth() + "," + bound.getEast() + ";"
-            + bound.getSourth() + "," + bound.getEast() + ";"
-            + bound.getSourth() + "," + bound.getWest();
-      $.post("http://192.168.94.121:9091/es/stQueryByAgg?indexName=df_history" +
-        "&spatialCondition=" + rectRange +
-        "&timefield=" + timeField +
-        "&geofield=" + geoField +
-        "&timeCondition=" + timerange + "", getData(response));
 
+      queryOptions.space.percision = prec;
+      queryOptions.space.west = bound.getWest();
+      queryOptions.space.east = bound.getEast();
+      queryOptions.space.north = bound.getNorth();
+      queryOptions.space.south = bound.getSouth();
 
-              aggregations: {
-                'geohash': {
-                  geohash_grid: {
-                    field: "geo",
-                    precision: prec
-                  }
-                }
-              }
+      queryOptions.time.starttime = startTimeStamp;
+      queryOptions.time.endtime = endTimeStamp;
+
+      var layer = L.zondy.GeoHashService("192.168.94.128", "9091", map, queryOptions, layerOptions);
     };
 
-    var heatPoints = [];
-
-    function getData(response) {
-      layerDataSet = convertData(response);
-      updateView();
-    }
-
-    function convertData(response) {
-      var data = [];
-      response.aggregations.mapExtent.geohash.buckets.forEach(function(bucket) {
-        var coordinates = decodeGeoHash(bucket.key);
-        data.push({
-          geometry: {
-            type: 'Point',
-            coordinates: [coordinates.longitude[2], coordinates.latitude[2]]
-          },
-          count: bucket.doc_count
-        });
-      });
-      return data;
-    };
-
-    function updateView() {
-      if (!mapvLayer) {
-        mapvLayer =new L.zondy.MapvLayer(map, layerDataSet, layerOptions, {
-          noWrap: true
-        }).addTo(map);
-      } else {
-        mapvLayer.update({
-          data: layerDataSet,
-          options: layerOptions
-        });
-      }
+    function getQueryOptions(){
+        return {
+            db: "df_history",
+            table: "2018-01-24",
+            space:{
+              field:"geo",
+              percision:5,
+              west:-180,
+              esat:180,
+              north:90,
+              south:-90
+            },
+            time:{
+              field:"dataTime",
+              starttime:"00000",
+              endtime:"10000"
+            }
+        }
     }
 
     function getLayerOptions() {
       return {
-        fillStyle: 'rgba(55, 50, 250, 0.8)',
-        shadowColor: 'rgba(255, 250, 50, 1)',
-        shadowBlur: 10,
-        size: 40,
-        globalAlpha: 0.5,
-        label: {
-          show: true,
-          fillStyle: 'white',
-          shadowColor: 'yellow',
-          font: '15px Arial',
-          shadowBlur: 10
-        },
-        gradient: {
-          0: "rgba(49, 54, 149, 0)",
-          0.2: "rgba(69,117,180, 0.7)",
-          0.3: "rgba(116,173,209, 0.7)",
-          0.4: "rgba(171,217,233, 0.7)",
-          0.5: "rgba(224,243,248, 0.7)",
-          0.6: "rgba(254,224,144,0.7)",
-          0.7: "rgba(253,174,97,0.7)",
-          0.8: "rgba(244,109,67,0.8)",
-          0.9: "rgba(215,48,39,0.8)",
-          0.95: "rgba(165, 0, 38,0.8)"
-        },
-        draw: 'grid'
-      }
+            size: 20,
+            gradient: {
+                0: "rgba(49, 54, 149, 0)",
+                0.2: "rgba(69,117,180, 0.7)",
+                0.3: "rgba(116,173,209, 0.7)",
+                0.4: "rgba(171,217,233, 0.7)",
+                0.5: "rgba(224,243,248, 0.7)",
+                0.6: "rgba(254,224,144,0.7)",
+                0.7: "rgba(253,174,97,0.7)",
+                0.8: "rgba(244,109,67,0.8)",
+                0.9: "rgba(215,48,39,0.8)",
+                0.95: "rgba(165, 0, 38,0.8)"
+            },
+            draw: 'heatmap'
+        };
     }
 
     function recalcLevel(level){
       var prec = 5;
       if (level <= 2) {
-            prec = 2;
+            prec = 5;
         } else if (level > 2 && level <= 5) {
-            prec = 4;
-        } else if (level > 5) {
             prec = 8;
-        } else if (level > 8 && level <= 11) {
-            prec = 9;
-        } else if (level > 11 && level <= 13) {
+        } else if (level > 5) {
             prec = 10;
-        } else if (level > 13 && level <= 15) {
+        } else if (level > 8 && level <= 11) {
             prec = 11;
+        } else if (level > 11 && level <= 13) {
+            prec = 12;
+        } else if (level > 13 && level <= 15) {
+            prec = 12;
         } else if (level > 15) {
             prec = 12;
         };
