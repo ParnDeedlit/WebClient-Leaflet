@@ -58,52 +58,61 @@
       inputCSS(httpUrl + "/cdn/leaflet/leaflet.css");
       inputScript(httpUrl + "/cdn/leaflet/leaflet.js");
     }
+    // if (!inArray(excludes, 'leaflet')) {
+    //   inputScript(httpUrl + "/cdn/zondyclient/mapgis-leaflet.js");
+    // }
     // if (!inArray(includes, 'wmts')) {
     //    inputScript(httpUrl + "/cdn/leaflet plugins/leaflet-tilelayer-wmts.js");
     // }
     // if (inArray(includes, 'turf')) {
     //    inputScript(httpUrl + "/cdn/turf/turf.min.js");
     // }
-    // if (inArray(includes, 'mapv')) {
-    //    inputScript(httpUrl + "/cdn/mapv/mapv.min.js");
-    // }
+    if (inArray(includes, 'proj4')) {
+      inputScript(httpUrl + "/cdn/proj4/proj4.js");
+    }
+    if (inArray(includes, 'mapv')) {
+      inputScript(httpUrl + "/cdn/mapv/mapv.min.js");
+    }
     // if (inArray(includes, 'echarts')) {
     //    inputScript(httpUrl + "/cdn/echarts/echarts.js");
     // }
+    if (inArray(includes, 'echarts')) {
+       inputScript(httpUrl + "/cdn/echarts/echarts.js");
+    }
     if (inArray(includes, 'cluster')) {
-        //https://unpkg.com/leaflet.markercluster@1.3.0/dist/
-        inputCSS(httpUrl + "/cdn/leaflet-plugins/Leaflet.markercluster-1.3.0/dist/MarkerCluster.css");
-        inputCSS(httpUrl + "/cdn/leaflet-plugins/Leaflet.markercluster-1.3.0/dist/MarkerCluster.Default.css");
-        inputScript(httpUrl + "/cdn/leaflet-plugins/Leaflet.markercluster-1.3.0/dist/leaflet.markercluster.js");
+      //https://unpkg.com/leaflet.markercluster@1.3.0/dist/
+      inputCSS(httpUrl + "/cdn/leaflet-plugins/Leaflet.markercluster-1.3.0/dist/MarkerCluster.css");
+      inputCSS(httpUrl + "/cdn/leaflet-plugins/Leaflet.markercluster-1.3.0/dist/MarkerCluster.Default.css");
+      inputScript(httpUrl + "/cdn/leaflet-plugins/Leaflet.markercluster-1.3.0/dist/leaflet.markercluster.js");
     }
     if (inArray(includes, 'colors-marker')) {
-       inputCSS(httpUrl + "/cdn/leaflet-plugins/Leaflet.awesome-markers/examples/css/font-awesome.min.css");
-       inputCSS(httpUrl + "/cdn/leaflet-plugins/Leaflet.awesome-markers/dist/leaflet.awesome-markers.css");
-       inputScript(httpUrl + "/cdn/leaflet-plugins/Leaflet.awesome-markers/dist/leaflet.awesome-markers.js");
+      inputCSS(httpUrl + "/cdn/leaflet-plugins/Leaflet.awesome-markers/examples/css/font-awesome.min.css");
+      inputCSS(httpUrl + "/cdn/leaflet-plugins/Leaflet.awesome-markers/dist/leaflet.awesome-markers.css");
+      inputScript(httpUrl + "/cdn/leaflet-plugins/Leaflet.awesome-markers/dist/leaflet.awesome-markers.js");
     }
     if (inArray(includes, 'heater')) {
-       inputScript(httpUrl + "/cdn/leaflet-plugins/Leaflet.heat/dist/leaflet-heat.js");
+      inputScript(httpUrl + "/cdn/leaflet-plugins/Leaflet.heat/dist/leaflet-heat.js");
     }
     if (inArray(includes, 'animate-marker')) {
-       inputScript(httpUrl + "/cdn/leaflet-plugins/Leaflet.AnimatedMarker/src/AnimatedMarker.js");
+      inputScript(httpUrl + "/cdn/leaflet-plugins/Leaflet.AnimatedMarker/src/AnimatedMarker.js");
     }
     if (inArray(includes, 'realmove-marker')) {
-       inputScript(httpUrl + "/cdn/leaflet-plugins/Leaflet.MovingMarker/MovingMarker.js");
+      inputScript(httpUrl + "/cdn/leaflet-plugins/Leaflet.MovingMarker/MovingMarker.js");
     }
     if (inArray(includes, 'elasticsearch')) {
-       inputScript(httpUrl + "/cdn/elasticsearch/14.1.0/elasticsearch.min.js");
+      inputScript(httpUrl + "/cdn/elasticsearch/14.1.0/elasticsearch.min.js");
     }
     if (inArray(includes, 'ant-path')) {
-       inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-ant-path/dist/leaflet-ant-path.js");
+      inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-ant-path/dist/leaflet-ant-path.js");
     }
     if (inArray(includes, 'migrate')) {
-       inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet.MigrationLayer/dist/leaflet.migrationLayer.js");
+      inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet.MigrationLayer/dist/leaflet.migrationLayer.js");
     }
     if (inArray(includes, 'elasticsearch')) {
-       inputScript(httpUrl + "/cdn/elasticsearch/14.1.0/elasticsearch.min.js");
+      inputScript(httpUrl + "/cdn/elasticsearch/14.1.0/elasticsearch.min.js");
     }
     if (inArray(includes, 'els-mapgis')) {
-       inputScript(httpUrl + "/cdn/zondyclient/els-mapgis.js");
+      inputScript(httpUrl + "/cdn/zondyclient/els-mapgis.js");
     }
     if (inArray(includes, 'geohash')) {
       inputScript(httpUrl + "/cdn/geohash/geohash.js");
@@ -123,7 +132,7 @@
       inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-measurement/leaflet-ruler.js");
     }
     if (inArray(includes, 'Editable')) {
-        inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Editable/Leaflet.Editable.js");
+      inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Editable/Leaflet.Editable.js");
     }
     if (inArray(includes, 'Draw')) {
         inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Draw/Leaflet.draw.js");
@@ -181,6 +190,9 @@
       if (inArray(includes, 'Graticule')) {
           inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Graticule/Leaflet.Graticule.js");
       }
+    if (inArray(includes, 'datastore')) {
+      inputScript(httpUrl + "/cdn/zondyclient/webclient-leaflet.js");
+    }
     // if (inArray(includes, 'label')) {
     //   /*
     //      @ info - this function is conflit to cluster, so if you want to use this
