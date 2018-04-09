@@ -175,6 +175,12 @@
       if (inArray(includes, 'IconGlyph')) {
           inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-IconGlyph/Leaflet.Icon.Glyph.js");
       }
+      if (inArray(includes, 'PathDrag')) {
+          inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-PathDrag/Path.Drag.js");
+      }
+      if (inArray(includes, 'Graticule')) {
+          inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Graticule/Leaflet.Graticule.js");
+      }
     // if (inArray(includes, 'label')) {
     //   /*
     //      @ info - this function is conflit to cluster, so if you want to use this
