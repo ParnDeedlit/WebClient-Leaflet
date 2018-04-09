@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Extending Leaflet(Layers)</title>
+    <script ip = "192.168.13.44" socket="8800" include="leaflet" src="../../libs/zondyclient/include-leaflet.js"></script>
+    <style>
+        #map1{height:300px}
+        #map2{height:300px}
+    </style>
+</head>
+<body>
+<div id="map1"></div>
+<div id="map2"></div>
+<script>
+    // 示例一
+    var map1 = L.map('map1',{crs:L.CRS.Simple}).setView([0,0],5);
+    L.TileLayer.Kitten = L.TileLayer.extend({
+        getTileUrl:function(coords){
+            //通过随机数来得到不同的猫
+            var i = Math.ceil(Math.random() * 4);
+            return "http://placekitten.com/256/256?image=" + i;
+        },
+        getAttribution:function(){
+            return "<a href='#'>MapGIS</a>"
+        }
+    });
+    L.tileLayer.kitten = function(){
+        return new L.TileLayer.Kitten();
+    }
+    L.tileLayer.kitten().addTo(map1);
+
+    //示例二
+    var map2 = L.map('map2').setView([0,0],0)
+    L.GridLayer.DebugCoords = L.GridLayer.extend({
+        createTile:function(coords,done){
+            var tile = document.createElement('div');
+            tile.innerHTML = [coords.x,coords.y,coords.z].join(',');
+            tile.style.outline = '1px solid red';
+
+            setTimeout(function(){
+                done(null,tile);
+            },500 + Math.random() * 1500);
+            return tile;
+        },
+        getAttribution:function(){
+            return "<a href='#'>MapGIS</a>"
+        }
+    });
+    L.gridLayer.debugCoords = function(opts){
+        return new L.GridLayer.DebugCoords(opts);
+    };
+    L.gridLayer.debugCoords().addTo(map2);
+</script>
+</body>
+</html>
