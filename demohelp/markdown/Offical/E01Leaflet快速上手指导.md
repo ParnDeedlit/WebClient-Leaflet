@@ -1,3 +1,23 @@
+### Leaflet Quick Start Guide
+> 本教程将快速介绍有关于Leaflet的基础知识，包括设置Leaflet地图、创建(线、标记、提示框)以及处理一些事件，让你对‘叶子’有个基本的了解。
+
+#### 准备
+
+1. 引入leaflet.js、leaflet.css文件。
+2. 创建一个拥有具体id的div容器。
+        <div id="map"></div>
+3. 明确容器的高度。
+        #map { height: 180px; }
+        
+#### 设置地图
+>- 初始化地图，通过选定的地理坐标设置地图视角以及缩放级别。
+
+```javascript
+var map = L.map('map').setView([30.518762, 114.398902], 13);
+```
+
+
+
 #### 地址引用方法：
 ##### 代码如下：
 

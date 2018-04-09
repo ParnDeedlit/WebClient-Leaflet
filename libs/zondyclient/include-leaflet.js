@@ -135,55 +135,61 @@
       inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Editable/Leaflet.Editable.js");
     }
     if (inArray(includes, 'Draw')) {
-      inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Draw/Leaflet.draw.js");
-      inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Draw/Leaflet.Draw.Event.js");
-      inputCSS(httpUrl + "/cdn/leaflet-plugins/leaflet-Draw/leaflet.draw.css");
-      inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Draw/Toolbar.js");
-      inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Draw/Tooltip.js");
-      inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Draw/GeometryUtil.js");
-      inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Draw/LatLngUtil.js");
-      inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Draw/LineUtil.Intersect.js");
-      inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Draw/Polygon.Intersect.js");
-      inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Draw/Polyline.Intersect.js");
-      inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Draw/TouchEvents.js");
-      inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Draw/DrawToolbar.js");
-      inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Draw/Draw.Feature.js");
-      inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Draw/Draw.SimpleShape.js");
-      inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Draw/Draw.Polyline.js");
-      inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Draw/Draw.Marker.js");
-      inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Draw/Draw.Circle.js");
-      inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Draw/Draw.CircleMarker.js");
-      inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Draw/Draw.Polygon.js");
-      inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Draw/Draw.Rectangle.js");
-      inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Draw/EditToolbar.js");
-      inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Draw/EditToolbar.Edit.js");
-      inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Draw/EditToolbar.Delete.js");
-      inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Draw/Control.Draw.js");
-      inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Draw/Edit.Poly.js");
-      inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Draw/Edit.SimpleShape.js");
-      inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Draw/Edit.Rectangle.js");
-      inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Draw/Edit.Marker.js");
-      inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Draw/Edit.CircleMarker.js");
-      inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Draw/Edit.Circle.js");
-    }
-    if (inArray(includes, 'Toolbar')) {
-      //inputCSS(httpUrl + "/cdn/leaflet-plugins/leaflet-Toolbar/bootstrap.min.css");
-      inputCSS(httpUrl + "/cdn/leaflet-plugins/leaflet-Toolbar/bootstrap-theme.min.css");
-      inputCSS(httpUrl + "/cdn/leaflet-plugins/leaflet-Toolbar/leaflet.draw.css");
-      inputCSS(httpUrl + "/cdn/leaflet-plugins/leaflet-Toolbar/leaflet.toolbar.css");
-      inputCSS(httpUrl + "/cdn/leaflet-plugins/leaflet-Toolbar/leaflet.draw-toolbar.css");
-      inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Toolbar/leaflet.toolbar-src.js");
-      inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Toolbar/leaflet.draw-src.js");
-      inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Toolbar/leaflet.draw-toolbar.js");
-      inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Toolbar/ColorPicker.js");
-    }
-    if (inArray(includes, 'Fullscreen')) {
-      inputCSS(httpUrl + "/cdn/leaflet-plugins/leaflet-fullscreen/leaflet.fullscreen.css");
-      inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-fullscreen/Leaflet.fullscreen.js");
-    }
-    if (inArray(includes, 'IconGlyph')) {
-      inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-IconGlyph/Leaflet.Icon.Glyph.js");
-    }
+        inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Draw/Leaflet.draw.js");
+        inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Draw/Leaflet.Draw.Event.js");
+        inputCSS(httpUrl + "/cdn/leaflet-plugins/leaflet-Draw/leaflet.draw.css");
+        inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Draw/Toolbar.js");
+        inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Draw/Tooltip.js");
+        inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Draw/GeometryUtil.js");
+        inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Draw/LatLngUtil.js");
+        inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Draw/LineUtil.Intersect.js");
+        inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Draw/Polygon.Intersect.js");
+        inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Draw/Polyline.Intersect.js");
+        inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Draw/TouchEvents.js");
+        inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Draw/DrawToolbar.js");
+        inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Draw/Draw.Feature.js");
+        inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Draw/Draw.SimpleShape.js");
+        inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Draw/Draw.Polyline.js");
+        inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Draw/Draw.Marker.js");
+        inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Draw/Draw.Circle.js");
+        inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Draw/Draw.CircleMarker.js");
+        inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Draw/Draw.Polygon.js");
+        inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Draw/Draw.Rectangle.js");
+        inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Draw/EditToolbar.js");
+        inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Draw/EditToolbar.Edit.js");
+        inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Draw/EditToolbar.Delete.js");
+        inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Draw/Control.Draw.js");
+        inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Draw/Edit.Poly.js");
+        inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Draw/Edit.SimpleShape.js");
+        inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Draw/Edit.Rectangle.js");
+        inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Draw/Edit.Marker.js");
+        inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Draw/Edit.CircleMarker.js");
+        inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Draw/Edit.Circle.js");
+      }
+      if (inArray(includes, 'Toolbar')) {
+          //inputCSS(httpUrl + "/cdn/leaflet-plugins/leaflet-Toolbar/bootstrap.min.css");
+          inputCSS(httpUrl + "/cdn/leaflet-plugins/leaflet-Toolbar/bootstrap-theme.min.css");
+          inputCSS(httpUrl + "/cdn/leaflet-plugins/leaflet-Toolbar/leaflet.draw.css");
+          inputCSS(httpUrl + "/cdn/leaflet-plugins/leaflet-Toolbar/leaflet.toolbar.css");
+          inputCSS(httpUrl + "/cdn/leaflet-plugins/leaflet-Toolbar/leaflet.draw-toolbar.css");
+          inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Toolbar/leaflet.toolbar-src.js");
+          inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Toolbar/leaflet.draw-src.js");
+          inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Toolbar/leaflet.draw-toolbar.js");
+          inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Toolbar/ColorPicker.js");
+      }
+      if (inArray(includes, 'Fullscreen')) {
+          inputCSS(httpUrl + "/cdn/leaflet-plugins/leaflet-fullscreen/leaflet.fullscreen.css");
+          inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-fullscreen/Leaflet.fullscreen.js");
+      }
+      if (inArray(includes, 'IconGlyph')) {
+          inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-IconGlyph/Leaflet.Icon.Glyph.js");
+      }
+      if (inArray(includes, 'PathDrag')) {
+          inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-PathDrag/Path.Drag.js");
+      }
+      if (inArray(includes, 'Graticule')) {
+          inputScript(httpUrl + "/cdn/leaflet-plugins/leaflet-Graticule/Leaflet.Graticule.js");
+      }
     if (inArray(includes, 'datastore')) {
       inputScript(httpUrl + "/cdn/zondyclient/webclient-leaflet.js");
     }
