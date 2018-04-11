@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>坐标添加矩形</title>
+    <script includes="leaflet" src="../../libs/zondyclient/include-leaflet.js"></script>
+    <style>
+        #map{
+            height:600px;
+        }
+    </style>
+</head>
+<body>
+<div id="map"></div>
+<script>
+    //实例化地图对象，加载地图底图
+    var map = L.map('map').setView([30.59181918319682, 114.26673889160155],8);
+    L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=' +
+        'sk.eyJ1IjoiY2hlbmdkYWRhIiwiYSI6ImNqZDFjaGo0ZjFzcnoyeG54enoxdnNuZHUifQ.hTWXXBUQ0wdGeuDF3GWeUw',{
+        attribution: '<a href="#">Mapbox</a>',
+        maxZoom:18,
+        id: 'mapbox.streets'
+    }).addTo(map);
+
+    //创建矩形的地理边界
+    var bounds = [[31.042933327589573, 112.642822265625], [30.135626231134587, 113.69476318359375]];
+
+    //将创建的矩形添加进图层
+    L.rectangle(bounds, {color: "#ff7800", weight: 1,fillOpacity:0.5}).addTo(map);
+</script>
+</body>
+</html>
