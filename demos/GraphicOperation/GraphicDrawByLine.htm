@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>坐标添加线</title>
+    <script includes="leaflet" src="../../libs/zondyclient/include-leaflet.js"></script>
+    <style>
+        #map{
+            height:600px;
+        }
+    </style>
+</head>
+<body>
+<div id="map"></div>
+<script>
+    var map = L.map('map').setView([30.59536556558809, 114.29411888122559],5);
+    L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=' +
+        'sk.eyJ1IjoiY2hlbmdkYWRhIiwiYSI6ImNqZDFjaGo0ZjFzcnoyeG54enoxdnNuZHUifQ.hTWXXBUQ0wdGeuDF3GWeUw',{
+        attribution:'<a href="#">Mapbox</a>',
+        maxZoom:18,
+        id: 'mapbox.streets'
+    }).addTo(map);
+
+    var latlngs = [
+        [27.68352808378776, 101.42578124999999],
+        [37.43997405227057, 120.84960937499999],
+    ];
+    var polyline = L.polyline(latlngs, {color: 'red'}).addTo(map);
+</script>
+
+</body>
+</html>

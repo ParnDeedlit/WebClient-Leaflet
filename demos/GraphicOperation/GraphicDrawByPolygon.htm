@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>坐标添加多边形</title>
+    <script includes="leaflet" src="../../libs/zondyclient/include-leaflet.js"></script>
+    <style>
+        #map{
+            height:600px;
+        }
+    </style>
+</head>
+<body>
+<div id="map"></div>
+<script>
+    //实例化地图对象，加载地图底图
+    var map = L.map('map').setView([30.59181918319682, 114.26673889160155],8);
+    L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=' +
+        'sk.eyJ1IjoiY2hlbmdkYWRhIiwiYSI6ImNqZDFjaGo0ZjFzcnoyeG54enoxdnNuZHUifQ.hTWXXBUQ0wdGeuDF3GWeUw',{
+        attribution: '<a href="#">Mapbox</a>',
+        maxZoom:18,
+        id: 'mapbox.streets'
+    }).addTo(map);
+
+    //创建一个多边形
+    var latlngs = [[29.916852233070173, 112.8955078125],[30.439202087235582, 113.477783203125],[29.81205076752506, 113.80737304687499],[31.344254455668054, 113.653564453125],[29.916852233070173,112.8955078125]];
+
+    //将创建的多边形加载进图层
+    var polygon = L.polygon(latlngs, {color: 'red'}).addTo(map);
+</script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>坐标添加点</title>
+    <script includes="leaflet" src="../../libs/zondyclient/include-leaflet.js"></script>
+    <style>
+        #map{
+            height:600px;
+        }
+    </style>
+</head>
+<body>
+<div id="map"></div>
+<script>
+    //实例化地图对象，加载地图底图
+    var map = L.map('map').setView([30.59181918319682, 114.26673889160155],12);
+    L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=' +
+        'sk.eyJ1IjoiY2hlbmdkYWRhIiwiYSI6ImNqZDFjaGo0ZjFzcnoyeG54enoxdnNuZHUifQ.hTWXXBUQ0wdGeuDF3GWeUw',{
+        attribution: '<a href="#">Mapbox</a>',
+        maxZoom:18,
+        id: 'mapbox.streets'
+    }).addTo(map);
+
+    //添加坐标点
+   var latLng = L.latLng(30.594331217463765, 114.28321838378906);
+
+    //添加矢量图层，将坐标点添加进图层
+    L.circle(latLng, {radius:300,color: 'red', fillColor: '#f03',fillOpacity:1}).addTo(map);
+</script>
+</body>
+</html>
