@@ -3,8 +3,279 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script ip="192.168.13.44" socket="8800" includes="leaflet,Draw" src="../../libs/zondyclient/include-leaflet.js"></script>
+    <style>
+        #header{
+            height:40px;
+            display:inline;
+        }
+        #header form{
+            text-align:center;
+            line-height:40px;
+        }
+        #map{
+            height:560px;
+        }
+    </style>
 </head>
 <body>
+<div id="header">
+    <form>
+        <label style="font-weight:bold;">几何图形类型:&nbsp</label>
+        <input type="button" id="drawline" onclick="line()" value="绘制线"/>
+        <input type="button" id="drawcircle" onclick="circle()" value="绘制圆"/>
+        <input type="button" id="drawpolygon"  onclick= "polygon()" value="绘制多边形"/>
+        <input type="button" id="drawrectangle"  onclick="rectangle()" value="绘制长方形"/>
+        <input type="button" id="drawtangle"  onclick="tangle()" value="绘制正方形"/>
+    </form>
+</div>
 
+<div id="map">
+    <script>
+        var map = L.map('map',{doubleClickZoom: false}).setView([32.39851580247402, 103.095703125],4);
+        L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=' +
+            'sk.eyJ1IjoiY2hlbmdkYWRhIiwiYSI6ImNqZDFjaGo0ZjFzcnoyeG54enoxdnNuZHUifQ.hTWXXBUQ0wdGeuDF3GWeUw',{
+            attribution: '<a href="#">Mapbox</a>',
+            maxZoom:18,
+            id: 'mapbox.streets'
+        }).addTo(map);
+
+        //绘制线
+        function line(){
+            map.off();
+        var drawline1 = document.getElementById("drawline");
+        drawline1.addEventListener('click',function() {
+            var points = [],
+                points_length = 0,
+                polyline;
+            // 单击
+            map.on('mousedown', function (e) {
+                points.push([e.latlng.lat, e.latlng.lng]);
+                points_length = points.length;
+                // 移动
+                map.on('mousemove', function (e) {
+                    if (polyline){
+                        map.removeLayer(polyline);   // 清除
+                    }
+                    points[points_length] = [e.latlng.lat, e.latlng.lng];
+                    polyline = new L.Polyline(points);
+                    map.addLayer(polyline);
+                });
+            });
+            // 双击
+            map.on('dblclick', function () {
+                if (points.length) {
+                    polyline = new L.Polyline(points);
+                    map.addLayer(polyline);
+                    // 移除事件
+                    map.off('mousemove');
+                    points = [];
+                }
+            });
+        })
+        }
+
+        //绘制圆
+        function circle() {
+            map.off();
+            var drawCircle = document.getElementById("drawcircle");
+            drawCircle.addEventListener('click', function () {
+                map.on('mousedown', function (e) {
+                    var lastLatlng = e.latlng;
+                    var circle;
+                    map.dragging.disable();
+                    map.on('mousemove', function (e) {
+                        if (circle) {
+                            map.removeLayer(circle);
+                        }
+                        var nowLatlng = e.latlng;
+                        var radius = map.distance(nowLatlng, lastLatlng);
+                        // 计算半径
+                        circle = L.circle(lastLatlng, {
+                            color: 'red',
+                            fillColor: '#f03',
+                            fillOpacity: 0.50,
+                            radius: radius
+                        });
+                        map.addLayer(circle);
+                        // 通过添加图层的方式绘制圆形
+                    });
+                    map.on('mouseup', function () {
+                        map.off('mousedown');
+                        map.off('mousemove')
+                        map.dragging.enable();
+                    })
+                });
+            }, false);
+        }
+
+        //绘制多边形
+        function polygon() {
+        var drawPolygon1 = document.getElementById("drawpolygon");
+        drawPolygon1.addEventListener('click', function () {
+                    var points = [],
+                        points_length = 0,
+                        polyline,
+                        polygon;
+                    // 单击
+                    var clickFlag,
+                        clickTimes = 1,
+                        isDrag = false;
+                    map.on('mousedown', function (e) {
+                        map.off('mousemove');
+                        if (clickFlag) clearTimeout(clickFlag);
+                        clickFlag = setTimeout(function () {
+                            if (clickTimes == 1 && !isDrag) {
+                                points.push([e.latlng.lat, e.latlng.lng]);
+                                points_length = points.length;
+                                // 移动
+                                map.on('mousemove', function (e) {
+                                    // 清除
+                                    if (polyline) map.removeLayer(polyline);
+                                    if (polygon) map.removeLayer(polygon);
+                                    // polyline
+                                    points[points_length] = [e.latlng.lat, e.latlng.lng];
+                                    polyline = new L.Polyline(points);
+                                    map.addLayer(polyline);
+                                    // polygon
+                                    polygon = new L.Polygon(points);
+                                    map.addLayer(polygon);
+                                });
+                            }
+                        }, 300);
+                    });
+                    // 双击
+                    map.on('dblclick', function () {
+                        if (points.length) {
+                            clickTimes = 2;
+                            // polyline
+                            polyline = new L.Polyline(points);
+                            map.addLayer(polyline);
+                            // polygon
+                            polygon = new L.Polygon(points);
+                            map.addLayer(polygon);
+                            // 移除事件
+                            map.off('mousemove');
+                        }
+                    });
+                    // 拖动
+                    map.on('movestart', function () {
+                        isDrag = true;
+                    });
+                    map.on('moveend', function () {
+                        isDrag = false;
+                    });
+            })
+        }
+
+        //绘制长方形
+        function rectangle(){
+            var rec = document.getElementById('drawrectangle');
+            rec.addEventListener('click',function(){
+                map.on('mousedown', function (e){
+                    map.dragging.disable();
+                    var firstlatlng = e.latlng;
+                    var rectangle;
+                    map.on('mousemove',function(e){
+                        if(rectangle){
+                        map.removeLayer(rectangle)
+                        }
+                        var nowlatlng = e.latlng;
+                        var bounds = [firstlatlng, nowlatlng];
+                        rectangle = L.rectangle(bounds, {
+                            color:"#ff7800",
+                            weight:1
+                        })
+                        map.addLayer(rectangle);
+                    })
+                    map.on('mouseup',function(){
+                        map.off('mousedown');
+                        map.off('mousemove')
+                        map.dragging.enable();
+                    })
+                })
+            })
+        }
+
+        //绘制正方形
+        function tangle(){
+            var tangle1 = document.getElementById('drawtangle');
+            tangle1.addEventListener('click',function(){
+                /*笨方法，只能在一个对角线上画正方形
+                map.on('mousedown', function (e){
+                    map.dragging.disable();
+                    var firstlatlng = e.latlng;
+                    var firstpoint = [e.layerPoint.x, e.layerPoint.y];
+                    var rectangle;
+                    map.on('mousemove',function(e) {
+                        if (rectangle) {
+                            map.removeLayer(rectangle)
+                        }
+
+                        var nowpoint = [e.layerPoint.x, e.layerPoint.y];
+                            var distance = nowpoint[0] - firstpoint[0];
+                            var x1 = distance + firstpoint[0];
+                            var y1 = distance + firstpoint[1];
+                            var xy1 = [x1, y1];
+                            var latlng1 = map.layerPointToLatLng(xy1);
+                            var bounds = [firstlatlng, latlng1];
+                            rectangle = L.rectangle(bounds, {
+                                color: "#ff7800",
+                                weight: 1
+                            })
+                            map.addLayer(rectangle);*/
+
+
+                //根据任意两点画出一个正方形
+                map.on('mousedown',function(e){
+                    map.dragging.disable();
+                    var firstlatlng = e.latlng;
+                    var firstpoint = [e.layerPoint.x, e.layerPoint.y];
+                    var polygon;
+                    map.on('mousemove',function(e){
+                        if (polygon) {
+                            map.removeLayer(polygon)
+                        }
+                        var nowlatlng = e.latlng;
+                        var nowpoint = [e.layerPoint.x, e.layerPoint.y];
+                        //邻点C
+                        var pointCx = (firstpoint[0] + firstpoint[1] + nowpoint[0] - nowpoint[1])/2;
+                        var pointCy = (-firstpoint[0] + firstpoint[1] + nowpoint[0] + nowpoint[1])/2;
+                        var pointC = [pointCx, pointCy];
+                        var latlngC = map.layerPointToLatLng(pointC);
+
+                        //邻点D
+                        var pointDx = (firstpoint[0] - firstpoint[1] + nowpoint[0] + nowpoint[1])/2;
+                        var pointDy = (firstpoint[0] + firstpoint[1] - nowpoint[0] + nowpoint[1])/2;
+                        var pointD = [pointDx, pointDy];
+                        var latlngD = map.layerPointToLatLng(pointD);
+
+                        var latlngs = [firstlatlng, latlngD, nowlatlng, latlngC];
+                        polygon = L.polygon(latlngs,{
+                            color:'#BB93FF',
+                            weight:1
+                        })
+                        map.addLayer(polygon);
+                    })
+                })
+            })
+                    map.on('mouseup',function(){
+                        map.off('mousedown');
+                        map.off('mousemove')
+                        map.dragging.enable();
+                    })
+        }
+
+
+
+        /*var nowlatlng = [e.latlng.lat , e.latlng.lng ];
+        var x1 = Math.pow(nowlatlng[0]-firstlatlng[0], 2);
+        var y1 = Math.pow(nowlatlng[1]-firstlatlng[1], 2);
+        var xy = x1 + y1;
+        var distancexy = Math.pow(xy, 1/2)
+        var x2 = firstlatlng[0] + distancexy * Math.cos(45);
+        var y2 = firstlatlng[1] + distancexy * Math.sin(45);*/
+    </script>
+</div>
 </body>
 </html>

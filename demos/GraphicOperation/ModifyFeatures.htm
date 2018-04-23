@@ -2,9 +2,32 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>坐标添加点</title>
+    <script includes="leaflet" src="../../libs/zondyclient/include-leaflet.js"></script>
+    <style>
+        #map{
+            height:600px;
+        }
+    </style>
 </head>
 <body>
+<div id="map"></div>
+<script>
+    //实例化地图对象，加载地图底图
+    var pointori = L.point(100,100);
+    var map = L.map('map').setView(pointori,1);
+    L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=' +
+        'sk.eyJ1IjoiY2hlbmdkYWRhIiwiYSI6ImNqZDFjaGo0ZjFzcnoyeG54enoxdnNuZHUifQ.hTWXXBUQ0wdGeuDF3GWeUw',{
+        attribution: '<a href="#">Mapbox</a>',
+        maxZoom:18,
+        id: 'mapbox.streets'
+    }).addTo(map);
 
+    //添加坐标点
+    var point = L.point(200, 300);
+
+
+    L.circle(point).addTo(map);
+</script>
 </body>
 </html>
