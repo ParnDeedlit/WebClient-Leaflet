@@ -3,8 +3,146 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script ip="192.168.13.44" socket="8800" includes="leaflet,Draw" src="../../libs/zondyclient/include-leaflet.js"></script>
+    <style>
+        #header{
+            height:40px;
+            display:inline;
+        }
+        #header form{
+            text-align:center;
+            line-height:40px;
+        }
+        #map{
+            height:560px;
+        }
+    </style>
 </head>
 <body>
+<div id="header">
+    <form>
+        <label style="font-weight:bold;">几何图形类型:&nbsp</label>
+        <input type="button" id="drawline" onclick="line()" value="任意线"/>
+        <input type="button" id="drawcircle" onclick="circle()" value="任意圆"/>
+        <input type="button" id="drawpolygon"  onclick= "polygon()" value="任意区"/>
+   <label style="font-weight: bold;">按住鼠标画图，松开鼠标后完成绘制</label>
+    </form>
+</div>
 
+<div id="map">
+    <script>
+        var map = L.map('map',{doubleClickZoom: false}).setView([32.39851580247402, 103.095703125],4);
+        L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=' +
+            'sk.eyJ1IjoiY2hlbmdkYWRhIiwiYSI6ImNqZDFjaGo0ZjFzcnoyeG54enoxdnNuZHUifQ.hTWXXBUQ0wdGeuDF3GWeUw',{
+            attribution: '<a href="#">Mapbox</a>',
+            maxZoom:18,
+            id: 'mapbox.streets'
+        }).addTo(map);
+
+        //绘制任意线
+        function line() {
+            var latlngs = [];
+            var drawLine = document.getElementById("drawline");
+            drawLine.addEventListener('click', function () {
+                map.on('mousedown', function (e) {
+                    var firstLatlng = e.latlng;
+                    latlngs.push(firstLatlng);
+                    var polyline;
+                    map.dragging.disable();
+                    map.on('mousemove', function (e) {
+                        if (polyline) {
+                            map.removeLayer(polyline);
+                        }
+                        var nowLatlng = e.latlng;
+                        latlngs.push(nowLatlng);
+                        var polylines = [latlngs];
+
+                        polyline = L.polyline(polylines, {
+                            color: '#3D9CFF',
+                            weight:4,
+                            fillOpacity: 1,
+                        });
+                        map.addLayer(polyline);
+                    });
+                    map.on('mouseup', function () {
+                        map.off('mousedown');
+                        map.off('mousemove')
+                        map.dragging.enable();
+                        latlngs = [];
+                    })
+                });
+            }, true);
+        }
+
+        //绘制任意区
+        function polygon(){
+            var latlngs = [];
+            var drawPolygon = document.getElementById("drawpolygon");
+            drawPolygon.addEventListener('click',function(){
+                map.on('mousedown', function (e) {
+                    var firstlatlng = e.latlng;
+                    latlngs.push(firstlatlng);
+                    var polygon;
+                    map.dragging.disable();
+                    map.on('mousemove', function (e) {
+                        if (polygon) {
+                            map.removeLayer(polygon);
+                        }
+                        var nowLatlng = e.latlng;
+                        latlngs.push(nowLatlng);
+                        var polygons = [latlngs, firstlatlng];
+
+                        polygon = L.polygon(polygons, {
+                            color: '#3D9CFF',
+                            fillOpacity: 0.4,
+                        });
+                        map.addLayer(polygon);
+                    });
+                    map.on('mouseup', function () {
+                        map.off('mousedown');
+                        map.off('mousemove')
+                        map.dragging.enable();
+                        latlngs = [];
+                    })
+                });
+            }, true);
+        }
+
+        //绘制任意圆
+        function circle(){
+            var drawCircle = document.getElementById("drawcircle");
+            drawCircle.addEventListener('click',function(){
+                map.on('mousedown', function (e) {
+                    var firstlatlng = e.latlng;
+                    var circle;
+                    map.dragging.disable();
+                    map.on('mousemove', function (e) {
+                        if (circle) {
+                            map.removeLayer(circle);
+                        }
+                        var nowLatlng = e.latlng;
+                        var radius = map.distance(nowLatlng, firstlatlng);
+                        // 计算半径
+                        circle = L.circle(firstlatlng, {
+                            color: 'red',
+                            fillColor: '#f03',
+                            fillOpacity: 0.50,
+                            radius: radius
+                        });
+                        map.addLayer(circle);
+                    });
+                    map.on('mouseup', function () {
+                        map.off('mousedown');
+                        map.off('mousemove')
+                        map.dragging.enable();
+                    })
+                });
+            }, true);
+        }
+
+
+
+    </script>
+</div>
 </body>
 </html>

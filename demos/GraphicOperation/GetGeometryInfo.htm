@@ -1,10 +1,57 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>获取几何信息</title>
+    <script ip="192.168.13.44" socket="8800" includes="leaflet" src="../../libs/zondyclient/include-leaflet.js"></script>
+    <style>
+        #map{height:600px}
+    </style>
 </head>
 <body>
+<div id="map"></div>
+<script>
+    var map = L.map('map').setView([30.59536556558809, 114.29411888122559], 13);
+    L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=' +
+        'sk.eyJ1IjoiY2hlbmdkYWRhIiwiYSI6ImNqZDFjaGo0ZjFzcnoyeG54enoxdnNuZHUifQ.hTWXXBUQ0wdGeuDF3GWeUw', {
+        attribution: '<a href="#">MapGIS</a>',
+        maxZoom: 18,
+        id: 'mapbox.streets'
+    }).addTo(map);
 
+
+    circle.addEventListener('click',function(){
+        map.on('mousedown',function(e){
+            map.dragging.disable();
+            var firstlatlng = e.latlng;
+            var circle;
+            map.on('mousemove',function(e){
+                var nowlatlng = e.latlng;
+                if(circle){
+                    map.removeLayer(circle);
+                }
+                circle = L.circle(nowlatlng, {
+                    color: '#FF7B67',
+                    fillColor: '#FF7B67',
+                    fillOpacity: 1,
+                    radius: 100,
+                    interactive:true
+                })
+                map.addLayer(circle);
+                map.on('mouseup',function(){
+                    map.off('mousedown');
+                    map.off('mousemove')
+                    map.dragging.enable();
+                })
+
+            })
+        })
+    })
+
+
+
+
+
+</script>
 </body>
 </html>
